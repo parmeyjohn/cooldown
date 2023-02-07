@@ -1,10 +1,11 @@
 const mongoose = require('mongoose')
 
 const entrySchema = new mongoose.Schema({
-    title: {type: String, default: `Game of ${this.game}`},
-    game: {type: String, },
+    entryTitle: {type: String, default: `Game of ${this.mediaTitle}`},
+    mediaTitle: {type: String, },
     date: Date,
-    text: {type: String}
+    text: {type: String},
+    tags: [{type: String }]
 })
 
 entrySchema.set('toJSON', {
