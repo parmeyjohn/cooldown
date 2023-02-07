@@ -62,6 +62,8 @@ test('length is correct after POST', async () => {
 })
 
 
+//add additional tests for deletion and authentication
+
 afterAll( () => {
     mongoose.connection.close()
 })

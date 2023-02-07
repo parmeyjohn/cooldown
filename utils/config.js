@@ -1,7 +1,7 @@
 require('dotenv').config()
 
-const PORT = 3003
-const MONGODB_URI = 'mongodb+srv://fullstack:fullstack@journal-entries.4pbpfza.mongodb.net/?retryWrites=true&w=majority'
+const PORT = process.env.PORT
+const MONGODB_URI = process.env.MONGODB_URI
 
 module.exports = {
   MONGODB_URI,

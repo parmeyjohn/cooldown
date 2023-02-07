@@ -1,0 +1,10 @@
+POST http://localhost:3003/api/entries
+content-type: application/json
+
+{
+    "entryTitle": "Entry 3",
+    "mediaTitle": "Overwatch",
+    "date": "1/4/1",
+    "text": "I played OW today and I loved it",
+    "tags": ["great", "blizzard", "fun"]
+    }
