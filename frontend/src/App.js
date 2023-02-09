@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from "react";
+import Entry from './components/Entry'
+import entryService from "./services/entries";
+// add login here later
 
-function App() {
+const App = () => {
+  const [entries, setEntries] = useState([]);
+  const [user, setUser] = useState(null);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    entryService.getAll().then((entries) => setEntries(entries));
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Entries</h1>
+      {entries.map((e) => (
+        <div key={e.id}>
+          <Entry entry={e}></Entry>
+        </div>
+      ))}
     </div>
   );
-}
+};
 
 export default App;

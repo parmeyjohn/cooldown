@@ -1,14 +1,15 @@
 const express = require('express')
 const { response } = require('../app.js')
 const Entry = require('../models/entry.js')
-const user = require('../models/user.js')
 const User = require('../models/user.js')
 const entryRouter = express.Router()
 // add login and jwt later
 
 
 entryRouter.get('/', async (request, response) => {
+    console.log("heeyyoooo") 
     const entries = await Entry.find({})
+    console.log('hey')
     response.status(200).json(entries)
 })
 
