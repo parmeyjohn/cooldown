@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
 
 const entrySchema = new mongoose.Schema({
-    entryTitle: {type: String, default: `Game of ${this.mediaTitle}`},
-    mediaTitle: {type: String, },
+    entryTitle: {type: String},
+    mediaTitle: {type: String },
     date: Date,
     text: {type: String},
     tags: [{type: String }]

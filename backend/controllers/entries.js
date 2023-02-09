@@ -7,24 +7,13 @@ const entryRouter = express.Router()
 
 
 entryRouter.get('/', async (request, response) => {
-    console.log("heeyyoooo") 
     const entries = await Entry.find({})
-    console.log('hey')
     response.status(200).json(entries)
 })
 
 entryRouter.post('/', async (request, response) => {
-    
-    const entry = new Entry({
-        entryTitle: request.body.entryTitle,
-        mediaTitle: request.body.mediaTitle,
-        date: request.body.date,
-        text: request.body.text,
-        tags: request.body.tags
-    })
-
+    const entry = new Entry(request.body.entryObj)
     const result = await entry.save()
-
     response.status(201).json(result)
 })
 
