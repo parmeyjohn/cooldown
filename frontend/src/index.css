@@ -31,3 +31,42 @@ body {
     border: solid 3px transparent;
     
 }
+
+.ql-container {
+    font-size: 1.25rem !important ;
+    line-height: 1.75rem !important;
+    border: none !important;
+    font-family: sans-serif, 'Times New Roman', Times, serif !important;
+    color: #134e4a !important;
+    overflow-y: auto !important;
+    
+}
+.quill {
+    border: 2px solid teal !important;
+    border-radius: 25px;
+    
+}
+.ql-formats {
+    display: flex !important;
+    justify-content: space-between !important;
+}
+.ql-toolbar {
+    border: 2px !important;
+    padding: 12px !important;
+    
+}
+
+.ql-snow.ql-toolbar button {
+    height: 36px !important;
+    width: 36px !important;
+    padding: 5px !important;
+    color: blue !important;
+
+
+}
+.ql-active {
+    color: teal !important;
+    background-color: rgb(4, 205, 205) !important;
+    border-radius: 4px;
+    
+}

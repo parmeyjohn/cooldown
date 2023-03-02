@@ -27,7 +27,10 @@ const App = () => {
   };
 
   return (
-    <div className="bg-black bg-gradient-to-b from-teal-900 to-cyan-00 gradient w-screen h-screen">
+    <div className="relative bg-gradient-to-b from-teal-900 to-cyan-00 gradient w-screen h-screen overflow-hidden">
+      <EntryForm></EntryForm>
+      
+      
       {showSidebar ? (
         <nav
           id="sidebar"
@@ -64,7 +67,7 @@ const App = () => {
               />
             </svg>
 
-            <input className="" name="Search" value="Search"></input>
+            <input className="" name="Search" value='' onChange={e => console.log(e)}></input>
           </form>
           <ul className="text-md font-medium p-1 divide-y divide-gray-400 ">
             <div className=" p-5 m-5 hover:bg-gray-300">
@@ -98,14 +101,14 @@ const App = () => {
         </div>
       )}
 
-      <div className="flex p-6 items-center">
+      <div className="grid grid-cols-6 p-6 text-teal-100">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-8 h-8 text-teal-100"
+          className="w-8 h-8 "
         >
           <path
             strokeLinecap="round"
@@ -113,13 +116,17 @@ const App = () => {
             d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
           />
         </svg>
-        <h1 className="text-2xl font-semibold text-white justify-self-center mx-auto underline underline-offset-[-20%] decoration-teal-500">
+        <h1 className=" col-span-3 text-2xl font-semibold underline underline-offset-1 decoration-teal-500 truncate justify-self-start">
           Journal
         </h1>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-teal-100">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3 4.5h14.25M3 9h9.75M3 13.5h9.75m4.5-4.5v12m0 0l-3.75-3.75M17.25 21L21 17.25" />
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 justify-self-end">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M3 4.5h14.25M3 9h9.75M3 13.5h9.75m4.5-4.5v12m0 0l-3.75-3.75M17.25 21L21 17.25" />
         </svg>
-
+        
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8 justify-self-end text-teal-300">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+        </svg>
+          
       </div>
 
       <div
@@ -155,7 +162,7 @@ const App = () => {
 
       
       
-      <div className="w-full h-full overflow-y-auto relative z-10 pb-28 mt-10 ">
+      <div className="w-full h-full overflow-y-auto relative z-10 pb-28 mt-4 ">
           <div className='h-auto w-screen pb-20'>
           {entries.map((e) => (
             <div className=" w-full h-auto p-4" key={e.id}>
@@ -168,15 +175,7 @@ const App = () => {
 
         </div>
       
-        <div className='bg-gray-400 text-teal-900 font-semibold text-lg flex justify-center items-center absolute bottom-0 left-0 h-[10%] w-full z-20'>
-          <button className="bg-teal-400 rounded-2xl w-full m-5 p-3 shadow-xl tracking-wider">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6 inline mr-3">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-            </svg>
-
-            <span>ADD ENTRY</span>
-          </button>
-        </div>
+        
       
       </div>
       

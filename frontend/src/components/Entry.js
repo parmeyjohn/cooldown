@@ -6,7 +6,7 @@ const Entry = ({ entry }) => {
     var shortDate = new Date(entry.date)
     shortDate = shortDate.toDateString()
     return(
-        <div className='w-full z-10'>
+        <div className='w-full h-full  z-10'>
             {showFullEntry ? 
                 <div>
                     Hey
@@ -23,12 +23,13 @@ const Entry = ({ entry }) => {
 
                 
                 <div className='hidden bg-gradient-to-t from-gray-100 absolute w-full h-full z-10 top-0 left-0 rounded-lg'></div>
-                    <div className='flex flex-col w-full'>
+                    <div className='flex flex-col w-full h-auto'>
                         
                         <h3 className='text-lg'>{entry.mediaTitle} on {shortDate}</h3>
-                        <div className="flex justify-between w-full mt-5 line">
+                        <div className="flex h-auto justify-between w-full mt-5 line">
                             <p className='pr-5 w-60 text-left leading-relaxed line-clamp-3'>{entry.text}</p>
-                            <div className="bg-black h-12 w-12 rounded-md "></div>
+                            <img className="h-28 w-20 object-cover object-center rounded-md" src='https://cdn.vox-cdn.com/thumbor/O4lh3lTJG3YKWzGqEcsCr1Sb4TI=/0x0:3840x2160/920x613/filters:focal(1613x773:2227x1387):format(webp)/cdn.vox-cdn.com/uploads/chorus_image/image/69376580/VALORANT_YR1_KeyArt_4k_3_.0.jpg' alt='val'></img>
+            
                         </div>
                         
                         
