@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import ReactQuill from "react-quill";
+import { useNavigate } from "react-router-dom";
 import "react-quill/dist/quill.snow.css";
 
 
@@ -13,7 +14,7 @@ const EntryForm = ({ createEntry }) => {
   const [endDate, setEndDate] = useState(new Date())
   
   
-  
+  let navigate = useNavigate()
 
   const addEntry = async (event) => {
     event.preventDefault();
@@ -26,30 +27,35 @@ const EntryForm = ({ createEntry }) => {
     setTags([]);
   };
 
+  
+
   const modules = {
     toolbar: [
-      ["bold", "underline", "italic", { list: "ordered" }, { list: "bullet" }],
+      ["bold", "underline", "italic", { list: "ordered" }, { list: "bullet" },'link', 'image' ]
     ],
   };
 
   return (
-    <div className="h-screen w-screen overflow-hidden">
-      <div className=" bg-gradient-to-b from-teal-50 to-teal-100 text-teal-900 w-screen h-screen z-20 absolute">
-        <div className="grid grid-cols-5 p-4">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
-          </svg>
-          <h1 className=" col-span-4" >Journal Name</h1>
+    <div className="h-screen w-screen">
+      <div className=" bg-gradient-to-b from-teal-50 to-teal-100 text-teal-900 w-full h-full z-20 absolute">
+        <div className="grid grid-cols-5 p-4 items-center">
+          <h1 className=" col-span-4 mx-4" >Journal Name</h1>
+          <button onClick={()=>navigate(-1)} className='w-8 h-8 justify-self-end mr-2 mt-2'>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+          
         </div>
-        <div className="flex px-4 w-full items-center text-gray-500 focus-within:text-gray-700 ">
+        <div className="flex px-4 w-full items-center text-gray-500 focus-within:text-gray-700  ">
           <input
-            className="w-full p-2 mx-2 rounded-lg bg-transparent focus:outline-none h-14 text-2xl font-semibold"
+            className="w-full p-2 mx-2 mt-2 mb-4 rounded-lg bg-transparent focus:outline-none h-14 text-3xl font-semibold underline underline-offset-[40%] decoration-teal-800 decoration-4"
             autoFocus
             name="title"
             placeholder="Untitled"
             autoComplete="off"
             value={entryTitle}
-            onChange={(e) => setEntryTitle(e.value)}
+            onChange={(e) => setEntryTitle(e.target.value)}
           ></input>
         </div>
         
@@ -62,7 +68,7 @@ const EntryForm = ({ createEntry }) => {
           
         </div>
 
-        <div className="px-4 mx-2 h-auto">
+        <div className="px-4 mx-2 h-80">
           <ReactQuill
             theme="snow"
             placeholder="Text here"
@@ -70,10 +76,7 @@ const EntryForm = ({ createEntry }) => {
           ></ReactQuill>
         </div>
 
-        
-      </div>
-      
-      <div className="w-full h-[10%] bg-teal-100 fixed flex left-0 bottom-0 z-20 p-4 mt-5 text-l text-teal-100 font-semibold tracking-wider uppercase">
+        <div className="w-full h-[10%] bg-teal-100 flex fixed left-0 bottom-0 p-4 mt-5 text-l text-teal-100 font-semibold tracking-wider uppercase">
           
           
           <div className="text-teal-900 rounded-lg border-solid hover:bg-teal-400 hover:border-2 hover:border-blue-400 ">
@@ -106,8 +109,14 @@ const EntryForm = ({ createEntry }) => {
             
           </div>
         </div>
+      
+        
+      </div>
+      
+      
     </div>
   );
 };
 
 export default EntryForm;
+

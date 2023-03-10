@@ -11,62 +11,54 @@ body {
 
 
 
-::-webkit-scrollbar {
-    background: transparent;
-    width: 6px;
-    margin-top: 10px;
-    border: solid 3px transparent;
-    
-
-}
-
-::-webkit-scrollbar-thumb {
-    background: lightblue;
-    border: solid 3px transparent;
-    border-radius: 2px;
-
-}
-
-::-webkit-scrollbar-track {
-    border: solid 3px transparent;
-    
-}
-
 .ql-container {
     font-size: 1.25rem !important ;
     line-height: 1.75rem !important;
     border: none !important;
     font-family: sans-serif, 'Times New Roman', Times, serif !important;
     color: #134e4a !important;
-    overflow-y: auto !important;
+    height: 75% !important;
     
 }
 .quill {
-    border: 2px solid teal !important;
-    border-radius: 25px;
-    
+    border: 2px solid rgb(17 94 89) !important;
+    border-radius: 0.5rem;
+    height: 100% !important;
 }
 .ql-formats {
     display: flex !important;
     justify-content: space-between !important;
 }
 .ql-toolbar {
-    border: 2px !important;
     padding: 12px !important;
     
+}
+.ql-toolbar.ql-snow .ql-formats {
+    margin-right: 0px !important;
+}
+
+
+
+.ql-toolbar.ql-snow {
+    border: 0px !important;
 }
 
 .ql-snow.ql-toolbar button {
     height: 36px !important;
     width: 36px !important;
     padding: 5px !important;
-    color: blue !important;
+    color: red !important;
+    border: 0px !important;
 
 
 }
+
+.ql-editor {
+    height: 100% !important;
+}
 .ql-active {
-    color: teal !important;
+    color: yellow !important;
     background-color: rgb(4, 205, 205) !important;
-    border-radius: 4px;
+    border-radius: 4px !important;
     
 }

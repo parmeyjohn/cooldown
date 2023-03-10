@@ -1,183 +1,46 @@
 import { useState, useEffect } from "react";
 import Entry from "./components/Entry";
 import EntryForm from "./components/EntryForm";
+import Home from "./components/Home"
 import entryService from "./services/entries";
+import {
+  BrowserRouter as Router,
+  Routes, Route, Link
+} from 'react-router-dom'
+
 // add login here later
 
 const App = () => {
-  const [entries, setEntries] = useState([]);
-  const [user, setUser] = useState(null);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [showJournals, setShowJournals] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
-  const [showSidebar, setShowSidebar] = useState(true);
-  useEffect(() => {
-    entryService.getAll().then((entries) => setEntries(entries));
-  }, []);
 
-  const createEntry = async (entryObj) => {
-    const newEntry = await entryService.create({ entryObj });
-    setEntries(entries.concat(newEntry));
-    setErrorMessage("entry created");
-    setTimeout(() => {
-      setErrorMessage(null);
-    }, 5000);
-  };
+// '/' if user is logged in go to all entries if not go to login/landing page
+//'/{journal name}' shows all the entries for a given journal
+//'/{journal name}/{id} shows edit page for entry at a given id
 
+// navbar:
+// all entries
+// map journal to each have their own button, overflow y auto
+// Settings (go to settings page)
   return (
-    <div className="relative bg-gradient-to-b from-teal-900 to-cyan-00 gradient w-screen h-screen overflow-hidden">
-      <EntryForm></EntryForm>
-      
-      
-      {showSidebar ? (
-        <nav
-          id="sidebar"
-          className="hidden flex flex-col top-0 left-0 h-screen w-60 bg-gray-400 rounded-r-xl shadow-md"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-8 h-8"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-            />
-          </svg>
-
-          <form className="p-5 m-5">
-            <svg
-              className="inline w-6 h-6"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-              />
-            </svg>
-
-            <input className="" name="Search" value='' onChange={e => console.log(e)}></input>
-          </form>
-          <ul className="text-md font-medium p-1 divide-y divide-gray-400 ">
-            <div className=" p-5 m-5 hover:bg-gray-300">
-              Journals
-              <button className="self-end"> + </button>
-            </div>
-            <li className="p-5 m-5 hover:bg-gray-300">Timeline</li>
-            <li className="p-5 m-5 hover:bg-gray-300">Settings</li>
-          </ul>
-          <div className="bg-gray-400 fixed bottom-0 w-60 rounded-tr-xl">
-            <p>username/email</p>
-            <button>Log out</button>
+    <div>
+      <nav>
+        <Router>
+          <div>
+            
+            <Link></Link>
+            <Link></Link>
           </div>
-        </nav>
-      ) : (
-        <div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-12 h-12"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-            />
-          </svg>
-        </div>
-      )}
 
-      <div className="grid grid-cols-6 p-6 text-teal-100">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-8 h-8 "
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-          />
-        </svg>
-        <h1 className=" col-span-3 text-2xl font-semibold underline underline-offset-1 decoration-teal-500 truncate justify-self-start">
-          Journal
-        </h1>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 justify-self-end">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M3 4.5h14.25M3 9h9.75M3 13.5h9.75m4.5-4.5v12m0 0l-3.75-3.75M17.25 21L21 17.25" />
-        </svg>
-        
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8 justify-self-end text-teal-300">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-        </svg>
-          
-      </div>
+          <Routes>
+            <Route path='/' element={<Home />}></Route>
+            <Route path='/create' element={<EntryForm />}></Route>
+            <Route path='/edit' element={<EntryForm />}></Route>
 
-      <div
-        id="search-bar"
-        className="flex w-full items-center mx-auto text-gray-500 focus-within:text-gray-700 "
-      >
-        <svg
-          className="absolute ml-12 w-5 h-5 pointer-events-none"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="black"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-          />
-        </svg>
-        <input
-          className="px-12 rounded-lg mx-auto border-gray-400 bg-gray-300 shadow-black h-10 w-[85%] focus-within:border-emerald-500"
-          name="search"
-          placeholder="Search entries"
-          autoComplete="off"
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.value)}
-        >
-
-          
-        </input>
-      </div>
-
+          </Routes>
+        </Router>
+      </nav>
+    </div>
       
       
-      <div className="w-full h-full overflow-y-auto relative z-10 pb-28 mt-4 ">
-          <div className='h-auto w-screen pb-20'>
-          {entries.map((e) => (
-            <div className=" w-full h-auto p-4" key={e.id}>
-              <Entry entry={e}></Entry>
-            </div>
-          ))}
-          </div>
-        </div>
-        <div className="bg-gradient-to-br from-teal-700 to-teal-900 h-screen w-screen absolute top-56 rounded-3xl shadow-2xl -z-5 pointer-events-none">
-
-        </div>
-      
-        
-      
-      </div>
       
       
     

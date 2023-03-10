@@ -12,7 +12,7 @@ const Entry = ({ entry }) => {
                     Hey
                 </div>
                 : 
-                <div className='flex flex-col justify-around relative bg-teal-50 rounded-lg shadow-md mx-2 p-8'>
+                <div className='flex flex-col justify-around relative bg-gradient-to-b from-white to-green-100 rounded-lg shadow-md mx-2 p-8'>
                 <div className='flex justify-between w-full'>
                     <h2 className='text-xl font-semibold'>{entry.entryTitle}</h2>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
