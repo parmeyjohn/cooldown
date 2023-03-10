@@ -1,0 +1,8 @@
+POST http://localhost:3003/api/journals
+content-type: application/json
+
+
+{
+    "journalName": "Journal 5",
+    "entries": []
+}

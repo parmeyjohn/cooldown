@@ -4,9 +4,9 @@ const userSchema = new mongoose.Schema({
   username: {type: String, unique: true, minLength: 3},
   passwordHash: {type: String},
   name: {type: String},
-  entries: [{
+  journals: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Entry'
+    ref: 'Journal'
   }]
 })
 

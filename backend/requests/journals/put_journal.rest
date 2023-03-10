@@ -1,0 +1,7 @@
+PUT http://localhost:3003/api/journals/640aa1e88e63755810493492
+content-type: application/json
+
+
+{
+    "journalName": "Journal 1.4"
+}
