@@ -50,7 +50,8 @@ const Home = () => {
     <div className="relative bg-gradient-to-b from-teal-900 to-cyan-00 gradient w-screen h-screen">
       
       {showSidebar && <Sidebar setShowSidebar={setShowSidebar} showSidebar={showSidebar} journals={journals} setCurrJournal={setCurrJournal} />}
-
+      { isLoading && 
+            <div className="absolute top-[50%] left-[50%] z-50 text-center text-2xl bg-teal-400 text-white rounded-sm ">Loading...</div>}
 
 
       <div className="grid grid-cols-6 p-6 text-teal-100">
@@ -120,7 +121,7 @@ const Home = () => {
       
       <div className="w-full h-full overflow-y-auto relative z-10 pb-28 mt-4 ">
           <div className='h-auto w-screen pb-20'>
-          { isLoading && <div>Loading...</div>}
+          
           
           { entries ? 
             entries.map((e) => (
