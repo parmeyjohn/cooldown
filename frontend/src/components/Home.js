@@ -14,7 +14,8 @@ import {
 const Home = () => {
   const [entries, setEntries] = useState([]);
   const [journals, setJournals] = useState([]);
-  const [currJournal, setCurrJournal] = useState({})
+  const [currJournal, setCurrJournal] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -34,6 +35,7 @@ const Home = () => {
             const allEntries = journals.map((j) => j.entries).flat();
             console.log(allEntries)
             setEntries(allEntries)
+            setIsLoading(false)
             
         });
     
@@ -118,12 +120,14 @@ const Home = () => {
       
       <div className="w-full h-full overflow-y-auto relative z-10 pb-28 mt-4 ">
           <div className='h-auto w-screen pb-20'>
+          { isLoading && <div>Loading...</div>}
+          
           { entries ? 
             entries.map((e) => (
                 <div className=" w-full h-auto p-4" key={e.id}>
                     <Entry entry={e}></Entry>
                 </div>) 
-          ) : <div className="text-2xl absolute bg-red-500 z-50"> Add a new entry!</div>
+          ) : <div className="text-2xl bg-red-500 z-50"> Add a new entry!</div>
             
           
           }

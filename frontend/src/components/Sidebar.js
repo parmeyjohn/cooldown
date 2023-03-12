@@ -22,13 +22,6 @@ const Sidebar = ({ showSidebar, setShowSidebar, journals, setCurrJournal }) => {
             </div>
           ))}
 
-
-
-        <div className="flex-col flex divide-y">
-            <NavLink className="p-5 m-5 text-xl hover:bg-gray-300" to='/create'>All journals</NavLink>
-            <NavLink className="p-5 m-5 text-xl hover:bg-gray-300" to='/create'>Timeline</NavLink>
-            <NavLink className="p-5 m-5 text-xl hover:bg-gray-300" to='/create'>Settings</NavLink>
-        </div>
         <div className="bg-gray-400 fixed bottom-0 w-60 rounded-tr-xl">
         <p>username/email</p>
         <button>Log out</button>
