@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import ReactQuill from "react-quill";
 import { useNavigate } from "react-router-dom";
-import "react-quill/dist/quill.snow.css";
+
+import Textbox from './Textbox'
 
 
-const EntryForm = ({ createEntry }) => {
+const EntryForm = ({ createEntry, journalName }) => {
   const [entryTitle, setEntryTitle] = useState("");
   const [mediaTitle, setMediaTitle] = useState("");
   const [date, setDate] = useState("");
@@ -29,17 +29,13 @@ const EntryForm = ({ createEntry }) => {
 
   
 
-  const modules = {
-    toolbar: [
-      ["bold", "underline", "italic", { list: "ordered" }, { list: "bullet" },'link', 'image' ]
-    ],
-  };
+ 
 
   return (
     <div className="h-screen w-screen">
       <div className=" bg-gradient-to-b from-teal-50 to-teal-100 text-teal-900 w-full h-full z-20 absolute">
         <div className="grid grid-cols-5 p-4 items-center">
-          <h1 className=" col-span-4 mx-4" >Journal Name</h1>
+          <h1 className=" col-span-4 mx-4" >{journalName}</h1>
           <button onClick={()=>navigate(-1)} className='w-8 h-8 justify-self-end mr-2 mt-2'>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -68,12 +64,10 @@ const EntryForm = ({ createEntry }) => {
           
         </div>
 
-        <div className="px-4 mx-2 h-80">
-          <ReactQuill
-            theme="snow"
-            placeholder="Text here"
-            modules={modules}
-          ></ReactQuill>
+        <div className="px-4 mx-2 mt-2">
+          <Textbox></Textbox>
+          
+          
         </div>
 
         <div className="w-full h-[10%] bg-teal-100 flex fixed left-0 bottom-0 p-4 mt-5 text-l text-teal-100 font-semibold tracking-wider uppercase">

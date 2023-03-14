@@ -37,10 +37,19 @@ body {
     margin-right: 0px !important;
 }
 
+.ql-tooltip.ql-hidden {
+    display: none !important;
+}
+
+.ql-clipboard {
+    display: none !important;
+}
 
 
 .ql-toolbar.ql-snow {
     border: 0px !important;
+    padding: 0px !important;
+    padding-top: 0.5rem !important;
 }
 
 .ql-snow.ql-toolbar button {
