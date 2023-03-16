@@ -13,12 +13,14 @@ const Textbox = () => {
         new Quill(editor, {theme: "snow", modules: {
             toolbar: [
               ["bold", "underline", "italic", { list: "ordered" }, { list: "bullet" },'link', 'image' ]
-            ],
-          }})
+            ]
+            },
+            placeholder: 'Add text here...'
+          })
     }, [])
 
     return (
-        <div id='container' ref={outerRef} className='border-2 border-teal-900 rounded-xl h-64'>
+        <div id='container' ref={outerRef} className='border-2 border-teal-900 rounded-xl h-60'>
         
         </div>
 

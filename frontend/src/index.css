@@ -28,6 +28,7 @@ body {
 .ql-formats {
     display: flex !important;
     justify-content: space-between !important;
+    padding: 0.5rem;
 }
 .ql-toolbar {
     padding: 12px !important;
@@ -62,6 +63,11 @@ body {
 
 }
 
+.ql-container {
+
+        font-size: 1.125rem !important;
+        line-height: 1.75rem !important;
+}
 .ql-editor {
     height: 100% !important;
 }

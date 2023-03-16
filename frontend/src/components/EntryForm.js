@@ -1,20 +1,21 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
-import Textbox from './Textbox'
-
+import Textbox from "./Textbox";
+import Tag from "./Tag";
 
 const EntryForm = ({ createEntry, journalName }) => {
   const [entryTitle, setEntryTitle] = useState("");
   const [mediaTitle, setMediaTitle] = useState("");
   const [date, setDate] = useState("");
   const [text, setText] = useState("");
-  const [tags, setTags] = useState([]);
-  const [startDate, setStartDate] = useState(new Date())
-  const [endDate, setEndDate] = useState(new Date())
-  
-  
-  let navigate = useNavigate()
+  const [currTag, setCurrTag] = useState("");
+  const [tags, setTags] = useState(["tag1", "tag2", "longer_tag_for_test"]);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+
+  let navigate = useNavigate();
+  let location = useLocation();
 
   const addEntry = async (event) => {
     event.preventDefault();
@@ -27,21 +28,48 @@ const EntryForm = ({ createEntry, journalName }) => {
     setTags([]);
   };
 
-  
+  const removeTag = (tagToRemove) => {
+    setTags(tags.filter((tag, i) => tag !== tagToRemove));
+  };
 
- 
+  const addTag = () => {
+    if (currTag.length > 0) {
+      setTags([currTag].concat(tags));
+      setCurrTag("");
+    }
+    
+  };
+
+  const handleEnter = (e) => {
+    if (e.key === "Enter") {
+      addTag();
+    }
+  };
 
   return (
-    <div className="h-screen w-screen">
-      <div className=" bg-gradient-to-b from-teal-50 to-teal-100 text-teal-900 w-full h-full z-20 absolute">
+    <div className="h-screen w-screen overflow-y-auto">
+      <div className="flex flex-col bg-gradient-to-b from-teal-50 to-teal-100 text-teal-900 w-full h-full z-20 absolute">
         <div className="grid grid-cols-5 p-4 items-center">
-          <h1 className=" col-span-4 mx-4" >{journalName}</h1>
-          <button onClick={()=>navigate(-1)} className='w-8 h-8 justify-self-end mr-2 mt-2'>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+          <h1 className=" col-span-4 mx-4">{location.state.journalName}</h1>
+          <button
+            onClick={() => navigate(-1)}
+            className="w-8 h-8 justify-self-end mr-2 mt-2"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+              className=""
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
-          
         </div>
         <div className="flex px-4 w-full items-center text-gray-500 focus-within:text-gray-700  ">
           <input
@@ -54,63 +82,80 @@ const EntryForm = ({ createEntry, journalName }) => {
             onChange={(e) => setEntryTitle(e.target.value)}
           ></input>
         </div>
-        
-        
+
         <div className="flex px-4 mx-2 flex-col text-lg text-left">
-          <label className="text-md font-semibold px-2">Start:</label>
-          <input className="bg-transparent py-2 px-2  mb-2 border-2 border-teal-800 rounded-lg focus:bg-teal-100" onChange={(e) => setStartDate(e.target.value)} type="datetime-local" name="start-time" value={startDate.toISOString().slice(0,16)}></input>
-          <label className="text-md font-semibold px-2">End:</label>
-          <input className="bg-transparent p-2 mb-4 border-2 border-teal-800 rounded-lg focus:bg-teal-100" onChange={(e) => setEndDate(e.target.value)} type="datetime-local" name="end-time" value={endDate.toISOString().slice(0,16)}></input>
-          
+          <label className="text-md font-semibold px-2">Date:</label>
+          <input
+            className="bg-transparent py-2 px-2  mb-2 border-2 border-teal-800 rounded-lg focus:bg-teal-100"
+            onChange={(e) => setStartDate(e.target.value)}
+            type="datetime-local"
+            name="start-time"
+            value={startDate.toISOString().slice(0, 16)}
+          ></input>
+
+          <label className="text-md font-semibold px-2">Media:</label>
+          <input
+            className="bg-transparent py-2 px-2  mb-2 border-2 border-teal-800 rounded-lg focus:bg-teal-100"
+            name="media-title"
+          ></input>
         </div>
 
-        <div className="px-4 mx-2 mt-2">
+        <div className="px-4 mx-2 mt-2 text-lg">
+          <label className="text-md font-semibold px-2">Entry:</label>
+
           <Textbox></Textbox>
-          
-          
         </div>
 
-        <div className="w-full h-[10%] bg-teal-100 flex fixed left-0 bottom-0 p-4 mt-5 text-l text-teal-100 font-semibold tracking-wider uppercase">
-          
-          
-          <div className="text-teal-900 rounded-lg border-solid hover:bg-teal-400 hover:border-2 hover:border-blue-400 ">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-12 h-12 p-2 m-auto"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 4.5v15m7.5-7.5h-15"
-              />
-            </svg>
-          </div>
-          <div className="flex justify-start w-full overflow-x-auto">
-            
-            <div className="mx-1 rounded-lg bg-teal-600 border-solid shadow-md hover:bg-teal-900 border-teal-900 border-b-2 w-fit h-fit px-2 py-1 whitespace-nowrap">
-              Valorant
-            </div>
-            <div className="mx-1 rounded-lg bg-teal-600 border-solid shadow-md hover:bg-teal-900 border-teal-900 border-b-2 w-fit h-fit px-2 py-1 whitespace-nowrap">
-              Video games
-            </div>
-            <div className="mx-1 rounded-lg bg-teal-600 border-solid shadow-md hover:bg-teal-900 border-teal-900 border-b-2 w-fit h-fit px-2 py-1 whitespace-nowrap">
-              FPS
-            </div>
-            
+        <div className="flex px-4 mx-2 mt-4 flex-col text-lg text-left">
+          <label className="text-md font-semibold px-2">Tags:</label>
+          <div className="grid grid-cols-6 ">
+            <input
+              className="bg-transparent py-2 px-2 mb-2 col-span-5 border-2 border-teal-800 rounded-lg focus:bg-teal-100"
+              type="text"
+              name="curr-tag"
+              placeholder="Add a tag..."
+              value={currTag}
+              onChange={(e) => setCurrTag(e.target.value)}
+              onKeyDown={handleEnter}
+            ></input>
+            <button className="justify-self-end p-3 mb-2 rounded-lg bg-teal-600 border-solid shadow-xl hover:bg-teal-700 border-teal-900 active:shadow-md active:bg-teal-900 border-b-2 text-teal-100" onClick={addTag}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 4.5v15m7.5-7.5h-15"
+                />
+              </svg>
+            </button>
           </div>
         </div>
-      
-        
+
+        <div className="p-4 mx-2 overflow-x-auto flex">
+          {tags ? (
+            tags.map((t, i) => (
+              <Tag title={t} removeTag={removeTag} key={i}></Tag>
+            ))
+          ) : (
+            <p>Add tags here...</p>
+          )}
+        </div>
+
+        <div className="fixed bottom-0 w-full flex justify-center p-4 mx-2">
+          
+          <button className=" bg-gradient-to-tl from-green-400 to-teal-500 rounded-2xl p-2 w-[75%] shadow-2xl border-b-2 hover:to-teal-800 hover:from-teal-600 border-b-teal-900 text-teal-50 font-semibold text-xl tracking-wider uppercase focus">
+            create
+          </button>
+        </div>
       </div>
-      
-      
     </div>
   );
 };
 
 export default EntryForm;
-
