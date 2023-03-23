@@ -4,5 +4,5 @@ content-type: application/json
 
 {
     "journalName": "Journal 5",
-    "entries": []
+    "entries": ["63e436ee77fb8c3108ce2dce", "63e436ef77fb8c3108ce2dd0"]
 }

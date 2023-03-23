@@ -4,28 +4,58 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Textbox from "./Textbox";
 import Tag from "./Tag";
 
-const EntryForm = ({ createEntry, journalName }) => {
+import entryService from "../services/entries";
+import journalService from "../services/journals";
+
+import axios from 'axios'
+
+const EntryForm = ({}) => {
   const [entryTitle, setEntryTitle] = useState("");
   const [mediaTitle, setMediaTitle] = useState("");
-  const [date, setDate] = useState("");
   const [text, setText] = useState("");
+  const [content, setContent] = useState()
   const [currTag, setCurrTag] = useState("");
-  const [tags, setTags] = useState(["tag1", "tag2", "longer_tag_for_test"]);
+  const [tags, setTags] = useState([]);
   const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
 
   let navigate = useNavigate();
   let location = useLocation();
 
+  const getGames = async (e) => {
+    let config = {
+      headers: 
+      {
+        'Access-Control-Allow-Origin': '*'
+      }
+    }
+    const res = await axios.get('https://api.mobygames.com/v1/games?api_key=moby_Tk4r7bCXPkojxrTHEKnmYYkM72N', config)
+    console.log(res)
+  }
+
   const addEntry = async (event) => {
     event.preventDefault();
-    console.log({ entryTitle, mediaTitle, date, text, tags });
-    createEntry({ entryTitle, mediaTitle, date, text, tags });
+    let journal = location.state.journal
+    const entryObject = {
+      entryTitle,
+      mediaTitle,
+      startDate,
+      text,
+      content,
+      tags,
+    };  
+    const newEntry = await entryService.create(entryObject)
+
+    journalService.update(journal.id, {$push: {entries: newEntry.id}})
+
     setEntryTitle("");
     setMediaTitle("");
-    setDate("");
+    setStartDate("");
     setText("");
+    setContent()
     setTags([]);
+    navigate(-1);
+    alert('entry created')
+
   };
 
   const removeTag = (tagToRemove) => {
@@ -49,11 +79,11 @@ const EntryForm = ({ createEntry, journalName }) => {
   return (
     <div className="h-screen w-screen overflow-y-auto">
       <div className="flex flex-col bg-gradient-to-b from-teal-50 to-teal-100 text-teal-900 w-full h-full z-20 absolute">
-        <div className="grid grid-cols-5 p-4 items-center">
-          <h1 className=" col-span-4 mx-4">{location.state.journalName}</h1>
+        <div className="flex justify-between items-center px-4 py-6 w-full">
+          <h1 className=" mx-4 h-8">{location.state.journal.journalName}</h1>
           <button
             onClick={() => navigate(-1)}
-            className="w-8 h-8 justify-self-end mr-2 mt-2"
+            className="w-8 h-8 justify-self-end mr-2 "
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -90,12 +120,12 @@ const EntryForm = ({ createEntry, journalName }) => {
             onChange={(e) => setStartDate(e.target.value)}
             type="datetime-local"
             name="start-time"
-            value={startDate.toISOString().slice(0, 16)}
+            value={startDate}
           ></input>
 
           <label className="text-md font-semibold px-2">Media:</label>
           <input
-            className="bg-transparent py-2 px-2  mb-2 border-2 border-teal-800 rounded-lg focus:bg-teal-100"
+            className="bg-transparent py-2 px-2 border-2 border-teal-800 rounded-lg focus:bg-teal-100"
             name="media-title"
           ></input>
         </div>
@@ -103,10 +133,10 @@ const EntryForm = ({ createEntry, journalName }) => {
         <div className="px-4 mx-2 mt-2 text-lg">
           <label className="text-md font-semibold px-2">Entry:</label>
 
-          <Textbox></Textbox>
+          <Textbox setText={setText} setContent={setContent}></Textbox>
         </div>
 
-        <div className="flex px-4 mx-2 mt-4 flex-col text-lg text-left">
+        <div className="flex px-4 mx-2 mt-2 flex-col text-lg text-left">
           <label className="text-md font-semibold px-2">Tags:</label>
           <div className="grid grid-cols-6 ">
             <input
@@ -118,7 +148,7 @@ const EntryForm = ({ createEntry, journalName }) => {
               onChange={(e) => setCurrTag(e.target.value)}
               onKeyDown={handleEnter}
             ></input>
-            <button className="justify-self-end p-3 mb-2 rounded-lg bg-teal-600 border-solid shadow-xl hover:bg-teal-700 border-teal-900 active:shadow-md active:bg-teal-900 border-b-2 text-teal-100" onClick={addTag}>
+            <button className="justify-self-end p-3 mb-2 rounded-lg bg-teal-600 border-solid shadow-xl hover:bg-teal-700 border-teal-900 active:shadow-md active:bg-teal-900 border-b-2 text-teal-50" onClick={addTag}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -137,7 +167,7 @@ const EntryForm = ({ createEntry, journalName }) => {
           </div>
         </div>
 
-        <div className="p-4 mx-2 overflow-x-auto flex">
+        <div className=" mx-auto w-[90%] overflow-x-auto flex justify-start mt-3">
           {tags ? (
             tags.map((t, i) => (
               <Tag title={t} removeTag={removeTag} key={i}></Tag>
@@ -147,10 +177,10 @@ const EntryForm = ({ createEntry, journalName }) => {
           )}
         </div>
 
-        <div className="fixed bottom-0 w-full flex justify-center p-4 mx-2">
+        <div className="fixed bottom-0 w-full flex justify-center p-4 mx-auto">
           
-          <button className=" bg-gradient-to-tl from-green-400 to-teal-500 rounded-2xl p-2 w-[75%] shadow-2xl border-b-2 hover:to-teal-800 hover:from-teal-600 border-b-teal-900 text-teal-50 font-semibold text-xl tracking-wider uppercase focus">
-            create
+          <button onClick={addEntry} className=" bg-teal-600 rounded-lg p-2 w-[90%] shadow-2xl border-b-4 hover:to-teal-800 hover:from-teal-600 border-b-teal-900 text-teal-50  hover:bg-teal-700 border-teal-900 active:shadow-lg active:bg-teal-900  font-semibold text-xl tracking-widest uppercase focus">
+            save
           </button>
         </div>
       </div>

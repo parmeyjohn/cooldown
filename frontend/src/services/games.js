@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = '/api/entries'
+const baseUrl = '/api/journals'
 
 let token = null
 
@@ -16,9 +16,8 @@ const create = async newObject => {
   const config = {
     headers: { Authorization: token},
   }
-  
-  console.log(newObject)
-  const response = await axios.post(baseUrl, newObject)
+
+  const response = await axios.post(baseUrl, newObject, config)
   return response.data
 }
 

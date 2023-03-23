@@ -71,9 +71,17 @@ body {
 .ql-editor {
     height: 100% !important;
 }
+
 .ql-active {
-    color: yellow !important;
-    background-color: rgb(4, 205, 205) !important;
+    background-color: rgb(110 231 183) !important;
     border-radius: 4px !important;
     
+}
+
+.ql-snow.ql-toolbar button.ql-active .ql-stroke {
+    stroke: rgb(19 78 74) !important;
+}
+
+.ql-editor.ql-blank::before {
+    font-style: normal !important;
 }

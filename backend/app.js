@@ -23,8 +23,13 @@ mongoose.connect(config.MONGODB_URI)
   })
 
 
+const corsConfig ={
+    origin: 'http://localhost:3000', 
+    credentials: true
+}
 
-app.use(cors())
+
+app.use(cors(corsConfig))
 app.use(express.json())
 app.use('/api/users', userRouter)
 app.use('/api/entries', entryRouter)

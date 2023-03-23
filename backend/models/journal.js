@@ -2,10 +2,12 @@ const mongoose = require('mongoose')
 
 const journalSchema = new mongoose.Schema({
     journalName: {type: String},
+    user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     entries: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Entry'
       }]
+      
 })
 
 journalSchema.set('toJSON', {

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Entry from "./Entry";
 import Sidebar from "./Sidebar"
 import EntryForm from "./EntryForm";
-import entryService from "../services/entries";
+
 import journalService from "../services/journals";
 import {
   BrowserRouter as Router,
@@ -26,19 +26,18 @@ const Home = () => {
 
   
   useEffect(() => {
-    
     journalService.getAll()
         .then((journals) => 
         {
             setJournals(journals)
             console.log(journals)
+            // initializing journal to be root journal which contains every entry
+            setCurrJournal(journals[0])
             const allEntries = journals.map((j) => j.entries).flat();
             console.log(allEntries)
             setEntries(allEntries)
             setIsLoading(false)
-            
         });
-    
   }, []);
 
   useEffect(() => {
@@ -49,7 +48,7 @@ const Home = () => {
   return (
     <div className="relative bg-gradient-to-b from-teal-900 to-cyan-00 gradient w-screen h-screen">
       
-      {showSidebar && <Sidebar setShowSidebar={setShowSidebar} showSidebar={showSidebar} journals={journals} setCurrJournal={setCurrJournal} />}
+      {showSidebar && <Sidebar setShowSidebar={setShowSidebar} showSidebar={showSidebar} journals={journals} setJournals={setJournals} currJournal={currJournal} setCurrJournal={setCurrJournal} />}
       { isLoading && 
             <div className="absolute top-[50%] left-[50%] z-50 text-center text-2xl bg-teal-400 text-white rounded-sm ">Loading...</div>}
 
@@ -73,13 +72,13 @@ const Home = () => {
             </svg>
         </button>
         <h1 className=" col-span-3 text-2xl font-semibold underline underline-offset-1 decoration-teal-500 truncate justify-self-start">
-          {currJournal.journalName ? currJournal.journalName : 'All journals'}
+          {currJournal.journalName}
         </h1>
         
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 justify-self-end">
         <path strokeLinecap="round" strokeLinejoin="round" d="M3 4.5h14.25M3 9h9.75M3 13.5h9.75m4.5-4.5v12m0 0l-3.75-3.75M17.25 21L21 17.25" />
         </svg>
-        <Link to='/create' state={{journalName: currJournal.journalName}}>
+        <Link to='/create' state={{journal: currJournal}}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8 justify-self-end text-teal-300">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
             </svg>
