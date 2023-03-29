@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import journalService from "../services/journals";
+import SearchBar from "./SearchBar";
+import OptionsButton from "./OptionsButton"
+import SidebarJournal from "./SidebarJournal"
 
 const Sidebar = ({ showSidebar, setShowSidebar, journals, setJournals, currJournal, setCurrJournal }) => {
   const [newJournalName, setNewJournalName] = useState("");
@@ -41,45 +44,37 @@ const Sidebar = ({ showSidebar, setShowSidebar, journals, setJournals, currJourn
             </svg>
           </button>
         </div>
-        
-        <h2 className="text-lg pb-1 font-medium mx-4 p-4">All Journals:</h2>
-        <div className=" mx-4 p-2 h-80 shadow-inner shadow-slate-400 bg-slate-300 rounded-xl ">
-          
-          <div className=" overflow-y-auto h-40" >
-            {journals.map((j) => (
-              <div
-                className = {j === currJournal ?
-                'p-2 ml-3 my-2 text-lg flex justify-between items-center bg-green-300 rounded-lg font-semibold' : 
-                'p-2 ml-3 my-2 text-lg hover:bg-green-200 hover:rounded-lg active:bg-emerald-300 flex justify-between items-center'
-                }
-                key={j.id}
-                onClick={() => setCurrJournal(j)}
-              >
-                <span className="w-full">{j.journalName}</span>
                 
-                <button className="w-fit" onClick={() => console.log('hey')}>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2}
-                    stroke="currentColor"
-                    className="w-6 h-6 mr-4"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
-                    />
-                  </svg>
-                </button>
-              </div>
+        
+        <div className="flex justify-start items-center pt-2 pl-4 text-slate-500">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+          </svg>
+          <h2 className="text-md font-medium h-6 ml-2  ">Search:</h2>
+        </div>
+        <div className="pl-4 m-2">
+          <SearchBar placeholder={'Search journals...'}></SearchBar>
+        </div>
+
+        <div className="flex justify-start items-center pt-2 pl-4 text-slate-500">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+          </svg>
+          <h2 className="text-md font-medium h-6 ml-2  ">Journals:</h2>
+
+        </div>
+        <div className=" mx-4 p-2 h-80 rounded-xl ">
+          
+          <div className=" overflow-y-auto h-64" >
+            {journals.map((j) => (
+              <SidebarJournal key={j.id} journal={j} journals={journals} currJournal={currJournal} setCurrJournal={setCurrJournal} setJournals={setJournals}></SidebarJournal>
+              
             ))}
           </div>
 
           <div className="flex justify-between pl-4 py-4">
             <input
-              className="bg-transparent py-2 px-2 mb-2 w-[80%] border-2 border-teal-800 rounded-lg focus:bg-teal-100"
+              className="bg-teal-50 py-2 px-2 mb-2 w-[80%] border-2 border-teal-800 rounded-lg focus:bg-teal-100 shadow-inner shadow-slate-300"
               type="text"
               name="new-journal"
               placeholder="Add a journal..."
@@ -88,7 +83,7 @@ const Sidebar = ({ showSidebar, setShowSidebar, journals, setJournals, currJourn
               onKeyDown={handleEnter}
             ></input>
             <button
-              className="justify-self-end p-3 mb-2 rounded-lg bg-teal-600 border-solid shadow-xl hover:bg-teal-700 border-teal-900 active:shadow-md active:bg-teal-900 border-b-2 text-teal-50"
+              className="p-3 mb-2 rounded-lg bg-teal-600 border-solid shadow-xl hover:bg-teal-700 border-teal-900 active:shadow-md active:bg-teal-900 border-b-2 text-teal-50"
               onClick={addJournal}
             >
               <svg
@@ -110,7 +105,12 @@ const Sidebar = ({ showSidebar, setShowSidebar, journals, setJournals, currJourn
         </div>
 
         <div className="p-4 flex justify-between bg-gray-400 fixed bottom-0 w-[80%] rounded-tr-xl">
-          <p>username/email</p>
+          <div className="rounded-full bg-red-900">
+                Hey 
+          </div>
+          
+          
+          <p>Username</p>
           <button className="p-3 mb-2 rounded-lg bg-slate-600 border-solid shadow-md hover:bg-teal-700 border-teal-900 active:shadow-md active:bg-teal-900 border-b-2 text-teal-50">
             Log out
           </button>

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Entry from "./Entry";
 import Sidebar from "./Sidebar"
 import EntryForm from "./EntryForm";
+import SearchBar from "./SearchBar"
 
 import journalService from "../services/journals";
 import {
@@ -46,14 +47,14 @@ const Home = () => {
 
 
   return (
-    <div className="relative bg-gradient-to-b from-teal-900 to-cyan-00 gradient w-screen h-screen">
+    <div className="relative bg-slate-800 shadow-inner w-screen h-screen">
       
       {showSidebar && <Sidebar setShowSidebar={setShowSidebar} showSidebar={showSidebar} journals={journals} setJournals={setJournals} currJournal={currJournal} setCurrJournal={setCurrJournal} />}
       { isLoading && 
             <div className="absolute top-[50%] left-[50%] z-50 text-center text-2xl bg-teal-400 text-white rounded-sm ">Loading...</div>}
 
 
-      <div className="grid grid-cols-6 p-6 text-teal-100">
+      <div className="flex justify-between items-center p-6 text-teal-100">
         <button onClick={() => setShowSidebar(!showSidebar)}>
             <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -76,46 +77,19 @@ const Home = () => {
         </h1>
         
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 justify-self-end">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3 4.5h14.25M3 9h9.75M3 13.5h9.75m4.5-4.5v12m0 0l-3.75-3.75M17.25 21L21 17.25" />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M3 4.5h14.25M3 9h9.75M3 13.5h9.75m4.5-4.5v12m0 0l-3.75-3.75M17.25 21L21 17.25" />
         </svg>
+        
         <Link to='/create' state={{journal: currJournal}}>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8 justify-self-end text-teal-300">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-            </svg>
+            <button className="p-3 mb-2 rounded-lg bg-teal-600 border-solid shadow-xl hover:bg-teal-700 border-teal-900 active:shadow-md active:bg-teal-900 border-b-2 text-teal-50">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8 justify-self-end">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+              </svg>
+            </button>
         </Link> 
       </div>
 
-      <div
-        id="search-bar"
-        className="flex w-full items-center mx-auto text-gray-500 focus-within:text-gray-700 "
-      >
-        <svg
-          className="absolute ml-12 w-5 h-5 pointer-events-none"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="black"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-          />
-        </svg>
-        <input
-          className="px-12 rounded-lg mx-auto border-gray-400 bg-gray-300 shadow-black h-10 w-[85%] focus-within:border-emerald-500"
-          name="search"
-          placeholder="Search entries"
-          autoComplete="off"
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.value)}
-        >
-
-          
-        </input>
-      </div>
-
+      <SearchBar searchValue={searchValue} setSearchValue={setSearchValue} placeholder={'Search entries...'}></SearchBar>
       
       
       <div className="w-full h-full overflow-y-auto relative z-10 pb-28 mt-4 ">
