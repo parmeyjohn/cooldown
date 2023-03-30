@@ -7,7 +7,7 @@ const logger = require('../utils/logger')
 const bcrypt = require('bcryptjs')
 
 userRouter.get('/', async (request, response) => {
-    const users = await User.find({})
+    const users = await User.find({}).populate('journals')
     response.status(200).json(users)
 })
 

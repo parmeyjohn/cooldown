@@ -1,7 +1,10 @@
 const express = require('express')
 const Journal = require('../models/journal.js')
+const User = require('../models/user.js')
+
 const journalRouter = express.Router()
 const mongoose = require('mongoose')
+const user = require('../models/user.js')
 
 
 journalRouter.get('/', async (request, response) => {
@@ -11,8 +14,13 @@ journalRouter.get('/', async (request, response) => {
 
 
 journalRouter.post('/', async (request, response) => {
+    const body = request.body
+    const userObj = User.findById(body.user)
+
     const journal = new Journal(request.body)
-    const result = await journal.save()
+    const savedNote = await journal.save()
+    userObj.journals = userObj.journals.concat(savedNote._id)
+    await userObj.save()
     response.status(201).json(result)
 })
 
