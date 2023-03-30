@@ -16,7 +16,7 @@ const EntryForm = ({}) => {
   const [content, setContent] = useState()
   const [currTag, setCurrTag] = useState("");
   const [tags, setTags] = useState([]);
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(new Date().toISOString());
 
   let navigate = useNavigate();
   let location = useLocation();
@@ -42,6 +42,7 @@ const EntryForm = ({}) => {
       text,
       content,
       tags,
+      journalId: location.state.journal.id
     };  
     const newEntry = await entryService.create(entryObject)
 
@@ -122,7 +123,6 @@ const EntryForm = ({}) => {
             name="start-time"
             value={startDate}
           ></input>
-
           <label className="text-md font-semibold px-2">Media:</label>
           <input
             className="bg-transparent py-2 px-2 border-2 border-teal-800 rounded-lg focus:bg-teal-100"

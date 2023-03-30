@@ -92,14 +92,14 @@ const Home = () => {
       <SearchBar searchValue={searchValue} setSearchValue={setSearchValue} placeholder={'Search entries...'}></SearchBar>
       
       
-      <div className="w-full h-full overflow-y-auto relative z-10 pb-28 mt-4 ">
+      <div className="w-full h-full overflow-y-auto relative z-10 pb-28 ">
           <div className='h-auto w-screen pb-20'>
           
           
           { entries ? 
             entries.map((e) => (
                 <div className=" w-full h-auto p-4" key={e.id}>
-                    <Entry entry={e}></Entry>
+                    <Entry entry={e} entries={entries} setEntries={setEntries}></Entry>
                 </div>) 
           ) : <div className="text-2xl bg-red-500 z-50"> Add a new entry!</div>
             

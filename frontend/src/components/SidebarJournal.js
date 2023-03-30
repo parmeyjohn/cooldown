@@ -35,12 +35,13 @@ const SidebarJournal = ({ journal, currJournal, setCurrJournal, journals, setJou
     journalService.remove(journal.id);
     alert(`${journal.journalName} and its entries have been deleted.`)
     //remove locally too
+    // remove the entries from the journal collection too
     setJournals(journals.filter((j) => j.id !== journal.id))
   };
 
   const handleEnter = (event) => {
     if (event.key === "Enter") {
-        submitEdit()
+        inputRef.current.blur()
     }
   };
 

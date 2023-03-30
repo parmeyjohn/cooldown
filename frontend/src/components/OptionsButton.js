@@ -1,13 +1,17 @@
 import { useState, useRef } from "react";
 
-const OptionsButton = ({ currJournal, setCurrJournal, handleEdit, handleDelete }) => {
+const OptionsButton = ({ handleEdit, handleDelete }) => {
   const [showOptions, setShowOptions] = useState(false);  
+  const menuRef = useRef(null)
+  const handleClick = (event) => {
+    setShowOptions(true)
 
+  }
   return (
-    <div>
+    <div className="">
       <button
         className="w-fit h-full"
-        onFocus={() => setShowOptions(true)}
+        onClick={() => handleClick()}
         onBlur={() => setShowOptions(false)}
       >
         <svg
@@ -27,7 +31,7 @@ const OptionsButton = ({ currJournal, setCurrJournal, handleEdit, handleDelete }
       </button>
 
       {showOptions && (
-        <div className="bg-slate-50 absolute w-60 z-40 text-slate-500 font-medium divide-y-2 shadow-2xl border-teal-800 border-2 rounded-md py-1 hover:cursor-pointer">
+        <div ref={menuRef} className="bg-slate-50 absolute w-60 z-40 text-slate-500 font-medium divide-y-2 shadow-2xl border-teal-800 border-2 rounded-md py-1 hover:cursor-pointer ">
           <div
             className="flex justify-start items-center hover:bg-slate-200 active:bg-slate-300"
             onMouseDown={handleEdit}
