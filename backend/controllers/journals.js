@@ -12,6 +12,10 @@ journalRouter.get('/', async (request, response) => {
     response.status(200).json(journals)
 })
 
+journalRouter.get('/:id', async (request, response) => {
+    const journal = await Journal.findById(request.params.id).populate('entries')
+    response.status(200).json(journal)
+})
 
 journalRouter.post('/', async (request, response) => {
     const body = request.body
@@ -34,7 +38,8 @@ journalRouter.delete('/:id', async (request, response) => {
 
 journalRouter.patch('/:id', async (request, response) => {
     console.log('body',request.body)
-    await Journal.findOneAndUpdate({_id: request.params.id}, request.body )
+    console.log('id', request.params.id)
+    await Journal.findOneAndUpdate({ _id: request.params.id }, request.body )
     response.status(204)
 })
 

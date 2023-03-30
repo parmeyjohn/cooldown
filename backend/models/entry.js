@@ -6,7 +6,11 @@ const entrySchema = new mongoose.Schema({
     date: Date,
     content: Object,
     text: String,
-    tags: [String]
+    tags: [String],
+    journalId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Journal'
+      }
 })
 
 entrySchema.set('toJSON', {

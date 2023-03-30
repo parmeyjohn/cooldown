@@ -1,4 +1,5 @@
 const express = require('express')
+const mongoose = require('mongoose')
 const { response } = require('../app.js')
 const Entry = require('../models/entry.js')
 const User = require('../models/user.js')
@@ -20,6 +21,10 @@ entryRouter.post('/', async (request, response) => {
 })
 
 entryRouter.delete('/:id', async (request, response) => {
+    console.log('REQUEST', request.params.id)
+    console.log('isValid',mongoose.Types.ObjectId.isValid(request.params.id))
+
+    
     await Entry.findOneAndDelete(request.params.id)
     response.status(204).end()
 })
