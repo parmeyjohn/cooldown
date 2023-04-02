@@ -1,26 +1,36 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import Textbox from "./Textbox";
 import Tag from "./Tag";
+
+import { EntryContext } from "../contexts/EntryContext";
 
 import entryService from "../services/entries";
 import journalService from "../services/journals";
 
 import axios from 'axios'
 
-const EntryForm = ({}) => {
-  const [entryTitle, setEntryTitle] = useState("");
-  const [mediaTitle, setMediaTitle] = useState("");
-  const [text, setText] = useState("");
-  const [content, setContent] = useState()
+const EntryForm = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  
+  const {entries, setEntries, currEntry, setCurrEntry} = useContext(EntryContext)
+  
+   
+  const [entryTitle, setEntryTitle] = useState(currEntry.entryTitle);
+  const [mediaTitle, setMediaTitle] = useState(currEntry.mediaTitle);
+  const [text, setText] = useState(currEntry.text);
+  const [content, setContent] = useState(currEntry.content)
+  const [tags, setTags] = useState(currEntry.tags);
+  const [startDate, setStartDate] = useState(currEntry.startDate);
   const [currTag, setCurrTag] = useState("");
-  const [tags, setTags] = useState([]);
-  const [startDate, setStartDate] = useState(new Date().toISOString());
+  
 
-  let navigate = useNavigate();
-  let location = useLocation();
-
+  useEffect(() => {
+    console.log(currEntry)
+    console.log(entries)
+  },[])
   const getGames = async (e) => {
     let config = {
       headers: 
@@ -32,9 +42,8 @@ const EntryForm = ({}) => {
     console.log(res)
   }
 
-  const addEntry = async (event) => {
+  const saveEntry = async (event) => {
     event.preventDefault();
-    let journal = location.state.journal
     const entryObject = {
       entryTitle,
       mediaTitle,
@@ -43,22 +52,24 @@ const EntryForm = ({}) => {
       content,
       tags,
       journalId: location.state.journal.id
-    };  
-    const newEntry = await entryService.create(entryObject)
+    };
+    if (location.state.edit) {
+      //edit
+      const newEntry = await entryService.update(currEntry.id, entryObject)
+      setEntries(entries.filter((e) => e !== currEntry).concat(newEntry))
+      alert('entry updated')
+    } else {
+      //add the entry
+      const newEntry = await entryService.create(entryObject)
+      journalService.update(location.state.journal.id, {$push: {entries: newEntry.id}})
+      setEntries(entries.concat(newEntry))
+      alert('entry created')
+    }
 
-    journalService.update(journal.id, {$push: {entries: newEntry.id}})
-
-    setEntryTitle("");
-    setMediaTitle("");
-    setStartDate("");
-    setText("");
-    setContent()
-    setTags([]);
     navigate(-1);
-    alert('entry created')
-
-  };
-
+    
+  }
+  
   const removeTag = (tagToRemove) => {
     setTags(tags.filter((tag, i) => tag !== tagToRemove));
   };
@@ -118,7 +129,7 @@ const EntryForm = ({}) => {
           <label className="text-md font-semibold px-2">Date:</label>
           <input
             className="bg-transparent py-2 px-2  mb-2 border-2 border-teal-800 rounded-lg focus:bg-teal-100"
-            onChange={(e) => setStartDate(e.target.value)}
+            onChange={(e) => {console.log(startDate);setStartDate(e.target.value); console.log(e.target.value)}}
             type="datetime-local"
             name="start-time"
             value={startDate}
@@ -127,13 +138,15 @@ const EntryForm = ({}) => {
           <input
             className="bg-transparent py-2 px-2 border-2 border-teal-800 rounded-lg focus:bg-teal-100"
             name="media-title"
+            onChange={(e) => setMediaTitle(e.target.value)}
+            value={mediaTitle}
           ></input>
         </div>
-
+      
         <div className="px-4 mx-2 mt-2 text-lg">
           <label className="text-md font-semibold px-2">Entry:</label>
 
-          <Textbox setText={setText} setContent={setContent}></Textbox>
+          <Textbox initialContent={content} setText={setText} setContent={setContent}></Textbox>
         </div>
 
         <div className="flex px-4 mx-2 mt-2 flex-col text-lg text-left">
@@ -179,7 +192,7 @@ const EntryForm = ({}) => {
 
         <div className="fixed bottom-0 w-full flex justify-center p-4 mx-auto">
           
-          <button onClick={addEntry} className=" bg-teal-600 rounded-lg p-2 w-[90%] shadow-2xl border-b-4 hover:to-teal-800 hover:from-teal-600 border-b-teal-900 text-teal-50  hover:bg-teal-700 border-teal-900 active:shadow-lg active:bg-teal-900  font-semibold text-xl tracking-widest uppercase focus">
+          <button onClick={saveEntry} className=" bg-teal-600 rounded-lg p-2 w-[90%] shadow-2xl border-b-4 hover:to-teal-800 hover:from-teal-600 border-b-teal-900 text-teal-50  hover:bg-teal-700 border-teal-900 active:shadow-lg active:bg-teal-900  font-semibold text-xl tracking-widest uppercase focus">
             save
           </button>
         </div>

@@ -4,7 +4,7 @@ import { useCallback, useState, useEffect } from 'react'
 
 
 
-const Textbox = ({setText, setContent}) => {  
+const Textbox = ({initialContent, setText, setContent}) => {  
   const [quill, setQuill] = useState()
 
   const outerRef = useCallback((wrapper) => {
@@ -20,7 +20,8 @@ const Textbox = ({setText, setContent}) => {
             placeholder: 'Add text here...'
           })
           setQuill(q)
-    }, [])
+          q.setContents(initialContent)
+    }, [initialContent])
 
     useEffect(() => {
       if (quill) {
@@ -29,7 +30,8 @@ const Textbox = ({setText, setContent}) => {
           setContent(quill.getContents())
         })
       }
-    }, [quill])
+    }, [quill, setText, setContent])
+
 
     return (
         <div id='container' ref={outerRef} className='border-2 border-teal-900 rounded-xl h-60'>

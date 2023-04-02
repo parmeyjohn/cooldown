@@ -16,6 +16,7 @@ const getOneById = async (id) => {
   const response = await axios.get(`${baseUrl}/${id}`)
   return response.data
 }
+
 const create = async newObject => {
   const config = {
     headers: { Authorization: token},

@@ -12,6 +12,11 @@ const getAll = () => {
   return request.then(response => response.data)
 }
 
+const getOneById = async (id) => {
+  const response = await axios.get(`${baseUrl}/${id}`)
+  return response.data
+}
+
 const create = async newObject => {
   const config = {
     headers: { Authorization: token},
@@ -32,4 +37,4 @@ const remove = async (id) => {
   return response.data
 }
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, create, update, remove, setToken }
+export default { getAll, getOneById, create, update, remove, setToken }
