@@ -21,7 +21,7 @@ const Textbox = ({initialContent, setText, setContent}) => {
           })
           setQuill(q)
           q.setContents(initialContent)
-    }, [initialContent])
+    }, [])
 
     useEffect(() => {
       if (quill) {

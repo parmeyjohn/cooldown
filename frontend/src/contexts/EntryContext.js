@@ -1,3 +1,8 @@
-import { createContext } from "react"
+import { createContext } from "react";
 
-export const EntryContext = createContext({entries: [], setEntries: () => {}, currEntry: {}})
+export const EntryContext = createContext({
+  journals: [],
+  setEntries: () => {},
+  currEntry: {},
+  setCurrEntry: () => {},
+});

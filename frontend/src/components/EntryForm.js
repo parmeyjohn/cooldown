@@ -5,6 +5,8 @@ import Textbox from "./Textbox";
 import Tag from "./Tag";
 
 import { EntryContext } from "../contexts/EntryContext";
+import { JournalContext } from "../contexts/JournalContext"
+
 
 import entryService from "../services/entries";
 import journalService from "../services/journals";
@@ -16,21 +18,29 @@ const EntryForm = () => {
   const location = useLocation();
   
   const {entries, setEntries, currEntry, setCurrEntry} = useContext(EntryContext)
-  
+  const { currJournal, setCurrJournal, journals, setJournals } = useContext(JournalContext)
+
    
   const [entryTitle, setEntryTitle] = useState(currEntry.entryTitle);
   const [mediaTitle, setMediaTitle] = useState(currEntry.mediaTitle);
   const [text, setText] = useState(currEntry.text);
   const [content, setContent] = useState(currEntry.content)
   const [tags, setTags] = useState(currEntry.tags);
-  const [startDate, setStartDate] = useState(currEntry.startDate);
+  const [startDate, setStartDate] = useState( () => {
+    
+    if (currEntry.startDate) {
+      return currEntry.startDate
+    } else {
+      var currTime = new Date()
+      var offset = currTime.getTimezoneOffset() * 60 * 1000
+      const newTime = new Date(currTime - offset)
+      console.log(newTime)
+      return newTime  
+      }
+    }  
+  );
   const [currTag, setCurrTag] = useState("");
   
-
-  useEffect(() => {
-    console.log(currEntry)
-    console.log(entries)
-  },[])
   const getGames = async (e) => {
     let config = {
       headers: 
@@ -51,21 +61,26 @@ const EntryForm = () => {
       text,
       content,
       tags,
-      journalId: location.state.journal.id
+      journalId: currJournal.id
     };
+
     if (location.state.edit) {
       //edit
       const newEntry = await entryService.update(currEntry.id, entryObject)
-      setEntries(entries.filter((e) => e !== currEntry).concat(newEntry))
+      setEntries(prevEntries => prevEntries.filter((e) => e.id !== currEntry.id).concat(newEntry))
+      setCurrJournal(prevJournal => ({...prevJournal, entries: prevJournal.entries.filter((e) => e !== currEntry).concat(newEntry)}))
+      setJournals(prevJournals => prevJournals.filter((j) => j.id !== currJournal.id).concat(currJournal))      
       alert('entry updated')
     } else {
       //add the entry
       const newEntry = await entryService.create(entryObject)
-      journalService.update(location.state.journal.id, {$push: {entries: newEntry.id}})
-      setEntries(entries.concat(newEntry))
+      journalService.update(currJournal.id, {$push: {entries: newEntry.id}})
+      setEntries(prevEntries => prevEntries.concat(newEntry))
+      setCurrJournal(prevJournal => ({...prevJournal, entries: prevJournal.entries.concat(newEntry)}))
+      setJournals(prevJournals => prevJournals.filter((j) => j.id !== currJournal.id).concat(currJournal))
       alert('entry created')
     }
-
+    setCurrEntry({})
     navigate(-1);
     
   }
@@ -88,13 +103,25 @@ const EntryForm = () => {
     }
   };
 
+  const setFormatDate = (dateString) => {
+    var currTime = new Date()
+    var offset = currTime.getTimezoneOffset() * 60 * 1000
+    const newTime = new Date(currTime - offset)
+    setStartDate(newTime)
+    return newTime
+  }
+  
+
   return (
     <div className="h-screen w-screen overflow-y-auto">
       <div className="flex flex-col bg-gradient-to-b from-teal-50 to-teal-100 text-teal-900 w-full h-full z-20 absolute">
         <div className="flex justify-between items-center px-4 py-6 w-full">
-          <h1 className=" mx-4 h-8">{location.state.journal.journalName}</h1>
+          <h1 className=" mx-4 h-8">{currJournal.journalName}</h1>
           <button
-            onClick={() => navigate(-1)}
+            onClick={() => {
+              setCurrEntry({})
+              navigate(-1)
+               }}
             className="w-8 h-8 justify-self-end mr-2 "
           >
             <svg
@@ -129,11 +156,12 @@ const EntryForm = () => {
           <label className="text-md font-semibold px-2">Date:</label>
           <input
             className="bg-transparent py-2 px-2  mb-2 border-2 border-teal-800 rounded-lg focus:bg-teal-100"
-            onChange={(e) => {console.log(startDate);setStartDate(e.target.value); console.log(e.target.value)}}
+            onChange={(e) => {setFormatDate(e.target.value)}}
             type="datetime-local"
             name="start-time"
-            value={startDate}
+            value={startDate.toISOString().slice(0,16)}
           ></input>
+          
           <label className="text-md font-semibold px-2">Media:</label>
           <input
             className="bg-transparent py-2 px-2 border-2 border-teal-800 rounded-lg focus:bg-teal-100"

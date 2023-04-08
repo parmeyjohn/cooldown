@@ -35,4 +35,5 @@ const remove = async (id) => {
   return response.data
 }
 
+
 export default { getAll, getOneById, create, update, remove, setToken }

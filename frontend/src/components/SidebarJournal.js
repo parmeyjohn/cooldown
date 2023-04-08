@@ -1,42 +1,47 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext, useEffect } from "react";
 import journalService from "../services/journals";
+import entryService from "../services/entries";
 import OptionsButton from "./OptionsButton";
+import { JournalContext } from "../contexts/JournalContext"
+import { EntryContext } from "../contexts/EntryContext"
 
-const SidebarJournal = ({ journal, currJournal, setCurrJournal, journals, setJournals }) => {
-    const [showOptions, setShowOptions] = useState(false);
-    const [journalReadOnly, setJournalReadOnly] = useState(true)
-    const [editedJournalVal, setEditedJournalVal] = useState(journal.journalName)
-    const inputRef = useRef()
+
+const SidebarJournal = ({ journal }) => {
+  const {journals, setJournals, currJournal, setCurrJournal} = useContext(JournalContext)
+  const {setEntries} = useContext(EntryContext)
+  const inputRef = useRef()
+  const [journalReadOnly, setJournalReadOnly] = useState(true)
+  const [editedJournalVal, setEditedJournalVal] = useState(journal.journalName)
 
   const handleEdit = (event) => {
     setJournalReadOnly(false)
-    //focus on the element
-    console.log('edit')
-    console.log(journal)
+    //TODO: fix focus on the element
     //inputRef.current.focus()
-    
     //setCurrJournal(editedJournal);
-
   };
+
   const submitEdit = () => {
-    // submit changes to server
-    // change local on editedJournalVal
-    console.log(editedJournalVal, journal.journalName)
     if (editedJournalVal !== journal.journalName) {
         let editedJournal = {...journal, journalName: editedJournalVal}
         journalService.update(journal.id, editedJournal);
-        //journal = editedJournal
-        console.log(editedJournal)
-        console.log(journal)
-        console.log(currJournal)
+        //TODO: rename locally
     }
   }
+
   const handleDelete = () => {
-    journalService.remove(journal.id);
+    journalService.remove(journal.id)
+    entryService.removeAll(journal.id)
     alert(`${journal.journalName} and its entries have been deleted.`)
     //remove locally too
     // remove the entries from the journal collection too
-    setJournals(journals.filter((j) => j.id !== journal.id))
+    setJournals(prevJournals => prevJournals.filter((j) => j.id !== journal.id))
+    setEntries([])
+    if (journals) {
+      setCurrJournal(journals[0])
+    } else {
+      //TODO: fix behavior and implement setNoJournals
+      console.log('No journals to display')
+    }
   };
 
   const handleEnter = (event) => {
@@ -47,7 +52,7 @@ const SidebarJournal = ({ journal, currJournal, setCurrJournal, journals, setJou
 
   return (
     <div
-        className = {journal === currJournal ?
+        className = {journal.id === currJournal.id ?
         'p-2 ml-3 my-2 text-lg flex justify-between items-center bg-green-300 rounded-lg font-semibold' : 
         'p-2 ml-3 my-2 text-lg hover:bg-green-200 hover:rounded-lg active:bg-emerald-300 flex justify-between items-center'
         }
@@ -61,7 +66,7 @@ const SidebarJournal = ({ journal, currJournal, setCurrJournal, journals, setJou
         readOnly={journalReadOnly}
         ref={inputRef}
         ></input>
-        <OptionsButton currJournal={currJournal} setCurrJournal={setCurrJournal} handleEdit={handleEdit} handleDelete={handleDelete}></OptionsButton>
+        <OptionsButton handleEdit={handleEdit} handleDelete={handleDelete}></OptionsButton>
         
         </div>
   );

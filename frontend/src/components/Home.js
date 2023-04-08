@@ -5,19 +5,15 @@ import EntryForm from "./EntryForm";
 import SearchBar from "./SearchBar";
 
 import { EntryContext } from "../contexts/EntryContext"
+import { JournalContext } from "../contexts/JournalContext"
 
 import journalService from "../services/journals";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
-// add login here later
-
 
 const Home = () => {
   const {entries, setEntries} = useContext(EntryContext)
-
-  const [journals, setJournals] = useState([]);
-  const [currJournal, setCurrJournal] = useState({});
-  const [journalsExist, setJournalsExist] = useState(false)
+  const {journals, setJournals, currJournal, setCurrJournal} = useContext(JournalContext)
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState("");
@@ -27,30 +23,10 @@ const Home = () => {
   const [searchValue, setSearchValue] = useState("");
   const [showSidebar, setShowSidebar] = useState(false);
 
-  
-  
-
-  useEffect(() => {
-    // figure out how to only run this once
-    journalService.getAll().then((journals) => {
-      if (journals) {
-        setJournalsExist(true)
-        setJournals(journals);
-        console.log(journals);
-        if (!currJournal) {
-          setCurrJournal(journals[0])
-        }
-      }
-      const allEntries = journals.map((j) => j.entries).flat();
-      console.log(allEntries);
-      setEntries(allEntries);
-      setIsLoading(false);
-    });
-  }, []);
-
   useEffect(() => {
     setEntries(currJournal.entries);
-  }, [currJournal]);
+
+  }, [currJournal, setEntries]);
 
   return (
     <div className="relative bg-slate-800 shadow-inner w-screen h-screen">
@@ -58,10 +34,6 @@ const Home = () => {
         <Sidebar
           setShowSidebar={setShowSidebar}
           showSidebar={showSidebar}
-          journals={journals}
-          setJournals={setJournals}
-          currJournal={currJournal}
-          setCurrJournal={setCurrJournal}
         />
       )}
       {isLoading && (
@@ -107,30 +79,29 @@ const Home = () => {
         </svg>
         
         
-          <Link
-            to="/create"
-            state={{
-              edit: false,
-              journal: currJournal
-            }}
-          >
-            <button className="p-3 mb-2 rounded-lg bg-teal-600 border-solid shadow-xl hover:bg-teal-700 border-teal-900 active:shadow-md active:bg-teal-900 border-b-2 text-teal-50">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className="w-8 h-8 justify-self-end"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 4.5v15m7.5-7.5h-15"
-                />
-              </svg>
-            </button>
-          </Link>
+        <Link
+          to="/create"
+          state={{
+            edit: false,
+          }}
+        >
+          <button className="p-3 mb-2 rounded-lg bg-teal-600 border-solid shadow-xl hover:bg-teal-700 border-teal-900 active:shadow-md active:bg-teal-900 border-b-2 text-teal-50">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+              className="w-8 h-8 justify-self-end"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 4.5v15m7.5-7.5h-15"
+              />
+            </svg>
+          </button>
+        </Link>
       </div>
 
       <SearchBar
@@ -143,11 +114,10 @@ const Home = () => {
         <div className="h-auto w-screen pb-20">
           
           {entries ? (
-            entries.map((e) => (
+            [...entries].reverse().map((e) => (
               <div className=" w-full h-auto p-4" key={e.id}>
                 <Entry
                   entry={e}
-                  currJournal={currJournal}
                 ></Entry>
               </div>
             ))

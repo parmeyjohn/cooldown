@@ -11,24 +11,27 @@ import {
 import OptionsButton from "./OptionsButton";
 
 import { EntryContext } from "../contexts/EntryContext";
+import { JournalContext } from "../contexts/JournalContext"
+
 
 import entryService from "../services/entries";
 import journalService from "../services/journals";
 
-const Entry = ({ entry, currJournal }) => {
+const Entry = ({ entry }) => {
   const [showFullEntry, setShowFullEntry] = useState(false);
   const { entries, setEntries, currEntry, setCurrEntry } = useContext(EntryContext);
+  const { currJournal } = useContext(JournalContext)
 
   let navigate = useNavigate();
   let location = useLocation();
 
   const handleDelete = () => {
+    console.log('in handleDelete: entry', entry)
     entryService.remove(entry.id);
     alert(`${entry.entryTitle} has been deleted.`);
     //remove locally too
     setEntries(entries.filter((e) => e.id !== entry.id));
     // set the entries of its journal as well
-    console.log(entry);
     journalService.update(entry.journalId, { $pull: { entries: entry.id } });
   };
 
@@ -36,11 +39,27 @@ const Entry = ({ entry, currJournal }) => {
     setCurrEntry(entry)
     navigate("create", {
       state: {
-        edit: true,
-        journal: currJournal,
+        edit: true
       },
     });
   };
+
+  const formatTime = (datetimeString) => {
+    var time = datetimeString.slice(11,16)
+    var hrs = Number(time.slice(0,2))
+    var zone = ""
+    if (hrs === 24) {
+      hrs = 12
+      zone = 'AM'
+    } else if (hrs > 11) {
+        hrs -= 12 
+        zone = 'PM'
+    } else {
+      zone = 'AM'
+    }
+    const mins = time.slice(3,5)
+    return ` ${hrs}:${mins} ${zone}`
+  }
 
   return (
     <div className="w-full h-full z-10">
@@ -52,17 +71,15 @@ const Entry = ({ entry, currJournal }) => {
             <h2 className="text-xl font-semibold col-span-4 truncate text-ellipsis pr-6">
               {entry.entryTitle}
             </h2>
-            <EntryContext.Provider value={{entries, setEntries, currEntry: entry}}>
               <OptionsButton
                 handleEdit={handleEdit}
                 handleDelete={handleDelete}
               ></OptionsButton>
-            </EntryContext.Provider>
           </div>
 
           <div className="flex justify-around relative ">
             <div className="flex flex-col w-[50%] h-full">
-              <div className="text-md">{entry.startDate || "no date"}</div>
+              <div className="text-md">{entry.startDate ? `${formatTime(entry.startDate)} on ${entry.startDate.slice(0,10)}` : "no date"}</div>
               <p className="p-2 text-left leading-relaxed line-clamp-3">
                 {entry.text}
               </p>
