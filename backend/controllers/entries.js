@@ -20,15 +20,28 @@ entryRouter.post('/', async (request, response) => {
     response.status(201).json(result)
 })
 
-entryRouter.delete('/:id', async (request, response) => {
-    console.log('REQUEST', request.params.id)
-    console.log('isValid',mongoose.Types.ObjectId.isValid(request.params.id))
+entryRouter.delete('/entries/:id', async (request, response) => {
+    // ID in this function is the journal id
+    const deletedEntries = await Entry.deleteMany({ journalId: request.params.id })
+    console.log('deletedEntry', deletedEntries)
+    response.status(204).end()
+})
 
-    
-    await Entry.findOneAndDelete(request.params.id)
+entryRouter.delete('/:id', async (request, response) => {    
+    console.log('deleting ', request.params.id)
+    const deletedEntry = await Entry.findOneAndDelete({_id: request.params.id})
+    console.log('deletedEntry', deletedEntry)
     response.status(204).end()
 })
 
 //add update for existing entry
+entryRouter.put('/:id', async (request, response) => {
+    console.log('req body',request.body)
+    const newEntry = await Entry.findOneAndUpdate({_id: request.params.id}, request.body, {new: true})
+    
+    console.log('new entry',newEntry)
+    response.status(200).json(newEntry)
+})
+
 
 module.exports = entryRouter

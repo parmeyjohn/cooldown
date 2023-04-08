@@ -28,13 +28,10 @@ journalRouter.post('/', async (request, response) => {
     response.status(201).json(result)
 })
 
-
 journalRouter.delete('/:id', async (request, response) => {
-    
     await Journal.findOneAndDelete({_id: request.params.id})
     response.status(204).end()
 })
-
 
 journalRouter.patch('/:id', async (request, response) => {
     console.log('body',request.body)
