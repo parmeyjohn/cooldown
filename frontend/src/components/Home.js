@@ -24,9 +24,11 @@ const Home = () => {
   const [showSidebar, setShowSidebar] = useState(false);
 
   useEffect(() => {
-    setEntries(currJournal.entries);
+    console.log('in Home')
+    console.log('currJournal', currJournal)
+    setEntries(prevJournal => currJournal.entries);
 
-  }, [currJournal, setEntries]);
+  }, [currJournal]);
 
   return (
     <div className="relative bg-slate-800 shadow-inner w-screen h-screen">
@@ -114,7 +116,7 @@ const Home = () => {
         <div className="h-auto w-screen pb-20">
           
           {entries ? (
-            [...entries].reverse().map((e) => (
+            [...entries].sort((a,b) => a.startDate < b.startDate).map((e) => (
               <div className=" w-full h-auto p-4" key={e.id}>
                 <Entry
                   entry={e}

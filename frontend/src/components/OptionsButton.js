@@ -1,9 +1,7 @@
-import { useState, useRef, useContext } from "react";
-import { JournalContext } from "../contexts/JournalContext"
+import { useState, useRef } from "react";
 
 
 const OptionsButton = ({ handleEdit, handleDelete }) => {
-  const {journals, setJournals, currJournal, setCurrJournal} = useContext(JournalContext)
   const [showOptions, setShowOptions] = useState(false);  
   const menuRef = useRef(null)
   const handleClick = (event) => {

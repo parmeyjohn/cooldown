@@ -20,6 +20,8 @@ const EntryForm = () => {
   const {entries, setEntries, currEntry, setCurrEntry} = useContext(EntryContext)
   const { currJournal, setCurrJournal, journals, setJournals } = useContext(JournalContext)
 
+  const journalRef = useRef()
+  journalRef.current = currJournal
    
   const [entryTitle, setEntryTitle] = useState(currEntry.entryTitle);
   const [mediaTitle, setMediaTitle] = useState(currEntry.mediaTitle);
@@ -67,17 +69,37 @@ const EntryForm = () => {
     if (location.state.edit) {
       //edit
       const newEntry = await entryService.update(currEntry.id, entryObject)
+      const newJournal = {...currJournal, entries: currJournal.entries.concat(newEntry)}
+      setJournals((prevJournals) =>
+      prevJournals.map((j) => {
+        if (j.id === newJournal.id) {
+          return newJournal;
+        } else {
+          return j;
+        }
+      }))
       setEntries(prevEntries => prevEntries.filter((e) => e.id !== currEntry.id).concat(newEntry))
       setCurrJournal(prevJournal => ({...prevJournal, entries: prevJournal.entries.filter((e) => e !== currEntry).concat(newEntry)}))
-      setJournals(prevJournals => prevJournals.filter((j) => j.id !== currJournal.id).concat(currJournal))      
+      
       alert('entry updated')
     } else {
       //add the entry
       const newEntry = await entryService.create(entryObject)
+      const newJournal = {...currJournal, entries: currJournal.entries.concat(newEntry)}
       journalService.update(currJournal.id, {$push: {entries: newEntry.id}})
       setEntries(prevEntries => prevEntries.concat(newEntry))
-      setCurrJournal(prevJournal => ({...prevJournal, entries: prevJournal.entries.concat(newEntry)}))
-      setJournals(prevJournals => prevJournals.filter((j) => j.id !== currJournal.id).concat(currJournal))
+      setCurrJournal((prevJournal) => newJournal);
+      setJournals((prevJournals) =>
+        prevJournals.map((j) => {
+          if (j.id === newJournal.id) {
+            return newJournal;
+          } else {
+            return j;
+          }
+        })
+      );
+      
+      
       alert('entry created')
     }
     setCurrEntry({})
@@ -94,7 +116,6 @@ const EntryForm = () => {
       setTags([currTag].concat(tags));
       setCurrTag("");
     }
-    
   };
 
   const handleEnter = (e) => {
