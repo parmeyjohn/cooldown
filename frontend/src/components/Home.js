@@ -14,10 +14,6 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 const Home = () => {
   const {entries, setEntries} = useContext(EntryContext)
   const {journals, setJournals, currJournal, setCurrJournal} = useContext(JournalContext)
-  const [isLoading, setIsLoading] = useState(true);
-  const [user, setUser] = useState(null);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [showJournals, setShowJournals] = useState(false);
   const [searchValue, setSearchValue] = useState("");
@@ -27,9 +23,8 @@ const Home = () => {
     console.log('in Home')
     console.log('currJournal', currJournal)
     setEntries(prevJournal => currJournal.entries);
-
   }, [currJournal]);
-
+  
   return (
     <div className="relative bg-slate-800 shadow-inner w-screen h-screen">
       {showSidebar && (
@@ -37,11 +32,6 @@ const Home = () => {
           setShowSidebar={setShowSidebar}
           showSidebar={showSidebar}
         />
-      )}
-      {isLoading && (
-        <div className="absolute top-[50%] left-[50%] z-50 text-center text-2xl bg-teal-400 text-white rounded-sm ">
-          Loading...
-        </div>
       )}
 
       <div className="flex justify-between items-center p-6 text-teal-100">
@@ -106,12 +96,13 @@ const Home = () => {
         </Link>
       </div>
 
-      <SearchBar
-        searchValue={searchValue}
-        setSearchValue={setSearchValue}
-        placeholder={"Search entries..."}
-      ></SearchBar>
-
+      <div className="mx-auto w-[90%]">
+        <SearchBar
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+          placeholder={"Search entries..."}
+        ></SearchBar>
+      </div>
       <div className="w-full h-full overflow-y-auto relative z-10 pb-28 ">
         <div className="h-auto w-screen pb-20">
           
@@ -128,7 +119,7 @@ const Home = () => {
           )}
         </div>
       </div>
-      <div className="bg-gradient-to-br from-teal-700 to-teal-900 h-screen w-screen absolute top-56 rounded-3xl shadow-2xl -z-5 pointer-events-none"></div>
+      <div className=" bg-teal-700 h-screen w-screen absolute top-56 rounded-3xl shadow-2xl -z-5 pointer-events-none"></div>
     </div>
   );
 };

@@ -2,13 +2,16 @@ import { useState, useEffect } from "react";
 import Entry from "./components/Entry";
 import EntryForm from "./components/EntryForm";
 import Home from "./components/Home";
+import Login from "./components/Login";
 import entryService from "./services/entries";
 import journalService from "./services/journals";
+import loginService from "./services/login";
 
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 import { EntryContext } from "./contexts/EntryContext";
 import { JournalContext } from "./contexts/JournalContext";
+import { UserContext } from "./contexts/UserContext";
 
 // add login here later
 
@@ -32,7 +35,10 @@ const App = () => {
   const [journals, setJournals] = useState([]);
   const [currJournal, setCurrJournal] = useState(initialJournal);
   const [journalsExist, setJournalsExist] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+
+
+  const [user, setUser] = useState(null);
+
 
   useEffect(() => {
       journalService.getAll().then((fetchedJournals) => {
@@ -44,10 +50,10 @@ const App = () => {
         } else {
           console.log("no journals");
         }
-        setIsLoading(false);
       });
   }, []);
 
+  
   // '/' if user is logged in go to all entries if not go to login/landing page
   //'/{journal name}' shows all the entries for a given journal
   //'/{journal name}/{id} shows edit page for entry at a given id
@@ -58,21 +64,23 @@ const App = () => {
   // Settings (go to settings page)
   return (
     <div>
-      <JournalContext.Provider
-        value={{ journals, setJournals, currJournal, setCurrJournal }}
-      >
-        <EntryContext.Provider
-          value={{ entries, setEntries, currEntry, setCurrEntry }}
+      <UserContext.Provider value={{user, setUser}}>
+        <JournalContext.Provider
+          value={{ journals, setJournals, currJournal, setCurrJournal }}
         >
-            <Router>
-              <Routes>
-                <Route path="/" element={<Home />}></Route>
-                <Route path="/create" element={<EntryForm />}></Route>
-                <Route path="/edit" element={<EntryForm />}></Route>
-              </Routes>
-            </Router>
-        </EntryContext.Provider>
-      </JournalContext.Provider>
+          <EntryContext.Provider
+            value={{ entries, setEntries, currEntry, setCurrEntry }}
+          >
+              <Router>
+                <Routes>
+                  <Route path="/" element={user ? <Home /> : <Login />}></Route>
+                  <Route path="/create" element={<EntryForm />}></Route>
+                  <Route path="/edit" element={<EntryForm />}></Route>
+                </Routes>
+              </Router>
+          </EntryContext.Provider>
+        </JournalContext.Provider>
+      </UserContext.Provider>
     </div>
   );
 };

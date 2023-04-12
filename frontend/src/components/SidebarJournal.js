@@ -53,12 +53,12 @@ const SidebarJournal = ({ journal }) => {
   return (
     <div
         className = {journal.id === currJournal.id ?
-        'p-2 ml-3 my-2 text-lg flex justify-between items-center bg-green-300 rounded-lg font-semibold' : 
-        'p-2 ml-3 my-2 text-lg hover:bg-green-200 hover:rounded-lg active:bg-emerald-300 flex justify-between items-center'
+        'p-2 text-lg flex justify-between items-center bg-green-300 rounded-lg font-semibold border-b-2 border-teal-600' : 
+        'p-2 text-lg hover:bg-green-200 hover:rounded-lg active:bg-emerald-300 flex justify-between items-center'
         }
         onClick={() => setCurrJournal(journal)}
         >
-        <input className="w-full bg-transparent read-only:cursor-pointer read-only:outline-none h-8" 
+        <input className="w-full bg-transparent read-only:cursor-pointer read-only:outline-none" 
         onChange={(e) => setEditedJournalVal(e.target.value)}
         onKeyDown={handleEnter}
         onBlur={submitEdit}

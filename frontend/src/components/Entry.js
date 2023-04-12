@@ -66,7 +66,7 @@ const Entry = ({ entry }) => {
       {showFullEntry ? (
         <div>Hey</div>
       ) : (
-        <div className="bg-gradient-to-b from-white to-green-100 rounded-lg shadow-md mx-2 p-6">
+        <div className="bg-teal-50 rounded-lg shadow-2xl shadow-slate-800 border-b-4 border-teal-900 mx-2 p-6">
           <div className="w-full flex justify-between">
             <h2 className="text-xl font-semibold col-span-4 truncate text-ellipsis pr-6">
               {entry.entryTitle}

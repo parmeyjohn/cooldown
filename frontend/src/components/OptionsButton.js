@@ -11,7 +11,7 @@ const OptionsButton = ({ handleEdit, handleDelete }) => {
   return (
     <div className="">
       <button
-        className="w-fit h-full"
+        className="flex items-center justify-center"
         onClick={() => handleClick()}
         onBlur={() => setShowOptions(false)}
       >
@@ -21,7 +21,7 @@ const OptionsButton = ({ handleEdit, handleDelete }) => {
           viewBox="0 0 24 24"
           strokeWidth={2}
           stroke="currentColor"
-          className="w-6 h-full mr-3"
+          className="h-6 w-6"
         >
           <path
             strokeLinecap="round"
