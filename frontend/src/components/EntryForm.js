@@ -1,58 +1,56 @@
-import { useState, useEffect, useRef, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import Textbox from "./Textbox";
 import Tag from "./Tag";
 
 import { EntryContext } from "../contexts/EntryContext";
-import { JournalContext } from "../contexts/JournalContext"
-
+import { JournalContext } from "../contexts/JournalContext";
 
 import entryService from "../services/entries";
 import journalService from "../services/journals";
 
-import axios from 'axios'
+import axios from "axios";
 
 const EntryForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  
-  const {entries, setEntries, currEntry, setCurrEntry} = useContext(EntryContext)
-  const { currJournal, setCurrJournal, journals, setJournals } = useContext(JournalContext)
 
-  const journalRef = useRef()
-  journalRef.current = currJournal
-   
+  const { entries, setEntries, currEntry, setCurrEntry } =
+    useContext(EntryContext);
+  const { currJournal, setCurrJournal, journals, setJournals } =
+    useContext(JournalContext);
+
   const [entryTitle, setEntryTitle] = useState(currEntry.entryTitle);
   const [mediaTitle, setMediaTitle] = useState(currEntry.mediaTitle);
   const [text, setText] = useState(currEntry.text);
-  const [content, setContent] = useState(currEntry.content)
+  const [content, setContent] = useState(currEntry.content);
   const [tags, setTags] = useState(currEntry.tags);
-  const [startDate, setStartDate] = useState( () => {
-    
+  const [startDate, setStartDate] = useState(() => {
     if (currEntry.startDate) {
-      return currEntry.startDate
+      return currEntry.startDate;
     } else {
-      var currTime = new Date()
-      var offset = currTime.getTimezoneOffset() * 60 * 1000
-      const newTime = new Date(currTime - offset)
-      console.log(newTime)
-      return newTime  
-      }
-    }  
-  );
+      var currTime = new Date();
+      var offset = currTime.getTimezoneOffset() * 60 * 1000;
+      const newTime = new Date(currTime - offset);
+      console.log(newTime);
+      return newTime;
+    }
+  });
   const [currTag, setCurrTag] = useState("");
-  
+
   const getGames = async (e) => {
     let config = {
-      headers: 
-      {
-        'Access-Control-Allow-Origin': '*'
-      }
-    }
-    const res = await axios.get('https://api.mobygames.com/v1/games?api_key=moby_Tk4r7bCXPkojxrTHEKnmYYkM72N', config)
-    console.log(res)
-  }
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
+    };
+    const res = await axios.get(
+      "https://api.mobygames.com/v1/games?api_key=moby_Tk4r7bCXPkojxrTHEKnmYYkM72N",
+      config
+    );
+    console.log(res);
+  };
 
   const saveEntry = async (event) => {
     event.preventDefault();
@@ -63,50 +61,72 @@ const EntryForm = () => {
       text,
       content,
       tags,
-      journalId: currJournal.id
+      journalId: currJournal.id,
     };
 
     if (location.state.edit) {
       //edit
-      const newEntry = await entryService.update(currEntry.id, entryObject)
-      const newJournal = {...currJournal, entries: currJournal.entries.concat(newEntry)}
-      setJournals((prevJournals) =>
-      prevJournals.map((j) => {
-        if (j.id === newJournal.id) {
-          return newJournal;
-        } else {
-          return j;
-        }
-      }))
-      setEntries(prevEntries => prevEntries.filter((e) => e.id !== currEntry.id).concat(newEntry))
-      setCurrJournal(prevJournal => ({...prevJournal, entries: prevJournal.entries.filter((e) => e !== currEntry).concat(newEntry)}))
-      
-      alert('entry updated')
+      try {
+        const newEntry = await entryService.update(currEntry.id, entryObject);
+        const newJournal = {
+          ...currJournal,
+          entries: currJournal.entries.concat(newEntry),
+        };
+        setJournals((prevJournals) =>
+          prevJournals.map((j) => {
+            if (j.id === newJournal.id) {
+              return newJournal;
+            } else {
+              return j;
+            }
+          })
+        );
+        setEntries((prevEntries) =>
+          prevEntries.filter((e) => e.id !== currEntry.id).concat(newEntry)
+        );
+        setCurrJournal((prevJournal) => ({
+          ...prevJournal,
+          entries: prevJournal.entries
+            .filter((e) => e !== currEntry)
+            .concat(newEntry),
+        }));
+
+        alert("entry updated");
+      } catch (e) {
+        console.log(e);
+      }
     } else {
       //add the entry
-      const newEntry = await entryService.create(entryObject)
-      const newJournal = {...currJournal, entries: currJournal.entries.concat(newEntry)}
-      journalService.update(currJournal.id, {$push: {entries: newEntry.id}})
-      setEntries(prevEntries => prevEntries.concat(newEntry))
-      setCurrJournal((prevJournal) => newJournal);
-      setJournals((prevJournals) =>
-        prevJournals.map((j) => {
-          if (j.id === newJournal.id) {
-            return newJournal;
-          } else {
-            return j;
-          }
-        })
-      );
-      
-      
-      alert('entry created')
+      try {
+        const newEntry = await entryService.create(entryObject);
+        const newJournal = {
+          ...currJournal,
+          entries: currJournal.entries.concat(newEntry),
+        };
+        journalService.update(currJournal.id, {
+          $push: { entries: newEntry.id },
+        });
+        setEntries((prevEntries) => prevEntries.concat(newEntry));
+        setCurrJournal((prevJournal) => newJournal);
+        setJournals((prevJournals) =>
+          prevJournals.map((j) => {
+            if (j.id === newJournal.id) {
+              return newJournal;
+            } else {
+              return j;
+            }
+          })
+        );
+
+        alert("entry created");
+      } catch (e) {
+        console.log(e);
+      }
     }
-    setCurrEntry({})
+    setCurrEntry({});
     navigate(-1);
-    
-  }
-  
+  };
+
   const removeTag = (tagToRemove) => {
     setTags(tags.filter((tag, i) => tag !== tagToRemove));
   };
@@ -125,13 +145,12 @@ const EntryForm = () => {
   };
 
   const setFormatDate = (dateString) => {
-    var currTime = new Date()
-    var offset = currTime.getTimezoneOffset() * 60 * 1000
-    const newTime = new Date(currTime - offset)
-    setStartDate(newTime)
-    return newTime
-  }
-  
+    var currTime = new Date();
+    var offset = currTime.getTimezoneOffset() * 60 * 1000;
+    const newTime = new Date(currTime - offset);
+    setStartDate(newTime);
+    return newTime;
+  };
 
   return (
     <div className="h-screen w-screen overflow-y-auto">
@@ -140,9 +159,9 @@ const EntryForm = () => {
           <h1 className=" mx-4 h-8">{currJournal.journalName}</h1>
           <button
             onClick={() => {
-              setCurrEntry({})
-              navigate(-1)
-               }}
+              setCurrEntry({});
+              navigate(-1);
+            }}
             className="w-8 h-8 justify-self-end mr-2 "
           >
             <svg
@@ -177,12 +196,14 @@ const EntryForm = () => {
           <label className="text-md font-semibold px-2">Date:</label>
           <input
             className="bg-transparent py-2 px-2  mb-2 border-2 border-teal-800 rounded-lg focus:bg-teal-100"
-            onChange={(e) => {setFormatDate(e.target.value)}}
+            onChange={(e) => {
+              setFormatDate(e.target.value);
+            }}
             type="datetime-local"
             name="start-time"
-            value={startDate.toISOString().slice(0,16)}
+            value={startDate.toISOString().slice(0, 16)}
           ></input>
-          
+
           <label className="text-md font-semibold px-2">Media:</label>
           <input
             className="bg-transparent py-2 px-2 border-2 border-teal-800 rounded-lg focus:bg-teal-100"
@@ -191,11 +212,15 @@ const EntryForm = () => {
             value={mediaTitle}
           ></input>
         </div>
-      
+
         <div className="px-4 mx-2 mt-2 text-lg">
           <label className="text-md font-semibold px-2">Entry:</label>
 
-          <Textbox initialContent={content} setText={setText} setContent={setContent}></Textbox>
+          <Textbox
+            initialContent={content}
+            setText={setText}
+            setContent={setContent}
+          ></Textbox>
         </div>
 
         <div className="flex px-4 mx-2 mt-2 flex-col text-lg text-left">
@@ -210,7 +235,10 @@ const EntryForm = () => {
               onChange={(e) => setCurrTag(e.target.value)}
               onKeyDown={handleEnter}
             ></input>
-            <button className="justify-self-end p-3 mb-2 rounded-lg bg-teal-600 border-solid shadow-xl hover:bg-teal-700 border-teal-900 active:shadow-md active:bg-teal-900 border-b-2 text-teal-50" onClick={addTag}>
+            <button
+              className="justify-self-end p-3 mb-2 rounded-lg bg-teal-600 border-solid shadow-xl hover:bg-teal-700 border-teal-900 active:shadow-md active:bg-teal-900 border-b-2 text-teal-50"
+              onClick={addTag}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -240,8 +268,10 @@ const EntryForm = () => {
         </div>
 
         <div className="fixed bottom-0 w-full flex justify-center p-4 mx-auto">
-          
-          <button onClick={saveEntry} className=" bg-teal-600 rounded-lg p-2 w-[90%] shadow-2xl border-b-4 hover:to-teal-800 hover:from-teal-600 border-b-teal-900 text-teal-50  hover:bg-teal-700 border-teal-900 active:shadow-lg active:bg-teal-900  font-semibold text-xl tracking-widest uppercase focus">
+          <button
+            onClick={saveEntry}
+            className=" bg-teal-600 rounded-lg p-2 w-[90%] shadow-2xl border-b-4 hover:to-teal-800 hover:from-teal-600 border-b-teal-900 text-teal-50  hover:bg-teal-700 border-teal-900 active:shadow-lg active:bg-teal-900  font-semibold text-xl tracking-widest uppercase focus"
+          >
             save
           </button>
         </div>

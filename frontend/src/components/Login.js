@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 
 import loginService from "../services/login";
 import journalService from "../services/journals";
+import entryService from "../services/entries";
 import { UserContext } from "../contexts/UserContext";
 
 import { useNavigate } from "react-router-dom";
@@ -22,6 +23,7 @@ const Login = ({}) => {
         password,
       });
       journalService.setToken(loggedInUser.token)
+      entryService.setToken(loggedInUser.token)
       setUser(loggedInUser);
       console.log(loggedInUser)
       setUsername("");
