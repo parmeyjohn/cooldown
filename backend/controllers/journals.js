@@ -1,39 +1,64 @@
 const express = require('express')
+const jsonWebToken = require('jsonwebtoken')
 const Journal = require('../models/journal.js')
 const User = require('../models/user.js')
 
 const journalRouter = express.Router()
 const mongoose = require('mongoose')
 const user = require('../models/user.js')
+const { expressjwt: jwt } = require('express-jwt')
+
+const getToken = req => {
+    const auth = req.get('auth')
+    if (auth && auth.startsWith('Bearer ')) {
+        return auth.replace('Bearer ', '')
+    } else {
+        return null
+    }
+}
 
 
-journalRouter.get('/', async (request, response) => {
+
+journalRouter.get('/', jwt({ secret: process.env.SECRET, algorithms: ["HS256"] }), async (request, response) => {
     const journals = await Journal.find({}).sort({date: -1}).populate('entries')
     response.status(200).json(journals)
 })
 
-journalRouter.get('/:id', async (request, response) => {
+journalRouter.get('/:id', jwt({ secret: process.env.SECRET, algorithms: ["HS256"] }), async (request, response) => {
     const journal = await Journal.findById(request.params.id).populate('entries')
     response.status(200).json(journal)
 })
 
-journalRouter.post('/', async (request, response) => {
+journalRouter.post('/', jwt({ secret: process.env.SECRET, algorithms: ["HS256"] }), async (request, response) => {
+    console.log(request.auth)
     const body = request.body
-    const userObj = User.findById(body.user)
+    if (!request.auth.id) {
+        return response.status(401).json({error: 'Token invalid'})
+    }
+    const userObj = await User.findById(request.auth.id)
+    console.log('journalRouter body', body)
+    
+    const journalObj = {
+        journalName: body.journalName,
+        entries: body.entries,
+        user: userObj.id
+    }
 
-    const journal = new Journal(request.body)
-    const savedNote = await journal.save()
-    userObj.journals = userObj.journals.concat(savedNote._id)
+    const journal = new Journal(journalObj)
+    const savedJournal = await journal.save()
+    userObj.journals = userObj.journals.concat(savedJournal._id)
     await userObj.save()
-    response.status(201).json(result)
+    console.log('journal', journal, 'savedJournal', savedJournal)
+
+    response.status(201).json(savedJournal)
 })
 
-journalRouter.delete('/:id', async (request, response) => {
+journalRouter.delete('/:id', jwt({ secret: process.env.SECRET, algorithms: ["HS256"] }), async (request, response) => {
     await Journal.findOneAndDelete({_id: request.params.id})
     response.status(204).end()
 })
 
-journalRouter.patch('/:id', async (request, response) => {
+journalRouter.patch('/:id', jwt({ secret: process.env.SECRET, algorithms: ["HS256"] }), async (request, response) => {
     console.log('body',request.body)
     console.log('id', request.params.id)
     await Journal.findOneAndUpdate({ _id: request.params.id }, request.body )
