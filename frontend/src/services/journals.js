@@ -8,12 +8,18 @@ const setToken = newToken => {
 }
 
 const getAll = async () => {
-  const response = await axios.get(baseUrl)
+  const config = {
+    headers: { Authorization: token},
+  }
+  const response = await axios.get(baseUrl, config)
   return response.data
 }
 
 const getOneById = async (id) => {
-  const response = await axios.get(`${baseUrl}/${id}`)
+  const config = {
+    headers: { Authorization: token},
+  }
+  const response = await axios.get(`${baseUrl}/${id}`, config)
   return response.data
 }
 
@@ -26,12 +32,18 @@ const create = async newObject => {
 }
 
 const update = async (id, newObject) => {
-  const response = await axios.patch(`${baseUrl}/${id}`, newObject)
+  const config = {
+    headers: { Authorization: token},
+  }
+  const response = await axios.patch(`${baseUrl}/${id}`, newObject, config)
   return response.data
 }
 
 const remove = async (id) => {
-  const response = await axios.delete(`${baseUrl}/${id}`)
+  const config = {
+    headers: { Authorization: token},
+  }
+  const response = await axios.delete(`${baseUrl}/${id}`, config)
   return response.data
 }
 

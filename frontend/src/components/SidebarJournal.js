@@ -52,6 +52,7 @@ const SidebarJournal = ({ journal }) => {
 
   return (
     <div
+        key={journal.id}
         className = {journal.id === currJournal.id ?
         'p-2 text-lg flex justify-between items-center bg-green-300 rounded-lg font-semibold border-b-2 border-teal-600' : 
         'p-2 text-lg hover:bg-green-200 hover:rounded-lg active:bg-emerald-300 flex justify-between items-center'

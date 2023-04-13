@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 
 import loginService from "../services/login";
+import journalService from "../services/journals";
 import { UserContext } from "../contexts/UserContext";
 
 import { useNavigate } from "react-router-dom";
@@ -20,6 +21,7 @@ const Login = ({}) => {
         username,
         password,
       });
+      journalService.setToken(loggedInUser.token)
       setUser(loggedInUser);
       console.log(loggedInUser)
       setUsername("");
@@ -27,7 +29,9 @@ const Login = ({}) => {
       navigate("/");
     } catch (exception) {
       //error msg
+      console.log(exception)
       console.log("error logging in");
+      //display here which log in error occurred
     }
   };
 

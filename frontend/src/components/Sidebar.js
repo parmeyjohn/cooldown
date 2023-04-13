@@ -7,8 +7,7 @@ import { UserContext } from "../contexts/UserContext";
 
 const Sidebar = ({ showSidebar, setShowSidebar }) => {
   const [newJournalName, setNewJournalName] = useState("");
-  const { journals, setJournals, currJournal, setCurrJournal } =
-    useContext(JournalContext);
+  const { journals, setJournals, currJournal, setCurrJournal } = useContext(JournalContext);
   const { user } = useContext(UserContext);
 
   const addJournal = async (event) => {
@@ -16,12 +15,16 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
     if (newJournalName.length > 1) {
       const journalObject = {
         journalName: newJournalName,
-        //user: current user
-        entries: [],
+        entries: []
       };
-      const newJournal = await journalService.create(journalObject);
-      setJournals((prevJournals) => prevJournals.concat(newJournal));
-      setNewJournalName("");
+      try {
+        const newJournal = await journalService.create(journalObject);
+        console.log(newJournal)
+        setJournals((prevJournals) => prevJournals.concat(newJournal));
+        setNewJournalName("");
+      } catch (e) {
+        console.log(e)
+      }
     }
   };
 

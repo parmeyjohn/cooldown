@@ -19,6 +19,20 @@ const Home = () => {
   const [searchValue, setSearchValue] = useState("");
   const [showSidebar, setShowSidebar] = useState(false);
 
+
+  useEffect(() => {
+    journalService.getAll().then((fetchedJournals) => {
+      if (fetchedJournals) {
+        //setJournalsExist(true);
+        setJournals(prevJournals => fetchedJournals);
+        setCurrJournal(prevJournal => fetchedJournals[0]);
+        setEntries(currJournal.entries);
+      } else {
+        console.log("no journals");
+      }
+    });
+}, []);
+
   useEffect(() => {
     console.log('in Home')
     console.log('currJournal', currJournal)

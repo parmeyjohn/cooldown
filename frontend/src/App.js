@@ -40,19 +40,7 @@ const App = () => {
   const [user, setUser] = useState(null);
 
 
-  useEffect(() => {
-      journalService.getAll().then((fetchedJournals) => {
-        if (fetchedJournals) {
-          setJournalsExist(true);
-          setJournals(prevJournals => fetchedJournals);
-          setCurrJournal(prevJournal => fetchedJournals[0]);
-          setEntries(currJournal.entries);
-        } else {
-          console.log("no journals");
-        }
-      });
-  }, []);
-
+  
   
   // '/' if user is logged in go to all entries if not go to login/landing page
   //'/{journal name}' shows all the entries for a given journal
