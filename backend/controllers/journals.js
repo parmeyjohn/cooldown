@@ -1,5 +1,4 @@
 const express = require('express')
-const jsonWebToken = require('jsonwebtoken')
 const Journal = require('../models/journal.js')
 const User = require('../models/user.js')
 

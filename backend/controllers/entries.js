@@ -5,29 +5,28 @@ const Entry = require('../models/entry.js')
 const User = require('../models/user.js')
 const Journal = require('../models/journal.js')
 const entryRouter = express.Router()
-// add login and jwt later
+const { expressjwt: jwt } = require('express-jwt')
 
-
-entryRouter.get('/', async (request, response) => {
+entryRouter.get('/', jwt({ secret: process.env.SECRET, algorithms: ["HS256"] }), async (request, response) => {
     const entries = await Entry.find({})
     response.status(200).json(entries)
 })
 
-entryRouter.post('/', async (request, response) => {
+entryRouter.post('/', jwt({ secret: process.env.SECRET, algorithms: ["HS256"] }), async (request, response) => {
     const entry = new Entry(request.body)
     console.log(request.body)
     const result = await entry.save()
     response.status(201).json(result)
 })
 
-entryRouter.delete('/entries/:id', async (request, response) => {
+entryRouter.delete('/entries/:id', jwt({ secret: process.env.SECRET, algorithms: ["HS256"] }), async (request, response) => {
     // ID in this function is the journal id
     const deletedEntries = await Entry.deleteMany({ journalId: request.params.id })
     console.log('deletedEntry', deletedEntries)
     response.status(204).end()
 })
 
-entryRouter.delete('/:id', async (request, response) => {    
+entryRouter.delete('/:id', jwt({ secret: process.env.SECRET, algorithms: ["HS256"] }), async (request, response) => {    
     console.log('deleting ', request.params.id)
     const deletedEntry = await Entry.findOneAndDelete({_id: request.params.id})
     console.log('deletedEntry', deletedEntry)
@@ -35,7 +34,7 @@ entryRouter.delete('/:id', async (request, response) => {
 })
 
 //add update for existing entry
-entryRouter.put('/:id', async (request, response) => {
+entryRouter.put('/:id', jwt({ secret: process.env.SECRET, algorithms: ["HS256"] }), async (request, response) => {
     console.log('req body',request.body)
     const newEntry = await Entry.findOneAndUpdate({_id: request.params.id}, request.body, {new: true})
     
