@@ -1,19 +1,20 @@
 import { useState, useEffect } from "react";
-import Entry from "./components/Entry";
-import EntryForm from "./components/EntryForm";
-import Home from "./components/Home";
-import Login from "./components/Login";
-import entryService from "./services/entries";
-import journalService from "./services/journals";
-import loginService from "./services/login";
-
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 import { EntryContext } from "./contexts/EntryContext";
 import { JournalContext } from "./contexts/JournalContext";
 import { UserContext } from "./contexts/UserContext";
 
-// add login here later
+import Entry from "./components/Entry";
+import EntryForm from "./components/EntryForm";
+import Home from "./components/Home";
+import Login from "./components/Login";
+import AuthRoute from "./components/AuthRoute";
+
+import entryService from "./services/entries";
+import journalService from "./services/journals";
+import loginService from "./services/login";
+
 
 const App = () => {
   const initialEntry = {
@@ -40,6 +41,21 @@ const App = () => {
   const [user, setUser] = useState(null);
 
 
+  useEffect(() => {
+    if (user) {
+      journalService.getAll().then((fetchedJournals) => {
+        if (fetchedJournals) {
+          //setJournalsExist(true);
+          setJournals(prevJournals => fetchedJournals);
+          setCurrJournal(prevJournal => fetchedJournals[0]);
+          setEntries(currJournal.entries);
+        } else {
+          console.log("no journals");
+        }
+      });
+    }
+}, [user]);
+ 
   
   
   // '/' if user is logged in go to all entries if not go to login/landing page
@@ -61,9 +77,10 @@ const App = () => {
           >
               <Router>
                 <Routes>
-                  <Route path="/" element={user ? <Home /> : <Login />}></Route>
-                  <Route path="/create" element={<EntryForm />}></Route>
-                  <Route path="/edit" element={<EntryForm />}></Route>
+                  <Route path="/" element={user ? <AuthRoute><Home /></AuthRoute> : <Login />}></Route>
+                  
+                  <Route path="/create" element={<AuthRoute><EntryForm /></AuthRoute>}></Route>
+                  <Route path="/edit" element={<AuthRoute><EntryForm /></AuthRoute>}></Route>
                 </Routes>
               </Router>
           </EntryContext.Provider>

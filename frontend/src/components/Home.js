@@ -20,18 +20,7 @@ const Home = () => {
   const [showSidebar, setShowSidebar] = useState(false);
 
 
-  useEffect(() => {
-    journalService.getAll().then((fetchedJournals) => {
-      if (fetchedJournals) {
-        //setJournalsExist(true);
-        setJournals(prevJournals => fetchedJournals);
-        setCurrJournal(prevJournal => fetchedJournals[0]);
-        setEntries(currJournal.entries);
-      } else {
-        console.log("no journals");
-      }
-    });
-}, []);
+
 
   useEffect(() => {
     console.log('in Home')
@@ -66,7 +55,7 @@ const Home = () => {
           </svg>
         </button>
         <h1 className=" col-span-3 text-2xl font-semibold underline underline-offset-1 decoration-teal-500 truncate justify-self-start">
-          {currJournal.journalName}
+          {currJournal ? currJournal.journalName : ""}
         </h1>
 
         <svg

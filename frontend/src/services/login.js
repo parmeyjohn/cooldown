@@ -8,11 +8,8 @@ const login = async credentials => {
   return res.data
 }
 
-
 const setToken = newToken => {
   token = `Bearer ${newToken}`
 }
 
-
-
-export default { login }
+export default { login, setToken }
