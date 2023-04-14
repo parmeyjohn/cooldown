@@ -55,17 +55,17 @@ const App = () => {
       });
     }
 }, [user]);
+  
+  useEffect(() => {
+      const userJSON = window.localStorage.getItem('cooldownUser')
+      if (userJSON) {
+        const user = JSON.parse(userJSON)
+        setUser(user)
+        journalService.setToken(user.token)
+        entryService.setToken(user.token)
+      }
+  }, []);
  
-  
-  
-  // '/' if user is logged in go to all entries if not go to login/landing page
-  //'/{journal name}' shows all the entries for a given journal
-  //'/{journal name}/{id} shows edit page for entry at a given id
-
-  // navbar:
-  // all entries
-  // map journal to each have their own button, overflow y auto
-  // Settings (go to settings page)
   return (
     <div>
       <UserContext.Provider value={{user, setUser}}>
@@ -77,8 +77,7 @@ const App = () => {
           >
               <Router>
                 <Routes>
-                  <Route path="/" element={user ? <AuthRoute><Home /></AuthRoute> : <Login />}></Route>
-                  
+                  <Route path="/" element={user ? <Home /> : <Login />}></Route>
                   <Route path="/create" element={<AuthRoute><EntryForm /></AuthRoute>}></Route>
                   <Route path="/edit" element={<AuthRoute><EntryForm /></AuthRoute>}></Route>
                 </Routes>

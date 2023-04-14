@@ -25,6 +25,7 @@ const Login = ({}) => {
         username,
         password
       });
+      window.localStorage.setItem('cooldownUser', JSON.stringify(user))
       journalService.setToken(loggedInUser.token)
       entryService.setToken(loggedInUser.token)
       setUser(loggedInUser);
