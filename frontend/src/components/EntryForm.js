@@ -153,7 +153,7 @@ const EntryForm = () => {
   };
 
   return (
-    <div className="h-screen w-screen overflow-y-auto">
+    <div className="h-screen w-screen overflow-y-auto ">
       <div className="flex flex-col bg-gradient-to-b from-teal-50 to-teal-100 text-teal-900 w-full h-full z-20 absolute">
         <div className="flex justify-between items-center px-4 py-6 w-full">
           <h1 className=" mx-4 h-8">{currJournal.journalName}</h1>
@@ -182,7 +182,7 @@ const EntryForm = () => {
         </div>
         <div className="flex px-4 w-full items-center text-gray-500 focus-within:text-gray-700  ">
           <input
-            className="w-full p-2 mx-2 mt-2 mb-4 rounded-lg bg-transparent focus:outline-none h-14 text-3xl font-semibold underline underline-offset-[40%] decoration-teal-800 decoration-4"
+            className="w-full p-2 mx-2 mt-2 mb-4 rounded-lg bg-transparent focus:outline-none h-14 text-3xl font-semibold focus:underline underline-offset-4 decoration-teal-700 "
             autoFocus
             name="title"
             placeholder="Untitled"
@@ -195,7 +195,7 @@ const EntryForm = () => {
         <div className="flex px-4 mx-2 flex-col text-lg text-left">
           <label className="text-md font-semibold px-2">Date:</label>
           <input
-            className="bg-transparent py-2 px-2  mb-2 border-2 border-teal-800 rounded-lg focus:bg-teal-100"
+            className="bg-slate-300 shadow-inner shadow-slate-400 rounded-lg p-2 mb-2 outline-8 focus:outline-offset-1 focus:outline-teal-700 focus:bg-teal-50 focus:shadow-none transition ease-in-out duration-300"
             onChange={(e) => {
               setFormatDate(e.target.value);
             }}
@@ -206,14 +206,17 @@ const EntryForm = () => {
 
           <label className="text-md font-semibold px-2">Media:</label>
           <input
-            className="bg-transparent py-2 px-2 border-2 border-teal-800 rounded-lg focus:bg-teal-100"
+            className="bg-slate-300 shadow-inner shadow-slate-400 rounded-lg p-2 mb-2 outline-8 focus:outline-offset-1 focus:outline-teal-700 focus:bg-teal-50 focus:shadow-none transition ease-in-out duration-300"
             name="media-title"
             onChange={(e) => setMediaTitle(e.target.value)}
             value={mediaTitle}
+            placeholder="Add a media title..."
+            autoComplete="off"
           ></input>
         </div>
 
-        <div className="px-4 mx-2 mt-2 text-lg">
+        <div className="px-4 mx-2 text-lg">
+          
           <label className="text-md font-semibold px-2">Entry:</label>
 
           <Textbox
@@ -225,15 +228,16 @@ const EntryForm = () => {
 
         <div className="flex px-4 mx-2 mt-2 flex-col text-lg text-left">
           <label className="text-md font-semibold px-2">Tags:</label>
-          <div className="grid grid-cols-6 ">
+          <div className="flex justify-between items-center ">
             <input
-              className="bg-transparent py-2 px-2 mb-2 col-span-5 border-2 border-teal-800 rounded-lg focus:bg-teal-100"
+              className="w-[80%] bg-slate-300 shadow-inner shadow-slate-400 rounded-lg p-2 mb-2 outline-8 focus:outline-offset-1 focus:outline-teal-700 focus:bg-teal-50 focus:shadow-none transition ease-in-out duration-300"
               type="text"
               name="curr-tag"
               placeholder="Add a tag..."
               value={currTag}
               onChange={(e) => setCurrTag(e.target.value)}
               onKeyDown={handleEnter}
+              autoComplete="off"
             ></input>
             <button
               className="justify-self-end p-3 mb-2 rounded-lg bg-teal-600 border-solid shadow-xl hover:bg-teal-700 border-teal-900 active:shadow-md active:bg-teal-900 border-b-2 text-teal-50"
@@ -257,13 +261,13 @@ const EntryForm = () => {
           </div>
         </div>
 
-        <div className=" mx-auto w-[90%] overflow-x-auto flex justify-start mt-3">
+        <div className=" mx-auto w-[90%] overflow-x-auto flex justify-start mt-3 transition ease-in-out duration-300">
           {tags ? (
             tags.map((t, i) => (
               <Tag title={t} removeTag={removeTag} key={i}></Tag>
             ))
           ) : (
-            <p>Add tags here...</p>
+            <></>
           )}
         </div>
 

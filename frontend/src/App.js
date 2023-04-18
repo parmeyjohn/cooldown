@@ -56,15 +56,16 @@ const App = () => {
     }
 }, [user]);
   
-  useEffect(() => {
-      const userJSON = window.localStorage.getItem('cooldownUser')
-      if (userJSON) {
-        const user = JSON.parse(userJSON)
-        setUser(user)
-        journalService.setToken(user.token)
-        entryService.setToken(user.token)
-      }
-  }, []);
+// useEffect(() => {
+//   const userJSON = window.localStorage.getItem('cooldownUser')
+//   if (userJSON !== "null") {
+//     const cooldownUser = JSON.parse(userJSON)
+//     console.log(cooldownUser)
+//     setUser(cooldownUser)
+//     journalService.setToken(cooldownUser.token)
+//     entryService.setToken(cooldownUser.token)
+//   }
+// }, []);
  
   return (
     <div>
@@ -78,8 +79,8 @@ const App = () => {
               <Router>
                 <Routes>
                   <Route path="/" element={user ? <Home /> : <Login />}></Route>
-                  <Route path="/create" element={<AuthRoute><EntryForm /></AuthRoute>}></Route>
-                  <Route path="/edit" element={<AuthRoute><EntryForm /></AuthRoute>}></Route>
+                  <Route path="/create" element={<AuthRoute user={user}><EntryForm /></AuthRoute>}></Route>
+                  <Route path="/edit" element={<AuthRoute user={user}><EntryForm /></AuthRoute>}></Route>
                 </Routes>
               </Router>
           </EntryContext.Provider>

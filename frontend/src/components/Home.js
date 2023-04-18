@@ -1,4 +1,6 @@
 import { useState, useEffect, useContext, createContext } from "react";
+import { Transition } from '@headlessui/react'
+
 import Entry from "./Entry";
 import Sidebar from "./Sidebar";
 import EntryForm from "./EntryForm";
@@ -29,14 +31,23 @@ const Home = () => {
   }, [currJournal]);
   
   return (
-    <div className="relative bg-slate-800 shadow-inner w-screen h-screen">
-      {showSidebar && (
-        <Sidebar
-          setShowSidebar={setShowSidebar}
-          showSidebar={showSidebar}
-        />
-      )}
+    <div className="relative transition-all ease-in-out duration-300 bg-slate-800 shadow-inner w-screen h-screen">
+        <Transition
+          show={showSidebar} 
+          className='absolute left-0 top-0 h-full w-full z-50'
+          enter="transition ease-in-out duration-300 transform"
+          enterFrom="-translate-x-full"
+          enterTo="translate-x-0"
+          leave="transition ease-in-out duration-300 transform"
+          leaveFrom="translate-x-0"
+          leaveTo="-translate-x-full">
+            <Sidebar
+            setShowSidebar={setShowSidebar}
+            showSidebar={showSidebar}
+          />
+          </Transition>
 
+      
       <div className="flex justify-between items-center p-6 text-teal-100">
         <button onClick={() => setShowSidebar(!showSidebar)}>
           <svg
@@ -99,7 +110,7 @@ const Home = () => {
         </Link>
       </div>
 
-      <div className="mx-auto w-[90%]">
+      <div className="mx-auto w-[80%]">
         <SearchBar
           searchValue={searchValue}
           setSearchValue={setSearchValue}

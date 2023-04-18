@@ -25,17 +25,29 @@ const Textbox = ({initialContent, setText, setContent}) => {
 
     useEffect(() => {
       if (quill) {
+        
         quill.on('text-change', (e) => {
           setText(quill.getText())
           setContent(quill.getContents())
         })
+        // quill.on('selection-change', (range, prevRange, source) => {
+        //   if (range) {
+        //     if (range.length === 0) {
+        //       console.log('user is focused')
+        //       console.log(quill.container)
+        //       quill.container.style.backgroundColor = 'white'
+        //       //outerRef.current.backgroundColor = 'red'
+        //     } else {
+        //       console.log('user is not focused')
+        //     }
+        //   }
+        // })
       }
     }, [quill, setText, setContent])
 
 
     return (
-        <div id='container' ref={outerRef} className='border-2 border-teal-900 rounded-xl h-60'>
-        
+        <div id='container' ref={outerRef} className='rounded-xl h-60'>
         </div>
 
 
