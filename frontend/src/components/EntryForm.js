@@ -3,12 +3,14 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 import Textbox from "./Textbox";
 import Tag from "./Tag";
+import SearchAPI from "./SearchAPI";
 
 import { EntryContext } from "../contexts/EntryContext";
 import { JournalContext } from "../contexts/JournalContext";
 
 import entryService from "../services/entries";
 import journalService from "../services/journals";
+import gamesService from "../services/games";
 
 import axios from "axios";
 
@@ -39,17 +41,14 @@ const EntryForm = () => {
   });
   const [currTag, setCurrTag] = useState("");
 
+  useEffect(() => {
+    //getGames()
+  }, [])
+
   const getGames = async (e) => {
-    let config = {
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
-    };
-    const res = await axios.get(
-      "https://api.mobygames.com/v1/games?api_key=moby_Tk4r7bCXPkojxrTHEKnmYYkM72N",
-      config
-    );
-    console.log(res);
+    
+    const games = await gamesService.getAll()
+    console.log(games);
   };
 
   const saveEntry = async (event) => {
@@ -204,7 +203,8 @@ const EntryForm = () => {
             value={startDate.toISOString().slice(0, 16)}
           ></input>
 
-          <label className="text-md font-semibold px-2">Media:</label>
+          <SearchAPI searchValue={mediaTitle} setSearchValue={setMediaTitle} placeholder={'Find a media title...'}></SearchAPI>
+          {/* <label className="text-md font-semibold px-2">Media:</label>
           <input
             className="bg-slate-300 shadow-inner shadow-slate-400 rounded-lg p-2 mb-2 outline-8 focus:outline-offset-1 focus:outline-teal-700 focus:bg-teal-50 focus:shadow-none transition ease-in-out duration-300"
             name="media-title"
@@ -212,7 +212,7 @@ const EntryForm = () => {
             value={mediaTitle}
             placeholder="Add a media title..."
             autoComplete="off"
-          ></input>
+          ></input> */}
         </div>
 
         <div className="px-4 mx-2 text-lg">
