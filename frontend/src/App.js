@@ -20,6 +20,7 @@ const App = () => {
   const initialEntry = {
     entryTitle: "",
     mediaTitle: "",
+    mediaObj: {},
     text: "",
     content: [],
     tags: [],

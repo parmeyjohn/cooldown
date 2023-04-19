@@ -85,11 +85,17 @@ const Entry = ({ entry }) => {
               </p>
             </div>
             <div className="h-[100%] w-[50%] p-4">
-              <img
-                className=" object-cover object-center rounded-md"
-                src="https://cdn.vox-cdn.com/thumbor/O4lh3lTJG3YKWzGqEcsCr1Sb4TI=/0x0:3840x2160/920x613/filters:focal(1613x773:2227x1387):format(webp)/cdn.vox-cdn.com/uploads/chorus_image/image/69376580/VALORANT_YR1_KeyArt_4k_3_.0.jpg"
-                alt="val"
-              ></img>
+              {entry.mediaObj !== {} ? 
+                <img
+                  className=" object-fill object-center rounded-md"
+                  src={entry.mediaObj['sample_cover'].image}
+                  alt="val"
+                ></img>
+              :
+              <div>
+                Alt img
+              </div>}  
+              
             </div>
 
             <div className="hidden bg-gradient-to-t from-gray-100 absolute w-full h-full z-10 top-0 left-0 rounded-lg"></div>

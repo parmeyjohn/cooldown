@@ -25,6 +25,7 @@ const EntryForm = () => {
 
   const [entryTitle, setEntryTitle] = useState(currEntry.entryTitle);
   const [mediaTitle, setMediaTitle] = useState(currEntry.mediaTitle);
+  const [mediaObj, setMediaObj] = useState(currEntry.mediaObj)
   const [text, setText] = useState(currEntry.text);
   const [content, setContent] = useState(currEntry.content);
   const [tags, setTags] = useState(currEntry.tags);
@@ -56,6 +57,7 @@ const EntryForm = () => {
     const entryObject = {
       entryTitle,
       mediaTitle,
+      mediaObj,
       startDate,
       text,
       content,
@@ -181,7 +183,7 @@ const EntryForm = () => {
         </div>
         <div className="flex px-4 w-full items-center text-gray-500 focus-within:text-gray-700  ">
           <input
-            className="w-full p-2 mx-2 mt-2 mb-4 rounded-lg bg-transparent focus:outline-none h-14 text-3xl font-semibold focus:underline underline-offset-4 decoration-teal-700 "
+            className="w-full p-3 mx-2 mt-2 mb-4 rounded-lg bg-transparent focus:outline-none h-14 text-3xl font-semibold focus:underline underline-offset-4 decoration-teal-700 "
             autoFocus
             name="title"
             placeholder="Untitled"
@@ -194,7 +196,7 @@ const EntryForm = () => {
         <div className="flex px-4 mx-2 flex-col text-lg text-left">
           <label className="text-md font-semibold px-2">Date:</label>
           <input
-            className="bg-slate-300 shadow-inner shadow-slate-400 rounded-lg p-2 mb-2 outline-8 focus:outline-offset-1 focus:outline-teal-700 focus:bg-teal-50 focus:shadow-none transition ease-in-out duration-300"
+            className="bg-slate-300 mt-1 shadow-inner shadow-slate-400 rounded-lg p-3 mb-2 outline-8 focus:outline-offset-1 focus:outline-teal-700 focus:bg-teal-50 focus:shadow-none transition ease-in-out duration-300"
             onChange={(e) => {
               setFormatDate(e.target.value);
             }}
@@ -203,16 +205,8 @@ const EntryForm = () => {
             value={startDate.toISOString().slice(0, 16)}
           ></input>
 
-          <SearchAPI searchValue={mediaTitle} setSearchValue={setMediaTitle} placeholder={'Find a media title...'}></SearchAPI>
-          {/* <label className="text-md font-semibold px-2">Media:</label>
-          <input
-            className="bg-slate-300 shadow-inner shadow-slate-400 rounded-lg p-2 mb-2 outline-8 focus:outline-offset-1 focus:outline-teal-700 focus:bg-teal-50 focus:shadow-none transition ease-in-out duration-300"
-            name="media-title"
-            onChange={(e) => setMediaTitle(e.target.value)}
-            value={mediaTitle}
-            placeholder="Add a media title..."
-            autoComplete="off"
-          ></input> */}
+          <SearchAPI mediaObj={mediaObj} setMediaObj={setMediaObj} searchValue={mediaTitle} setSearchValue={setMediaTitle} placeholder={'Find a media title...'}></SearchAPI>
+          
         </div>
 
         <div className="px-4 mx-2 text-lg">
@@ -227,10 +221,10 @@ const EntryForm = () => {
         </div>
 
         <div className="flex px-4 mx-2 mt-2 flex-col text-lg text-left">
-          <label className="text-md font-semibold px-2">Tags:</label>
-          <div className="flex justify-between items-center ">
+          <label className="text-md font-semibold px-2 ">Tags:</label>
+          <div className="flex justify-between items-center mt-1">
             <input
-              className="w-[80%] bg-slate-300 shadow-inner shadow-slate-400 rounded-lg p-2 mb-2 outline-8 focus:outline-offset-1 focus:outline-teal-700 focus:bg-teal-50 focus:shadow-none transition ease-in-out duration-300"
+              className="w-[80%] bg-slate-300 shadow-inner shadow-slate-400 rounded-lg p-3 mb-2 outline-8 focus:outline-offset-1 focus:outline-teal-700 focus:bg-teal-50 focus:shadow-none transition ease-in-out duration-300"
               type="text"
               name="curr-tag"
               placeholder="Add a tag..."
@@ -274,7 +268,7 @@ const EntryForm = () => {
         <div className="fixed bottom-0 w-full flex justify-center p-4 mx-auto">
           <button
             onClick={saveEntry}
-            className=" bg-teal-600 rounded-lg p-2 w-[90%] shadow-2xl border-b-4 hover:to-teal-800 hover:from-teal-600 border-b-teal-900 text-teal-50  hover:bg-teal-700 border-teal-900 active:shadow-lg active:bg-teal-900  font-semibold text-xl tracking-widest uppercase focus"
+            className=" bg-teal-600 rounded-lg p-3 w-[90%] shadow-2xl border-b-4 hover:to-teal-800 hover:from-teal-600 border-b-teal-900 text-teal-50  hover:bg-teal-700 border-teal-900 active:shadow-lg active:bg-teal-900  font-semibold text-xl tracking-widest uppercase focus"
           >
             save
           </button>
