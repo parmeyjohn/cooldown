@@ -4,6 +4,7 @@ import { Transition } from '@headlessui/react'
 import Entry from "./Entry";
 import Sidebar from "./Sidebar";
 import EntryForm from "./EntryForm";
+import EntryGroup from "./EntryGroup";
 import SearchBar from "./SearchBar";
 
 import { EntryContext } from "../contexts/EntryContext"
@@ -21,33 +22,42 @@ const Home = () => {
   const [searchValue, setSearchValue] = useState("");
   const [showSidebar, setShowSidebar] = useState(false);
 
-
-
-
   useEffect(() => {
     console.log('in Home')
     console.log('currJournal', currJournal)
+    groupBy(currJournal.entries)
     setEntries(prevJournal => currJournal.entries);
   }, [currJournal]);
+
+  const groupBy = (initialEntries) => {
+    const groupedEntries = {}
+    for (let i = 0; i < initialEntries.length; i++) {
+      let currDate = initialEntries[i].startDate.slice(0,10)
+      if (currDate in groupedEntries) {
+        groupedEntries[currDate].push(initialEntries[i])
+      } else {
+        groupedEntries[currDate] = [initialEntries[i]]
+      }
+    } 
+    console.log(groupedEntries)
+    return Object.entries(groupedEntries)
+  }
   
   return (
     <div className="relative transition-all ease-in-out duration-300 bg-slate-800 shadow-inner w-screen h-screen">
-        <Transition
-          show={showSidebar} 
-          className='absolute left-0 top-0 h-full w-full z-50'
-          enter="transition ease-in-out duration-300 transform"
-          enterFrom="-translate-x-full"
-          enterTo="translate-x-0"
-          leave="transition ease-in-out duration-300 transform"
-          leaveFrom="translate-x-0"
-          leaveTo="-translate-x-full">
-            <Sidebar
-            setShowSidebar={setShowSidebar}
-            showSidebar={showSidebar}
-          />
-          </Transition>
+      <Transition
+        show={showSidebar}
+        className="absolute left-0 top-0 h-full w-full z-50"
+        enter="transition ease-in-out duration-300 transform"
+        enterFrom="-translate-x-full"
+        enterTo="translate-x-0"
+        leave="transition ease-in-out duration-300 transform"
+        leaveFrom="translate-x-0"
+        leaveTo="-translate-x-full"
+      >
+        <Sidebar setShowSidebar={setShowSidebar} showSidebar={showSidebar} />
+      </Transition>
 
-      
       <div className="flex justify-between items-center p-6 text-teal-100">
         <button onClick={() => setShowSidebar(!showSidebar)}>
           <svg
@@ -83,8 +93,7 @@ const Home = () => {
             d="M3 4.5h14.25M3 9h9.75M3 13.5h9.75m4.5-4.5v12m0 0l-3.75-3.75M17.25 21L21 17.25"
           />
         </svg>
-        
-        
+
         <Link
           to="/create"
           state={{
@@ -118,22 +127,21 @@ const Home = () => {
         ></SearchBar>
       </div>
       <div className="w-full h-full overflow-y-auto relative z-10 pb-28 ">
-        <div className="h-auto w-screen pb-20">
-          
+        <div className="h-auto w-screen pb-20 p-4">
           {entries ? (
-            [...entries].sort((a,b) => a.startDate < b.startDate).map((e) => (
-              <div className=" w-full h-auto p-4" key={e.id}>
-                <Entry
-                  entry={e}
-                ></Entry>
-              </div>
-            ))
+            groupBy([...entries].sort((a, b) => a.startDate < b.startDate)).map(
+              (group) => (
+                <div className="pb-4 mb-8 w-full h-auto z-10 bg-teal-700 rounded-2xl shadow-2xl" key={group[0]}>
+                  <EntryGroup entryGroup={group}></EntryGroup>
+                </div>
+              )
+            )
           ) : (
             <div className="text-2xl bg-red-500 z-50"> Add a new entry!</div>
           )}
         </div>
       </div>
-      <div className=" bg-teal-700 h-screen w-screen absolute top-56 rounded-3xl shadow-2xl -z-5 pointer-events-none"></div>
+      
     </div>
   );
 };

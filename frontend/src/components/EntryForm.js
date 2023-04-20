@@ -37,7 +37,7 @@ const EntryForm = () => {
       var offset = currTime.getTimezoneOffset() * 60 * 1000;
       const newTime = new Date(currTime - offset);
       console.log(newTime);
-      return newTime;
+      return newTime.toISOString();
     }
   });
   const [currTag, setCurrTag] = useState("");
@@ -202,7 +202,7 @@ const EntryForm = () => {
             }}
             type="datetime-local"
             name="start-time"
-            value={startDate.toISOString().slice(0, 16)}
+            value={startDate.slice(0, 16)}
           ></input>
 
           <SearchAPI mediaObj={mediaObj} setMediaObj={setMediaObj} searchValue={mediaTitle} setSearchValue={setMediaTitle} placeholder={'Find a media title...'}></SearchAPI>

@@ -48,7 +48,7 @@ const Entry = ({ entry }) => {
     var time = datetimeString.slice(11,16)
     var hrs = Number(time.slice(0,2))
     var zone = ""
-    if (hrs === 24) {
+    if (hrs === 0) {
       hrs = 12
       zone = 'AM'
     } else if (hrs > 11) {
@@ -60,13 +60,16 @@ const Entry = ({ entry }) => {
     const mins = time.slice(3,5)
     return ` ${hrs}:${mins} ${zone}`
   }
-
+  //
+  //
+  //
+  //
   return (
-    <div className="w-full h-full z-10">
+    <>
       {showFullEntry ? (
         <div>Hey</div>
       ) : (
-        <div className="bg-teal-50 rounded-lg shadow-2xl shadow-slate-800 border-b-4 border-teal-900 mx-2 p-6">
+        <div className="bg-teal-50 mx-2 p-6 border-b-2 first:rounded-t-xl last:border-b-0 last:rounded-b-xl hover:bg-slate-300">
           <div className="w-full flex justify-between">
             <h2 className="text-xl font-semibold col-span-4 truncate text-ellipsis pr-6">
               {entry.entryTitle}
@@ -77,24 +80,24 @@ const Entry = ({ entry }) => {
               ></OptionsButton>
           </div>
 
-          <div className="flex justify-around relative ">
-            <div className="flex flex-col w-[50%] h-full">
-              <div className="text-md">{entry.startDate ? `${formatTime(entry.startDate)} on ${entry.startDate.slice(0,10)}` : "no date"}</div>
+          <div className="flex justify-between mt-2 relative ">
+            <div className="flex flex-col w-[60%] h-full">
+              <div className="text-md ml-2">{entry.mediaTitle}</div>
+
+              <div className="text-md ml-2">{entry.startDate ? `${formatTime(entry.startDate)}` : "no date"}</div>
               <p className="p-2 text-left leading-relaxed line-clamp-3">
                 {entry.text}
               </p>
             </div>
-            <div className="h-[100%] w-[50%] p-4">
-              {entry.mediaObj !== {} ? 
+            <div className="h-full w-20">
+              {'mediaObj' in entry ? 
                 <img
-                  className=" object-fill object-center rounded-md"
-                  src={entry.mediaObj['sample_cover'].image}
+                  className=" object-cover object-center rounded-md h-20 w-20 border-2 border-slate-800"
+                  src={entry.mediaObj['sample_cover'].thumbnail_image}
                   alt="val"
                 ></img>
               :
-              <div>
-                Alt img
-              </div>}  
+              <></>}  
               
             </div>
 
@@ -102,7 +105,7 @@ const Entry = ({ entry }) => {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

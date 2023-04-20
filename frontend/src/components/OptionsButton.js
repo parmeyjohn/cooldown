@@ -32,7 +32,7 @@ const OptionsButton = ({ handleEdit, handleDelete }) => {
       </button>
 
       {showOptions && (
-        <div ref={menuRef} className="bg-slate-50 absolute w-60 z-40 text-slate-500 font-medium divide-y-2 shadow-2xl border-teal-800 border-2 rounded-md py-1 hover:cursor-pointer ">
+        <div ref={menuRef} className=" -translate-x-40 bg-slate-50 absolute w-60 z-40 text-slate-500 font-medium divide-y-2 shadow-2xl border-teal-800 border-2 rounded-md py-1 hover:cursor-pointer ">
           <div
             className="flex justify-start items-center hover:bg-slate-200 active:bg-slate-300"
             onMouseDown={handleEdit}
