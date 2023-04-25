@@ -25,7 +25,7 @@ const Home = () => {
   useEffect(() => {
     console.log('in Home')
     console.log('currJournal', currJournal)
-    groupBy(currJournal.entries)
+    //groupBy(currJournal.entries)
     setEntries(prevJournal => currJournal.entries);
   }, [currJournal]);
 
@@ -44,10 +44,10 @@ const Home = () => {
   }
   
   return (
-    <div className="relative transition-all ease-in-out duration-300 bg-slate-800 shadow-inner w-screen h-screen">
+    <div className="relative h-screen w-screen bg-slate-800 shadow-inner transition-all duration-300 ease-in-out">
       <Transition
         show={showSidebar}
-        className="absolute left-0 top-0 h-full w-full z-50"
+        className="absolute left-0 top-0 z-50 h-full w-96"
         enter="transition ease-in-out duration-300 transform"
         enterFrom="-translate-x-full"
         enterTo="translate-x-0"
@@ -58,41 +58,31 @@ const Home = () => {
         <Sidebar setShowSidebar={setShowSidebar} showSidebar={showSidebar} />
       </Transition>
 
-      <div className="flex justify-between items-center p-6 text-teal-100">
-        <button onClick={() => setShowSidebar(!showSidebar)}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-8 h-8 "
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-            />
-          </svg>
-        </button>
-        <h1 className=" col-span-3 text-2xl font-semibold underline underline-offset-1 decoration-teal-500 truncate justify-self-start">
+      <div className="mx-auto flex max-w-4xl items-center justify-between p-6 text-teal-100">
+        {!showSidebar && (
+          <button className="xl:absolute xl:top-5 xl: left-5" onClick={() => setShowSidebar(!showSidebar)}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="h-8 w-8 "
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+              />
+            </svg>
+          </button>
+        )}
+
+        <h1 className=" col-span-3 justify-self-start truncate text-2xl font-semibold underline decoration-teal-500 underline-offset-1">
           {currJournal ? currJournal.journalName : ""}
         </h1>
 
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-8 h-8 justify-self-end"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M3 4.5h14.25M3 9h9.75M3 13.5h9.75m4.5-4.5v12m0 0l-3.75-3.75M17.25 21L21 17.25"
-          />
-        </svg>
+        
 
         <Link
           to="/create"
@@ -100,14 +90,14 @@ const Home = () => {
             edit: false,
           }}
         >
-          <button className="p-3 mb-2 rounded-lg bg-teal-600 border-solid shadow-xl hover:bg-teal-700 border-teal-900 active:shadow-md active:bg-teal-900 border-b-2 text-teal-50">
+          <button className="mb-2 rounded-lg border-b-2 border-solid border-teal-900 bg-teal-600 p-3 text-teal-50 shadow-xl hover:bg-teal-700 active:bg-teal-900 active:shadow-md">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={2}
               stroke="currentColor"
-              className="w-8 h-8 justify-self-end"
+              className="h-8 w-8 justify-self-end"
             >
               <path
                 strokeLinecap="round"
@@ -118,30 +108,62 @@ const Home = () => {
           </button>
         </Link>
       </div>
-
-      <div className="mx-auto w-[80%]">
-        <SearchBar
-          searchValue={searchValue}
-          setSearchValue={setSearchValue}
-          placeholder={"Search entries..."}
-        ></SearchBar>
+      <div className="max-w-3xl mx-auto flex justify-between items-center text-teal-50 px-4">
+        <div className=" mb-4 w-full max-w-2xl relative text-slate-500  mr-4">
+          <SearchBar
+            searchValue={searchValue}
+            setSearchValue={setSearchValue}
+            placeholder={"Search entries..."}
+          ></SearchBar>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+            stroke="currentColor"
+            className="h-6 w-6 absolute right-3 top-3"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+            />
+          </svg>
+        </div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+            stroke="currentColor"
+            className="h-8 w-8"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M3 4.5h14.25M3 9h9.75M3 13.5h9.75m4.5-4.5v12m0 0l-3.75-3.75M17.25 21L21 17.25"
+            />
+          </svg>
       </div>
-      <div className="w-full h-full overflow-y-auto relative z-10 pb-28 ">
-        <div className="h-auto w-screen pb-20 p-4">
+      
+      <div className="relative z-10 mx-auto h-full w-full max-w-4xl overflow-y-auto pb-28 ">
+        <div className="h-auto w-full px-4 pb-20">
           {entries ? (
-            groupBy([...entries].sort((a, b) => a.startDate < b.startDate)).map(
-              (group) => (
-                <div className="pb-4 mb-8 w-full h-auto z-10 bg-teal-700 rounded-2xl shadow-2xl" key={group[0]}>
+            groupBy([...entries])
+              .reverse()
+              .map((group) => (
+                <div
+                  className="z-10 mb-2 h-auto w-full rounded-2xl bg-transparent pb-4"
+                  key={group[0]}
+                >
                   <EntryGroup entryGroup={group}></EntryGroup>
                 </div>
-              )
-            )
+              ))
           ) : (
-            <div className="text-2xl bg-red-500 z-50"> Add a new entry!</div>
+            <div className="z-50 bg-red-500 text-2xl"> Add a new entry!</div>
           )}
         </div>
       </div>
-      
     </div>
   );
 };

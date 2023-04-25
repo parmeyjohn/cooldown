@@ -42,16 +42,6 @@ const EntryForm = () => {
   });
   const [currTag, setCurrTag] = useState("");
 
-  useEffect(() => {
-    //getGames()
-  }, [])
-
-  const getGames = async (e) => {
-    
-    const games = await gamesService.getAll()
-    console.log(games);
-  };
-
   const saveEntry = async (event) => {
     event.preventDefault();
     const entryObject = {
@@ -124,7 +114,15 @@ const EntryForm = () => {
         console.log(e);
       }
     }
-    setCurrEntry({});
+    setCurrEntry({
+      entryTitle: "",
+      mediaTitle: "",
+      mediaObj: {},
+      text: "",
+      content: [],
+      tags: [],
+      startDate: ''
+    })
     navigate(-1);
   };
 
@@ -133,13 +131,16 @@ const EntryForm = () => {
   };
 
   const addTag = () => {
-    if (currTag.length > 0) {
-      setTags([currTag].concat(tags));
-      setCurrTag("");
+    if (currTag.length > 1) {
+      setTags(prevTag => [currTag].concat(tags));
+      setCurrTag(prevCurrTag => "");
     }
   };
 
   const handleEnter = (e) => {
+    console.log(currTag)
+    console.log(tags)
+    console.log(currEntry)
     if (e.key === "Enter") {
       addTag();
     }
@@ -154,13 +155,21 @@ const EntryForm = () => {
   };
 
   return (
-    <div className="h-screen w-screen overflow-y-auto ">
-      <div className="flex flex-col bg-gradient-to-b from-teal-50 to-teal-100 text-teal-900 w-full h-full z-20 absolute">
-        <div className="flex justify-between items-center px-4 py-6 w-full">
+    <div className="h-screen w-screen overflow-y-auto bg-gradient-to-b from-teal-50 to-teal-100">
+      <div className="flex flex-col justify-between  max-w-4xl mx-auto  text-teal-900 w-full h-full z-20">
+        <div className="flex justify-between items-center  px-4 py-6 w-full">
           <h1 className=" mx-4 h-8">{currJournal.journalName}</h1>
           <button
             onClick={() => {
-              setCurrEntry({});
+              setCurrEntry({
+                entryTitle: "",
+                mediaTitle: "",
+                mediaObj: {},
+                text: "",
+                content: [],
+                tags: [],
+                startDate: ''
+              })
               navigate(-1);
             }}
             className="w-8 h-8 justify-self-end mr-2 "
@@ -183,7 +192,7 @@ const EntryForm = () => {
         </div>
         <div className="flex px-4 w-full items-center text-gray-500 focus-within:text-gray-700  ">
           <input
-            className="w-full p-3 mx-2 mt-2 mb-4 rounded-lg bg-transparent focus:outline-none h-14 text-3xl font-semibold focus:underline underline-offset-4 decoration-teal-700 "
+            className="w-full p-3 mt-2 mb-2 rounded-lg bg-transparent focus:outline-none h-14 text-3xl font-semibold focus:underline underline-offset-4 decoration-teal-700 "
             autoFocus
             name="title"
             placeholder="Untitled"
@@ -207,10 +216,6 @@ const EntryForm = () => {
 
           <SearchAPI mediaObj={mediaObj} setMediaObj={setMediaObj} searchValue={mediaTitle} setSearchValue={setMediaTitle} placeholder={'Find a media title...'}></SearchAPI>
           
-        </div>
-
-        <div className="px-4 mx-2 text-lg">
-          
           <label className="text-md font-semibold px-2">Entry:</label>
 
           <Textbox
@@ -218,19 +223,17 @@ const EntryForm = () => {
             setText={setText}
             setContent={setContent}
           ></Textbox>
-        </div>
-
-        <div className="flex px-4 mx-2 mt-2 flex-col text-lg text-left">
-          <label className="text-md font-semibold px-2 ">Tags:</label>
+        
+        <label className="text-md font-semibold px-2 mt-2 ">Tags:</label>
           <div className="flex justify-between items-center mt-1">
             <input
-              className="w-[80%] bg-slate-300 shadow-inner shadow-slate-400 rounded-lg p-3 mb-2 outline-8 focus:outline-offset-1 focus:outline-teal-700 focus:bg-teal-50 focus:shadow-none transition ease-in-out duration-300"
+              className="w-full mr-4 bg-slate-300 shadow-inner shadow-slate-400 rounded-lg p-3 mb-2 outline-8 focus:outline-offset-1 focus:outline-teal-700 focus:bg-teal-50 focus:shadow-none transition ease-in-out duration-300"
               type="text"
               name="curr-tag"
               placeholder="Add a tag..."
               value={currTag}
               onChange={(e) => setCurrTag(e.target.value)}
-              onKeyDown={handleEnter}
+              onKeyUp={handleEnter}
               autoComplete="off"
             ></input>
             <button
@@ -253,8 +256,9 @@ const EntryForm = () => {
               </svg>
             </button>
           </div>
+        
         </div>
-
+        
         <div className=" mx-auto w-[90%] overflow-x-auto flex justify-start mt-3 transition ease-in-out duration-300">
           {tags ? (
             tags.map((t, i) => (
@@ -265,7 +269,7 @@ const EntryForm = () => {
           )}
         </div>
 
-        <div className="fixed bottom-0 w-full flex justify-center p-4 mx-auto">
+        <div className=" mb-5 w-full max-w-4xl flex justify-center p-4 mx-auto">
           <button
             onClick={saveEntry}
             className=" bg-teal-600 rounded-lg p-3 w-[90%] shadow-2xl border-b-4 hover:to-teal-800 hover:from-teal-600 border-b-teal-900 text-teal-50  hover:bg-teal-700 border-teal-900 active:shadow-lg active:bg-teal-900  font-semibold text-xl tracking-widest uppercase focus"

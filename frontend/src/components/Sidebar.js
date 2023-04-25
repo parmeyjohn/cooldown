@@ -21,6 +21,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
         const newJournal = await journalService.create(journalObject);
         console.log(newJournal)
         setJournals((prevJournals) => prevJournals.concat(newJournal));
+        setCurrJournal((prevJournal) => newJournal)
         setNewJournalName("");
       } catch (e) {
         console.log(e)
@@ -37,7 +38,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
   return (
       <div
         id="sidebar"
-        className="absolute top-0 left-0 flex flex-col h-screen w-[80%] bg-slate-200 shadow-md"
+        className="absolute top-0 left-0 flex flex-col h-screen w-[80%] max-w-sm w-max-sm bg-slate-200 shadow-md"
       >
         <div
           id="navigation"

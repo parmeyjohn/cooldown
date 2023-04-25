@@ -51,7 +51,7 @@ const SearchAPI = ({ searchValue, setSearchValue, mediaObj, setMediaObj, placeho
             {games !== [] ? (
               games.map((g) => (
                 <div
-                  key={g.id}
+                  key={g.game_id}
                   onMouseDown={(e) => onClickGame(e, g)}
                   className="bg-transparent font-normal px-2 py-1 w-full hover:bg-slate-200"
                 >
