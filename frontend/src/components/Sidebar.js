@@ -34,7 +34,8 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
       addJournal(event);
     }
   };
-  //onClick={()=>setShowSidebar(false)}
+
+
   return (
       <div
         id="sidebar"
@@ -105,11 +106,9 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             </div>
 
             <div className="h-[80%] overflow-y-auto mr-4 ml-8 rounded-xl ">
-              <div className="overflow-y-auto">
                 {journals.map((j) => (
                   <SidebarJournal key={j.id} journal={j}></SidebarJournal>
                 ))}
-              </div>
             </div>
           </div>
 

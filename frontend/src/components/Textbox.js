@@ -47,7 +47,7 @@ const Textbox = ({initialContent, setText, setContent}) => {
 
 
     return (
-        <div id='container' ref={outerRef} className='mt-1 rounded-xl h-60'>
+        <div id='container' ref={outerRef} className='mt-1 rounded-xl h-60 xl:h-80'>
         </div>
 
 

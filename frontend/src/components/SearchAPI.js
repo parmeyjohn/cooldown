@@ -34,8 +34,7 @@ const SearchAPI = ({ searchValue, setSearchValue, mediaObj, setMediaObj, placeho
 
   return (
     <div className="w-full flex flex-col focus-within:text-gray-700 ">
-      <label className="text-md font-semibold px-2">Media:</label>
-      <div className="relative mt-1">
+      <div className="relative">
         <input
           className="transition ease-in-out duration-300 bg-slate-300 p-3 mb-2 w-full shadow-inner shadow-slate-400  outline-8 focus:outline-offset-1 focus:outline-teal-700 focus:bg-teal-50 focus:shadow-none rounded-lg"
           name="search"

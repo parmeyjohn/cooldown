@@ -10,9 +10,9 @@ const OptionsButton = ({ handleEdit, handleDelete }) => {
 
   }
   return (
-    <div className="z-50 relative">
+    <div className="z-1 relative top-0 left-0">
       <button
-        className="flex items-center justify-center hover:bg-slate-400 active:bg-slate-500 rounded-sm"
+        className="flex items-center justify-center"
         onClick={handleClick}
         onBlur={() => setShowOptions(false)}
       >

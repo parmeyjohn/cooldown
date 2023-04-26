@@ -14,17 +14,25 @@ const SidebarJournal = ({ journal }) => {
   const [editedJournalVal, setEditedJournalVal] = useState(journal.journalName)
 
   const handleEdit = (event) => {
-    setJournalReadOnly(false)
-    //TODO: fix focus on the element
-    //inputRef.current.focus()
-    //setCurrJournal(editedJournal);
+    setJournalReadOnly(prevVal => false)
+    setTimeout(() => {inputRef.current.focus()})
   };
 
   const submitEdit = () => {
+    setJournalReadOnly(true)
     if (editedJournalVal !== journal.journalName) {
         let editedJournal = {...journal, journalName: editedJournalVal}
         journalService.update(journal.id, editedJournal);
-        //TODO: rename locally
+        console.log(journals)
+        setJournals(prevJournals => prevJournals.map(j => {
+          if (j === journal) {
+            return editedJournal 
+          } else {
+            return j
+          }
+        }))
+        setCurrJournal(prevJournal => editedJournal)
+        console.log(journals)
     }
   }
 
@@ -32,8 +40,6 @@ const SidebarJournal = ({ journal }) => {
     journalService.remove(journal.id)
     entryService.removeAll(journal.id)
     alert(`${journal.journalName} and its entries have been deleted.`)
-    //remove locally too
-    // remove the entries from the journal collection too
     setJournals(prevJournals => prevJournals.filter((j) => j.id !== journal.id))
     setEntries([])
     if (journals) {
@@ -59,7 +65,7 @@ const SidebarJournal = ({ journal }) => {
         }
         onClick={() => setCurrJournal(journal)}
         >
-        <input className="w-full bg-transparent read-only:cursor-pointer read-only:outline-none" 
+        <input className="w-full bg-transparent focus-within:outline-none focus-within:underline decoration-teal-600 read-only:cursor-pointer read-only:outline-none" 
         onChange={(e) => setEditedJournalVal(e.target.value)}
         onKeyDown={handleEnter}
         onBlur={submitEdit}
@@ -67,8 +73,8 @@ const SidebarJournal = ({ journal }) => {
         readOnly={journalReadOnly}
         ref={inputRef}
         ></input>
-        <OptionsButton handleEdit={handleEdit} handleDelete={handleDelete}></OptionsButton>
         
+        <OptionsButton handleEdit={handleEdit} handleDelete={handleDelete}></OptionsButton>
         </div>
   );
 };

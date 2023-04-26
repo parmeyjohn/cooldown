@@ -149,7 +149,7 @@ const Home = () => {
       <div className="relative z-10 mx-auto h-full w-full max-w-4xl overflow-y-auto pb-28 ">
         <div className="h-auto w-full px-4 pb-20">
           {entries ? (
-            groupBy([...entries])
+            groupBy(entries.filter(e => e.entryTitle.includes(searchValue) || e.text.includes(searchValue) || e.mediaTitle.includes(searchValue) || e.tags.includes(searchValue) ))
               .reverse()
               .map((group) => (
                 <div

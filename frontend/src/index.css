@@ -37,7 +37,7 @@ body {
     border: none !important;
     font-family: sans-serif, 'Times New Roman', Times, serif !important;
     color: #134e4a !important;
-    height: 75% !important;
+    height: 70% !important;
     
 }
 
@@ -88,9 +88,9 @@ body {
 }
 .ql-editor {
     height: 100% !important;
-    
-    padding: 0.75rem 0.5rem !important;
+    padding: 0.75rem 0.75rem !important;
 }
+
 
 .ql-active {
     background-color: rgb(110 231 183) !important;
@@ -103,6 +103,9 @@ body {
     
 }
 
+.ql-fill {
+    fill: rgb(19 78 74) !important;
+}
 .ql-editor.ql-blank::before {
     font-style: normal !important;
     font-weight: lighter !important;
@@ -110,4 +113,5 @@ body {
     color: #9ea7ba !important;
     padding: 0px !important;
     margin: 0px !important;
+    left: 12px !important;
 }

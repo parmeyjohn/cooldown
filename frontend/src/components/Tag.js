@@ -2,7 +2,7 @@ const Tag = ({ title, removeTag }) => {
     
     return (
         <div className="mx-1 rounded-2xl bg-green-300 border-solid shadow-xl hover:bg-emerald-400 border-emerald-500 active:shadow-md active:bg-emerald-500 border-b-2 w-fit h-fit whitespace-nowrap text-teal-900 px-3 py-1 font-semibold tracking-wider uppercase focus">
-              <div className="mx-auto">
+              <div className="mx-auto inline">
                 {title}
               </div>
               {removeTag && 
