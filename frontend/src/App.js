@@ -67,16 +67,16 @@ const App = () => {
     }
   }, [user]);
 
-  useEffect(() => {
-    const userJSON = window.localStorage.getItem('cooldownUser')
-    if (userJSON !== "null") {
-      const cooldownUser = JSON.parse(userJSON)
-      console.log(cooldownUser)
-      setUser(cooldownUser)
-      journalService.setToken(cooldownUser.token)
-      entryService.setToken(cooldownUser.token)
-    }
-  }, []);
+  // useEffect(() => {
+  //   const userJSON = window.localStorage.getItem('cooldownUser')
+  //   if (userJSON !== "null") {
+  //     const cooldownUser = JSON.parse(userJSON)
+  //     console.log(cooldownUser)
+  //     setUser(cooldownUser)
+  //     journalService.setToken(cooldownUser.token)
+  //     entryService.setToken(cooldownUser.token)
+  //   }
+  // }, []);
 
   return (
     <div>
