@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema({
   username: {type: String, unique: true, minLength: 3},
   passwordHash: {type: String},
   name: {type: String},
+  email: {type: String},
   journals: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Journal'

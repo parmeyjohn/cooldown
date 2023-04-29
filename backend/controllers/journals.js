@@ -19,7 +19,8 @@ const getToken = req => {
 
 
 journalRouter.get('/', jwt({ secret: process.env.SECRET, algorithms: ["HS256"] }), async (request, response) => {
-    const journals = await Journal.find({}).sort({date: -1}).populate('entries')
+    console.log(request.auth)
+    const journals = await Journal.find({ user: request.auth.id }).sort({date: -1}).populate('entries')
     response.status(200).json(journals)
 })
 
@@ -31,6 +32,8 @@ journalRouter.get('/:id', jwt({ secret: process.env.SECRET, algorithms: ["HS256"
 journalRouter.post('/', jwt({ secret: process.env.SECRET, algorithms: ["HS256"] }), async (request, response) => {
     console.log(request.auth)
     const body = request.body
+    
+    //put this in error middleware
     if (!request.auth.id) {
         return response.status(401).json({error: 'Token invalid'})
     }
@@ -59,8 +62,12 @@ journalRouter.delete('/:id', jwt({ secret: process.env.SECRET, algorithms: ["HS2
 
 journalRouter.patch('/:id', jwt({ secret: process.env.SECRET, algorithms: ["HS256"] }), async (request, response) => {
     console.log('body',request.body)
+    var newJournal = request.body
+    
+    newJournal = {...newJournal, entries: newJournal.entries.map(e => e.id)}
+    console.log(newJournal)
     console.log('id', request.params.id)
-    await Journal.findOneAndUpdate({ _id: request.params.id }, request.body )
+    await Journal.findOneAndUpdate({ _id: request.params.id }, newJournal )
     response.status(204)
 })
 

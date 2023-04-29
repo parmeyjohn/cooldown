@@ -10,6 +10,7 @@ const userRouter = require('./controllers/users')
 const entryRouter = require('./controllers/entries')
 const journalRouter = require('./controllers/journals')
 const loginRouter = require('./controllers/login')
+const gamesRouter = require('./controllers/games')
 
 const mongoose = require('mongoose')
 
@@ -25,7 +26,7 @@ mongoose.connect(config.MONGODB_URI)
 
 
 const corsConfig ={
-    origin: 'http://localhost:3000', 
+    origin: ['http://localhost:3000', 'https://api.mobygames.com'], 
     credentials: true
 }
 
@@ -36,6 +37,7 @@ app.use('/api/login', loginRouter)
 app.use('/api/users', userRouter)
 app.use('/api/entries', entryRouter)
 app.use('/api/journals', journalRouter)
+app.use('/api/games', gamesRouter)
 
 
 module.exports = app

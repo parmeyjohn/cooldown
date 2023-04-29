@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const entrySchema = new mongoose.Schema({
     entryTitle: String,
     mediaTitle: String,
+    mediaObj: {},
     startDate: Date,
     content: Object,
     text: String,

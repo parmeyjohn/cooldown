@@ -12,9 +12,8 @@ userRouter.get('/', jwt({ secret: process.env.SECRET, algorithms: ["HS256"] }), 
     response.status(200).json(users)
 })
 
-userRouter.post('/', jwt({ secret: process.env.SECRET, algorithms: ["HS256"] }), async (request, response) => {
-    const { username, name, password } = request.body
-    console.log(request.auth)
+userRouter.post('/', async (request, response) => {
+    const { username, name, password, email } = request.body
     // check if the user already exists in the DB
     const prevUser = await User.findOne({ username: username })
 
@@ -27,6 +26,7 @@ userRouter.post('/', jwt({ secret: process.env.SECRET, algorithms: ["HS256"] }),
     const user = new User({
         username,
         name,
+        email,
         passwordHash
     })
 
@@ -37,5 +37,7 @@ userRouter.post('/', jwt({ secret: process.env.SECRET, algorithms: ["HS256"] }),
         response.status(400).end()
     }
 })
+
+// add delete user 
 
 module.exports = userRouter
