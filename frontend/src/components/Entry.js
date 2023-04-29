@@ -1,12 +1,5 @@
 import { useContext, useState } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-  useNavigate,
-  useLocation,
-} from "react-router-dom";
+import { BrowserRouter as useNavigate } from "react-router-dom";
 
 import OptionsButton from "./OptionsButton";
 import Tag from "./Tag";
@@ -17,14 +10,12 @@ import { JournalContext } from "../contexts/JournalContext";
 import entryService from "../services/entries";
 import journalService from "../services/journals";
 
-const Entry = ({ entry }) => {
+const Entry = ({ entry, setSearchVal }) => {
   const [showFullEntry, setShowFullEntry] = useState(false);
-  const { entries, setEntries, currEntry, setCurrEntry } =
-    useContext(EntryContext);
-  const { currJournal, journals, setJournals } = useContext(JournalContext);
+  const { setEntries, setCurrEntry } = useContext(EntryContext);
+  const { currJournal, setJournals } = useContext(JournalContext);
 
   let navigate = useNavigate();
-  let location = useLocation();
 
   const handleDelete = () => {
     console.log("in handleDelete: entry", entry);
@@ -42,7 +33,6 @@ const Entry = ({ entry }) => {
       console.log("after delete", newJournals);
       return newJournals;
     });
-    // set the entries of its journal as well
     journalService.update(entry.journalId, { $pull: { entries: entry.id } });
   };
 
@@ -71,28 +61,25 @@ const Entry = ({ entry }) => {
     const mins = time.slice(3, 5);
     return ` ${hrs}:${mins} ${zone}`;
   };
-  //
-  //
-  //
-  //
+
   return (
     <>
       {showFullEntry ? (
         <div
           onClick={() => setShowFullEntry(!showFullEntry)}
-          className="h-auto mx-2 cursor-pointer border-b-2 bg-teal-50 p-6 transition-all duration-300 ease-in-out first:rounded-t-xl last:rounded-b-xl last:border-b-4 last:border-b-teal-800  last:shadow-xl hover:bg-slate-300"
+          className="mx-2 h-auto cursor-pointer border-b-2 bg-teal-50 p-5 px-6 transition-all duration-300 ease-in-out first:rounded-t-xl last:rounded-b-xl last:border-b-4 last:border-b-slate-400  last:shadow-xl hover:bg-slate-300"
         >
           <div>
-            <div className="relative flex w-full justify-start">
-              <div className=" h-full w-24">
-                {'mediaObj' in entry ? (
+            <div className="relative flex w-full items-start justify-start">
+              <div className="h-40 w-40 transition-all duration-300 ease-in-out">
+                {"mediaObj" in entry ? (
                   <img
-                    className="h-20 w-20 rounded-md border-2 border-slate-800 object-cover object-center transition-all duration-300 ease-in-out"
+                    className="h-full w-full rounded-md border-2 border-slate-800 object-cover object-center transition-all duration-300 ease-in-out"
                     src={entry.mediaObj["sample_cover"].thumbnail_image}
-                    alt="val"
+                    alt="videogame cover"
                   ></img>
                 ) : (
-                  <div className="flex justify-center items-center h-20 w-20 rounded-md text-slate-800 border-2 border-slate-800 bg-slate-300 transition-all duration-300 ease-in-out">
+                  <div className="flex h-40 w-40 items-center justify-center rounded-md border-2 border-slate-800 bg-slate-300 text-slate-800 transition-all duration-300 ease-in-out">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -110,15 +97,13 @@ const Entry = ({ entry }) => {
                   </div>
                 )}
               </div>
-              <div className="flex w-full justify-between">
+              <div className="flex h-full w-full items-start justify-between">
                 <div className="ml-2 px-2">
                   <h2 className="col-span-4 truncate text-ellipsis text-xl font-semibold">
-                    {entry.entryTitle}
+                    {entry.entryTitle !== "" ? entry.entryTitle : "Untitled"}
                   </h2>
 
-                  <p className="p-2 text-left leading-relaxed">
-                    {entry.text}
-                  </p>
+                  <p className="p-2 text-left leading-relaxed">{entry.text}</p>
                 </div>
 
                 <OptionsButton
@@ -128,9 +113,9 @@ const Entry = ({ entry }) => {
               </div>
             </div>
             <div className="flex w-full items-end justify-between">
-              <div className="ml-4 mt-2 flex overflow-x-auto">
+              <div className="ml-4 mt-4 flex overflow-x-auto">
                 {entry.tags.map((t, i) => (
-                  <Tag title={t} key={i}></Tag>
+                  <Tag title={t} key={i} handleClick={setSearchVal}></Tag>
                 ))}
               </div>
               <div className="text-md ml-5 whitespace-nowrap">
@@ -139,23 +124,22 @@ const Entry = ({ entry }) => {
             </div>
           </div>
         </div>
-      )
-       : (
+      ) : (
         <div
           onClick={() => setShowFullEntry(!showFullEntry)}
-          className="h-26 mx-2 cursor-pointer border-b-2 bg-teal-50 p-6 transition-all duration-300 ease-in-out first:rounded-t-xl last:rounded-b-xl last:border-b-4 last:border-b-teal-800  last:shadow-xl hover:bg-slate-300"
+          className="h-26 mx-2 cursor-pointer border-b-2 bg-teal-50 p-5 px-6 transition-all duration-300 ease-in-out first:rounded-t-xl last:rounded-b-xl last:border-b-4 last:border-b-slate-400  last:shadow-xl hover:bg-slate-300"
         >
           <div>
-            <div className="relative flex w-full justify-start">
-              <div className=" h-full w-24">
-                {'mediaObj' in entry ? (
+            <div className="relative flex w-full items-start justify-start">
+              <div className=" h-20 w-20 transition-all duration-300 ease-in-out">
+                {"mediaObj" in entry ? (
                   <img
-                    className="h-20 w-20 rounded-md border-2 border-slate-800 object-cover object-center transition-all duration-300 ease-in-out"
+                    className="h-full w-full rounded-md border-2 border-slate-800 object-cover object-center transition-all duration-300 ease-in-out"
                     src={entry.mediaObj["sample_cover"].thumbnail_image}
                     alt="val"
                   ></img>
                 ) : (
-                  <div className="flex justify-center items-center h-20 w-20 rounded-md text-slate-800 border-2 border-slate-800 bg-slate-300 transition-all duration-300 ease-in-out">
+                  <div className="flex h-20 w-20 items-center justify-center rounded-md border-2 border-slate-800 bg-slate-300 text-slate-800 transition-all duration-300 ease-in-out">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -173,7 +157,7 @@ const Entry = ({ entry }) => {
                   </div>
                 )}
               </div>
-              <div className="flex w-full justify-between">
+              <div className="flex h-full w-full justify-between">
                 <div className="ml-2 px-2">
                   <h2 className="col-span-4 truncate text-ellipsis text-xl font-semibold">
                     {entry.entryTitle}
@@ -193,7 +177,7 @@ const Entry = ({ entry }) => {
             <div className="flex w-full items-end justify-between">
               <div className="ml-4 mt-2 flex overflow-x-auto">
                 {entry.tags.map((t, i) => (
-                  <Tag title={t} key={i}></Tag>
+                  <Tag title={t} key={i} handleClick={setSearchVal}></Tag>
                 ))}
               </div>
               <div className="text-md ml-5 whitespace-nowrap">

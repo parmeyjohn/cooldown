@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import Textbox from "./Textbox";
@@ -10,17 +10,13 @@ import { JournalContext } from "../contexts/JournalContext";
 
 import entryService from "../services/entries";
 import journalService from "../services/journals";
-import gamesService from "../services/games";
-
-import axios from "axios";
 
 const EntryForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { entries, setEntries, currEntry, setCurrEntry } =
-    useContext(EntryContext);
-  const { currJournal, setCurrJournal, journals, setJournals } =
+  const { setEntries, currEntry, setCurrEntry } = useContext(EntryContext);
+  const { currJournal, setCurrJournal, setJournals } =
     useContext(JournalContext);
 
   const [entryTitle, setEntryTitle] = useState(currEntry.entryTitle);
@@ -44,6 +40,9 @@ const EntryForm = () => {
 
   const saveEntry = async (event) => {
     event.preventDefault();
+    if (entryTitle === "") {
+      return;
+    }
     const entryObject = {
       entryTitle,
       mediaTitle,
@@ -155,7 +154,7 @@ const EntryForm = () => {
   };
 
   return (
-    <div className="h-screen w-screen flex flex-col justify-between overflow-y-auto bg-gradient-to-b from-teal-50 to-teal-100">
+    <div className="flex h-screen w-screen flex-col justify-between overflow-y-auto bg-gradient-to-b from-teal-50 to-teal-100">
       <div className=" mx-auto flex h-auto w-full  max-w-4xl flex-col justify-start text-teal-900">
         <div className="flex w-full items-center justify-between px-4 py-6">
           <h1 className=" mx-4 h-8">{currJournal.journalName}</h1>
@@ -172,7 +171,7 @@ const EntryForm = () => {
               });
               navigate(-1);
             }}
-            className="mr-2 h-8 w-8 justify-self-end "
+            className="mr-2 h-10 w-10 justify-self-end rounded-lg p-1 hover:bg-slate-300 active:bg-slate-400"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -180,7 +179,7 @@ const EntryForm = () => {
               viewBox="0 0 24 24"
               strokeWidth={2}
               stroke="currentColor"
-              className=""
+              className=" "
             >
               <path
                 strokeLinecap="round"
@@ -213,7 +212,7 @@ const EntryForm = () => {
             name="start-time"
             value={startDate.slice(0, 16)}
           ></input>
-          <label className="text-md mt-1 px-2 font-semibold">Media:</label>
+          <label className="text-md px-2 font-semibold">Media:</label>
 
           <div className="relative flex text-teal-900">
             <SearchAPI
@@ -229,7 +228,7 @@ const EntryForm = () => {
               viewBox="0 0 24 24"
               strokeWidth={2}
               stroke="currentColor"
-              className="absolute right-3 top-3 h-6 w-6"
+              className="absolute right-3 top-4 h-6 w-6"
             >
               <path
                 strokeLinecap="round"
@@ -247,10 +246,10 @@ const EntryForm = () => {
             setContent={setContent}
           ></Textbox>
 
-          <label className="text-md mt-2 px-2 font-semibold ">Tags:</label>
-          <div className="mt-1 flex items-center justify-between">
+          <label className="text-md px-2 font-semibold ">Tags:</label>
+          <div className="flex items-center justify-between">
             <input
-              className="mr-4 mb-2 w-full rounded-lg bg-slate-300 p-3 shadow-inner shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700"
+              className="mr-4 mt-1 mb-2 w-full rounded-lg bg-slate-300 p-3 shadow-inner shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700"
               type="text"
               name="curr-tag"
               placeholder="Add a tag..."
@@ -289,19 +288,16 @@ const EntryForm = () => {
               <></>
             )}
           </div>
-
-          
         </div>
-        
       </div>
       <div className=" mx-auto mb-2 flex w-full max-w-4xl justify-center p-4">
-            <button
-              onClick={saveEntry}
-              className=" focus w-[90%] rounded-lg border-b-4 border-teal-900 border-b-teal-900 bg-teal-600 p-3 text-xl font-semibold  uppercase tracking-widest text-teal-50 shadow-2xl  hover:bg-teal-700 hover:from-teal-600 hover:to-teal-800 active:bg-teal-900 active:shadow-lg"
-            >
-              save
-            </button>
-          </div>
+        <button
+          onClick={saveEntry}
+          className=" focus w-[90%] rounded-lg border-b-4 border-teal-900 border-b-teal-900 bg-teal-600 p-3 text-xl font-semibold  uppercase tracking-widest text-teal-50 shadow-2xl  hover:bg-teal-700 hover:from-teal-600 hover:to-teal-800 active:bg-teal-900 active:shadow-lg"
+        >
+          save
+        </button>
+      </div>
     </div>
   );
 };

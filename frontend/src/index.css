@@ -1,12 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css?family=Space+Grotesk');
 
 
 body {
     overflow: hidden;
     -webkit-font-smoothing: auto;
     scroll-padding-top: 50px;
+    
 }
 
 #container {
@@ -28,6 +30,10 @@ body {
     transition-duration: 300ms;
     
 
+}
+
+.title {
+    font-family: 'Space Grotesk', sans-serif;
 }
 
 

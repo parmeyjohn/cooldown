@@ -1,4 +1,6 @@
 import { useState, useEffect, useContext } from "react";
+import { ReactComponent as Logo } from "../assets/logo_v4.svg";
+
 import { useNavigate } from "react-router-dom";
 import { Transition } from "@headlessui/react";
 import { UserContext } from "../contexts/UserContext";
@@ -119,7 +121,14 @@ const Login = ({}) => {
   };
 
   return (
-    <div className="flex items-center h-screen w-screen overflow-y-auto bg-gradient-to-b from-teal-900 to-slate-800 text-teal-900">
+    <div className="flex h-screen w-screen flex-col items-center justify-center overflow-y-auto bg-gradient-to-b from-teal-900 to-slate-800 text-teal-900">
+      <div className="mb-10 flex items-center justify-start  stroke-slate-800 stroke-2 text-5xl font-semibold text-teal-100">
+        <Logo className="h-16 w-16"></Logo>
+        <div className="title">Cooldown</div>
+        <div className=" mb-4 ml-2 rounded-full border-b-2 border-teal-600 bg-green-300 p-1 text-xs text-slate-800">
+          beta
+        </div>
+      </div>
       <div className="mx-auto flex h-auto w-[90%] max-w-sm flex-col rounded-2xl bg-gradient-to-tl from-teal-100 to-white p-4 shadow-2xl transition-all duration-300 ease-in-out">
         <h1 className="px-4 py-4 text-2xl font-semibold">
           {signup ? "Sign Up" : "Login"}
@@ -254,10 +263,10 @@ const Login = ({}) => {
           )}
         </div>
 
-        <div className="mt-2 flex flex-col items-center">
+        <div className="mt-2 flex flex-col items-center text-teal-700">
           <p>{signup ? "Already have an account?" : "Not a user yet?"}</p>
           <button
-            className="m-2 rounded-lg border-b-2 border-teal-500 bg-teal-200 px-4 py-2"
+            className="m-2 rounded-lg border-b-2 border-teal-600 bg-green-300 px-4 py-2"
             onClick={() => setSignUp(!signup)}
           >
             {signup ? "log in" : "sign up"}

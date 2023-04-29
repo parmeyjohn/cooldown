@@ -1,57 +1,54 @@
-import Quill from 'quill'
-import "quill/dist/quill.snow.css"
-import { useCallback, useState, useEffect } from 'react'
+import Quill from "quill";
+import "quill/dist/quill.snow.css";
+import { useCallback, useState, useEffect } from "react";
 
-
-
-const Textbox = ({initialContent, setText, setContent}) => {  
-  const [quill, setQuill] = useState()
+const Textbox = ({ initialContent, setText, setContent }) => {
+  const [quill, setQuill] = useState();
 
   const outerRef = useCallback((wrapper) => {
-        if (wrapper == null) {return }
-        wrapper.innerHTML = ''
-        const editor = document.createElement('div')
-        wrapper.append(editor)
-        const q = new Quill(editor, {theme: "snow", modules: {
-            toolbar: [
-              ["bold", "underline", "italic", { list: "ordered" }, { list: "bullet" },'link', 'image' ]
-            ]
-            },
-            placeholder: 'Add text here...'
-          })
-          setQuill(q)
-          q.setContents(initialContent)
-    }, [])
+    if (wrapper == null) {
+      return;
+    }
+    wrapper.innerHTML = "";
+    const editor = document.createElement("div");
+    wrapper.append(editor);
+    const q = new Quill(editor, {
+      theme: "snow",
+      modules: {
+        toolbar: [
+          [
+            "bold",
+            "underline",
+            "italic",
+            { list: "ordered" },
+            { list: "bullet" },
+            "link",
+            "image",
+          ],
+        ],
+      },
+      placeholder: "Add text here...",
+    });
+    setQuill(q);
+    q.setContents(initialContent);
+  }, []);
 
-    useEffect(() => {
-      if (quill) {
-        
-        quill.on('text-change', (e) => {
-          setText(quill.getText())
-          setContent(quill.getContents())
-        })
-        // quill.on('selection-change', (range, prevRange, source) => {
-        //   if (range) {
-        //     if (range.length === 0) {
-        //       console.log('user is focused')
-        //       console.log(quill.container)
-        //       quill.container.style.backgroundColor = 'white'
-        //       //outerRef.current.backgroundColor = 'red'
-        //     } else {
-        //       console.log('user is not focused')
-        //     }
-        //   }
-        // })
-      }
-    }, [quill, setText, setContent])
+  useEffect(() => {
+    if (quill) {
+      quill.on("text-change", (e) => {
+        setText(quill.getText());
+        setContent(quill.getContents());
+      });
+    }
+  }, [quill, setText, setContent]);
 
+  return (
+    <div
+      id="container"
+      ref={outerRef}
+      className="mt-1 mb-2 h-60 rounded-xl xl:h-80"
+    ></div>
+  );
+};
 
-    return (
-        <div id='container' ref={outerRef} className='mt-1 rounded-xl h-60 xl:h-80'>
-        </div>
-
-
-    )
-}
-
-export default Textbox
+export default Textbox;

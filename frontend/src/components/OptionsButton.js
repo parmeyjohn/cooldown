@@ -1,14 +1,12 @@
 import { useState, useRef } from "react";
 
-
 const OptionsButton = ({ handleEdit, handleDelete }) => {
-  const [showOptions, setShowOptions] = useState(false);  
-  const menuRef = useRef(null)
+  const [showOptions, setShowOptions] = useState(false);
+  const menuRef = useRef(null);
   const handleClick = (event) => {
-    event.stopPropagation()
-    setShowOptions(true)
-
-  }
+    event.stopPropagation();
+    setShowOptions(true);
+  };
   return (
     <div className="z-1 relative top-0 left-0">
       <button
@@ -33,9 +31,12 @@ const OptionsButton = ({ handleEdit, handleDelete }) => {
       </button>
 
       {showOptions && (
-        <div ref={menuRef} className=" bg-slate-50 absolute right-0 top-6 w-40 z-50 text-slate-500 font-medium divide-y-2 shadow-2xl border-teal-800 border-2 rounded-md py-1 hover:cursor-pointer ">
+        <div
+          ref={menuRef}
+          className=" absolute right-0 top-6 z-50 w-40 divide-y-2 rounded-md border-2 border-teal-800 bg-slate-50 py-1 font-medium text-slate-500 shadow-2xl hover:cursor-pointer "
+        >
           <div
-            className="flex justify-start items-center hover:bg-slate-200 active:bg-slate-300"
+            className="flex items-center justify-start hover:bg-slate-200 active:bg-slate-300"
             onMouseDown={handleEdit}
           >
             <svg
@@ -44,7 +45,7 @@ const OptionsButton = ({ handleEdit, handleDelete }) => {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="w-7 h-7 p-1 ml-2"
+              className="ml-2 h-7 w-7 p-1"
             >
               <path
                 strokeLinecap="round"
@@ -57,7 +58,7 @@ const OptionsButton = ({ handleEdit, handleDelete }) => {
           </div>
 
           <div
-            className="flex justify-start items-center hover:bg-slate-200 active:bg-slate-300"
+            className="flex items-center justify-start hover:bg-slate-200 active:bg-slate-300"
             onMouseDown={handleDelete}
           >
             <svg
@@ -66,7 +67,7 @@ const OptionsButton = ({ handleEdit, handleDelete }) => {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="w-7 h-7 p-1 ml-2"
+              className="ml-2 h-7 w-7 p-1"
             >
               <path
                 strokeLinecap="round"
