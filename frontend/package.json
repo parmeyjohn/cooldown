@@ -41,7 +41,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://cooldown-backend.onrender.com/",
+  "proxy": "https://cooldown-backend.onrender.com",
   "devDependencies": {
     "prettier": "^2.8.7",
     "prettier-plugin-tailwindcss": "^0.2.7",
