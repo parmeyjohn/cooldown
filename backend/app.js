@@ -26,7 +26,10 @@ mongoose.connect(config.MONGODB_URI)
 
 
 const corsConfig ={
-    origin: ['http://localhost:3000', 'https://api.mobygames.com'], 
+    origin: [
+      'https://www.usecooldown.com/',
+      'https://usecooldown.com/',
+      'https://api.mobygames.com'], 
     credentials: true
 }
 
