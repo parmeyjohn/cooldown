@@ -40,11 +40,13 @@ const Login = ({}) => {
       window.localStorage.setItem("cooldownUser", JSON.stringify(loggedInUser));
       journalService.setToken(loggedInUser.token);
       entryService.setToken(loggedInUser.token);
-      setUser(prevUser => loggedInUser);
+      setUser(prevUser => {
+        console.log('setting user',loggedInUser)
+        return loggedInUser});
       console.log(loggedInUser);
       setUsername("");
       setPassword("");
-      navigate("/");
+      navigate("/", {replace: true});
     } catch (exception) {
       //error msg
       console.log(exception);
