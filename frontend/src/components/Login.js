@@ -40,7 +40,7 @@ const Login = ({}) => {
       window.localStorage.setItem("cooldownUser", JSON.stringify(loggedInUser));
       journalService.setToken(loggedInUser.token);
       entryService.setToken(loggedInUser.token);
-      setUser(loggedInUser);
+      setUser(prevUser => loggedInUser);
       console.log(loggedInUser);
       setUsername("");
       setPassword("");
