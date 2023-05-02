@@ -37,6 +37,7 @@ const corsConfig ={
 
 app.use(cors(corsConfig))
 app.use(express.json())
+app.use(express.static('build'))
 app.use('/api/login', loginRouter)
 app.use('/api/users', userRouter)
 app.use('/api/entries', entryRouter)
