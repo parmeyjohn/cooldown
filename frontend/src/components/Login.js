@@ -2,7 +2,6 @@ import { useState, useEffect, useContext } from "react";
 import { ReactComponent as Logo } from "../assets/logo_v4.svg";
 
 import { useNavigate } from "react-router-dom";
-import { Transition } from "@headlessui/react";
 import { UserContext } from "../contexts/UserContext";
 
 import loginService from "../services/login";
@@ -10,7 +9,7 @@ import journalService from "../services/journals";
 import entryService from "../services/entries";
 import userService from "../services/users";
 
-const Login = ({}) => {
+const Login = () => {
   const navigate = useNavigate();
 
   const { user, setUser } = useContext(UserContext);
