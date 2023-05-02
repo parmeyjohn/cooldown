@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = '/api/journals'
+const baseUrl = 'https://cooldown-backend.onrender.com/api/journals'
 
 let token = null
 

@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = '/api/games'
+const baseUrl = 'https://cooldown-backend.onrender.com/api/games'
 
 
 const getAll = async () => {

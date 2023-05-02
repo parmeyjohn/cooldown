@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = '/api/login'
+const baseUrl = 'https://cooldown-backend.onrender.com/api/login'
 
 let token = null
 
