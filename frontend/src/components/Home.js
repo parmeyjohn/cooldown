@@ -21,9 +21,14 @@ const Home = () => {
     console.log("in Home");
     console.log("currJournal", currJournal);
     console.log(entries);
-    //groupBy(currJournal.entries)
-    setEntries((prevJournal) => currJournal.entries);
-  }, [currJournal, entries, setEntries]);
+    setEntries((prevJournal) => {
+      if (currJournal) {
+        return currJournal.entries
+      } else {
+        return []
+      }
+    });
+  }, [currJournal]);
 
   const groupBy = (initialEntries) => {
     const groupedEntries = {};
@@ -179,7 +184,7 @@ const Home = () => {
 
       <div className="relative z-10 mx-auto h-full w-full max-w-4xl overflow-y-auto pb-28 ">
         <div className="h-full w-full px-4 pb-20">
-          {entries.length > 0 ? (
+          {entries && entries.length > 0 ? (
             groupBy(
               entries.filter(
                 (e) =>

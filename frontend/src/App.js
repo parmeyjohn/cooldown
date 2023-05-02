@@ -42,26 +42,29 @@ const App = () => {
   useEffect(() => {
     if (user) {
       journalService.getAll().then((fetchedJournals) => {
-        if (fetchedJournals) {
-          //setJournalsExist(true);
+        if (fetchedJournals && fetchedJournals.length > 0) {
+          console.log('in fetched journals', fetchedJournals)
           setJournals((prevJournals) => fetchedJournals);
           setCurrJournal((prevJournal) => fetchedJournals[0]);
-          setEntries(currJournal.entries);
+          setEntries((prevEntries) => currJournal.entries);
         } else {
           const journalObject = {
             journalName: "journal",
             entries: [],
           };
           try {
-            const newJournal = journalService.create(journalObject).then(() => {
+            journalService.create(journalObject).then((newJournal) => {
               setJournals((prevJournals) => prevJournals.concat(newJournal));
               setCurrJournal((prevJournal) => newJournal);
+              console.log('changed journals and set curr journal')
             });
           } catch (e) {
             console.log(e);
           }
         }
       });
+    } else {
+      console.log('no user')
     }
   }, [user]);
 

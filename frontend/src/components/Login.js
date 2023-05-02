@@ -123,14 +123,14 @@ const Login = () => {
 
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center overflow-y-auto bg-gradient-to-b from-teal-900 to-slate-800 text-teal-900">
-      <div className="mb-10 flex items-center justify-start  stroke-slate-800 stroke-2 text-5xl font-semibold text-teal-100">
-        <Logo className="h-16 w-16"></Logo>
+      <div className="mb-10 flex items-center justify-start  stroke-slate-800 stroke-2 text-4xl md:text-5xl font-semibold text-teal-100">
+        <Logo className="h-12 w-12 md:h-16 md:w-16"></Logo>
         <div className="title">Cooldown</div>
         <div className=" mb-4 ml-2 rounded-full border-b-2 border-teal-600 bg-green-300 p-1 text-xs text-slate-800">
           beta
         </div>
       </div>
-      <div className="mx-auto flex h-auto w-[90%] max-w-sm flex-col rounded-2xl bg-gradient-to-tl from-teal-100 to-white p-4 shadow-2xl transition-all duration-300 ease-in-out">
+      <div className="mx-auto flex h-auto w-[80%] max-w-sm flex-col rounded-2xl bg-gradient-to-tl from-teal-100 to-white p-4 shadow-2xl transition-all duration-300 ease-in-out">
         <h1 className="px-4 py-4 text-2xl font-semibold">
           {signup ? "Sign Up" : "Login"}
         </h1>
