@@ -30,7 +30,8 @@ const corsConfig ={
       'https://www.usecooldown.com/*',
       'https://usecooldown.com/*',
       'https://api.mobygames.com'], 
-    credentials: true
+      methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+      allowedHeaders: ['Content-Type', 'Authorization']
 }
 
 
