@@ -38,7 +38,7 @@ const corsConfig ={
 app.use(cors(corsConfig))
 app.use(express.json())
 app.use((req, res, next) => {
-  res.append('Access-Control-Allow-Origin', ['https://usecooldown.com', 'https://www.usecooldown.com']);
+  res.append('Access-Control-Allow-Origin', ['https://usecooldown.com']);
   next();
 });
 app.use('/api/login', loginRouter)
