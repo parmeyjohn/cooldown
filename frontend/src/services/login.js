@@ -5,12 +5,8 @@ let token = null
 
 const login = async credentials => {
   console.log('in login')
-  const config = {
-    headers: { 
-      'Access-Control-Allow-Origin' : '*',
-      'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS'},
-  }
-  const res = await axios.post(baseUrl, credentials, config)
+  const headers = { withCredentials: true }
+  const res = await axios.post(baseUrl, headers, credentials)
   console.log('login res', res)
   return res.data
 }
