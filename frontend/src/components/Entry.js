@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { BrowserRouter as useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import OptionsButton from "./OptionsButton";
 import Tag from "./Tag";

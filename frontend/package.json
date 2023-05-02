@@ -41,12 +41,10 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://cooldown-backend.onrender.com",
+  "proxy": "http://localhost:3003",
   "devDependencies": {
     "prettier": "^2.8.7",
     "prettier-plugin-tailwindcss": "^0.2.7",
     "tailwindcss": "^3.2.6"
-  }, "devServer": {
-    "allowedHosts": "all"
-  }, "homepage": "http://usecooldown.com"
+  }
 }

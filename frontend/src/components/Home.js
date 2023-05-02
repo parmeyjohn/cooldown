@@ -8,7 +8,7 @@ import SearchBar from "./SearchBar";
 import { EntryContext } from "../contexts/EntryContext";
 import { JournalContext } from "../contexts/JournalContext";
 
-import { BrowserRouter as Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const { entries, setEntries } = useContext(EntryContext);
