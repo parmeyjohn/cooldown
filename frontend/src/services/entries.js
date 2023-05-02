@@ -9,7 +9,10 @@ const setToken = newToken => {
 
 const getAll = async () => {
   const config = {
-    headers: { Authorization: token},
+    headers: { 
+      'Authorization': token,
+      'Access-Control-Allow-Origin' : '*',
+      'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS'},
   }
   const response = await axios.get(baseUrl, config)
   return response.data
@@ -17,7 +20,10 @@ const getAll = async () => {
 
 const getOneById = async (id) => {
   const config = {
-    headers: { Authorization: token},
+    headers: { 
+      'Authorization': token,
+      'Access-Control-Allow-Origin' : '*',
+      'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS'},
   }
   const response = await axios.get(`${baseUrl}/${id}`, config)
   return response.data
@@ -25,7 +31,10 @@ const getOneById = async (id) => {
 
 const create = async newObject => {
   const config = {
-    headers: { Authorization: token},
+    headers: { 
+      'Authorization': token,
+      'Access-Control-Allow-Origin' : '*',
+      'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS'},
   }
   
   console.log('new entry: ', newObject)
@@ -35,7 +44,10 @@ const create = async newObject => {
 
 const update = async (id, newObject) => {
   const config = {
-    headers: { Authorization: token},
+    headers: { 
+      'Authorization': token,
+      'Access-Control-Allow-Origin' : '*',
+      'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS'},
   }
   const response = await axios.put(`${baseUrl}/${id}`, newObject, config)
   return response.data
@@ -43,7 +55,10 @@ const update = async (id, newObject) => {
 
 const remove = async (id) => {
   const config = {
-    headers: { Authorization: token},
+    headers: { 
+      'Authorization': token,
+      'Access-Control-Allow-Origin' : '*',
+      'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS'},
   }
   console.log('client removing ', id)
   const response = await axios.delete(`${baseUrl}/${id}`, config)
@@ -52,7 +67,10 @@ const remove = async (id) => {
 
 const removeAll = async (id) => {
   const config = {
-    headers: { Authorization: token},
+    headers: { 
+      'Authorization': token,
+      'Access-Control-Allow-Origin' : '*',
+      'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS'},
   }
   const response = await axios.delete(`${baseUrl}/entries/${id}`, config)
   return response.data
