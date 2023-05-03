@@ -67,7 +67,7 @@ const Entry = ({ entry, setSearchVal }) => {
       {showFullEntry ? (
         <div
           onClick={() => setShowFullEntry(!showFullEntry)}
-          className="mx-2 h-auto cursor-pointer border-b-2 bg-teal-50 p-5 px-6 first:rounded-t-xl last:rounded-b-xl last:border-b-4 last:border-b-slate-400  last:shadow-xl hover:bg-slate-300"
+          className=" transition-colors duration-300 ease-in-out mx-2 h-auto cursor-pointer border-b-2 bg-teal-50 p-5 px-6 first:rounded-t-xl last:rounded-b-xl last:border-b-4 last:border-b-slate-400  last:shadow-xl hover:bg-slate-300 active:bg-slate-400"
         >
           <div>
             <div className="relative flex flex-col sm:flex-row w-full items-start justify-start">
@@ -79,7 +79,7 @@ const Entry = ({ entry, setSearchVal }) => {
                     alt="videogame cover"
                   ></img>
                 ) : (
-                  <div className="flex h-40 w-40 items-center justify-center rounded-md border-2 border-slate-800 bg-slate-300 text-slate-800">
+                  <div className="flex h-full w-full items-center justify-center rounded-md border-2 border-slate-800 bg-slate-300 text-slate-800">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -130,10 +130,10 @@ const Entry = ({ entry, setSearchVal }) => {
       ) : (
         <div
           onClick={() => setShowFullEntry(!showFullEntry)}
-          className="h-26 mx-2 cursor-pointer border-b-2 bg-teal-50 p-5 px-6 first:rounded-t-xl last:rounded-b-xl last:border-b-4 last:border-b-slate-400  last:shadow-xl hover:bg-slate-300"
+          className="h-26 mx-2 cursor-pointer border-b-2 bg-teal-50 p-5 px-6 first:rounded-t-xl last:rounded-b-xl last:border-b-4 last:border-b-slate-400  last:shadow-xl hover:bg-slate-300 active:bg-slate-400"
         >
           <div>
-            <div className="relative flex w-full items-center justify-start">
+            <div className="relative flex w-full items-start justify-start">
               <div className=" h-20 w-20 ">
                 {"mediaObj" in entry ? (
                   <img
@@ -162,7 +162,7 @@ const Entry = ({ entry, setSearchVal }) => {
               </div>
               <div className="flex h-full w-full justify-between">
                 <div className="ml-2 px-2 w-auto">
-                  <h2 className="col-span-4 truncate text-xl font-semibold w-40">
+                  <h2 className="col-span-4 truncate text-lg sm:text-xl font-semibold w-28 sm:w-40">
                     {entry.entryTitle}
                   </h2>
 
