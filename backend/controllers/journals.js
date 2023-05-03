@@ -62,12 +62,8 @@ journalRouter.delete('/:id', jwt({ secret: process.env.SECRET, algorithms: ["HS2
 
 journalRouter.patch('/:id', jwt({ secret: process.env.SECRET, algorithms: ["HS256"] }), async (request, response) => {
     console.log('body',request.body)
-    var newJournal = request.body
-    
-    newJournal = {...newJournal, entries: newJournal.entries.map(e => e.id)}
-    console.log(newJournal)
-    console.log('id', request.params.id)
-    await Journal.findOneAndUpdate({ _id: request.params.id }, newJournal )
+    var update = request.body
+    await Journal.findOneAndUpdate({ _id: request.params.id }, update )
     response.status(204)
 })
 
