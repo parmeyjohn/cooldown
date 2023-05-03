@@ -67,19 +67,19 @@ const Entry = ({ entry, setSearchVal }) => {
       {showFullEntry ? (
         <div
           onClick={() => setShowFullEntry(!showFullEntry)}
-          className="mx-2 h-auto cursor-pointer border-b-2 bg-teal-50 p-5 px-6 transition-all duration-300 ease-in-out first:rounded-t-xl last:rounded-b-xl last:border-b-4 last:border-b-slate-400  last:shadow-xl hover:bg-slate-300"
+          className="mx-2 h-auto cursor-pointer border-b-2 bg-teal-50 p-5 px-6 first:rounded-t-xl last:rounded-b-xl last:border-b-4 last:border-b-slate-400  last:shadow-xl hover:bg-slate-300"
         >
           <div>
-            <div className="relative flex w-full items-start justify-start">
-              <div className="h-40 w-40 transition-all duration-300 ease-in-out">
+            <div className="relative flex flex-col sm:flex-row w-full items-start justify-start">
+              <div className="-order-1 h-40 w-full sm:w-40 py-2 mb-2 flex justify-center items-center">
                 {"mediaObj" in entry ? (
                   <img
-                    className="h-full w-full rounded-md border-2 border-slate-800 object-cover object-center transition-all duration-300 ease-in-out"
+                    className="h-full w-full rounded-md border-2 border-slate-800 object-cover object-center"
                     src={entry.mediaObj["sample_cover"].thumbnail_image}
                     alt="videogame cover"
                   ></img>
                 ) : (
-                  <div className="flex h-40 w-40 items-center justify-center rounded-md border-2 border-slate-800 bg-slate-300 text-slate-800 transition-all duration-300 ease-in-out">
+                  <div className="flex h-40 w-40 items-center justify-center rounded-md border-2 border-slate-800 bg-slate-300 text-slate-800">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -97,20 +97,23 @@ const Entry = ({ entry, setSearchVal }) => {
                   </div>
                 )}
               </div>
-              <div className="flex h-full w-full items-start justify-between">
-                <div className="ml-2 px-2">
-                  <h2 className="col-span-4 truncate text-ellipsis text-xl font-semibold">
+              <div className="flex flex-col h-full w-full sm:ml-3 items-start justify-between -order-1">
+                <div className=" flex w-full justify-between sm:px-2">
+                  <h2 className="w-auto max-w-[90%] sm:truncate text-xl font-semibold">
                     {entry.entryTitle !== "" ? entry.entryTitle : "Untitled"}
                   </h2>
-
-                  <p className="p-2 text-left leading-relaxed">{entry.text}</p>
-                </div>
-
-                <OptionsButton
+                  <OptionsButton
                   handleEdit={handleEdit}
                   handleDelete={handleDelete}
                 ></OptionsButton>
+                  
+                </div>
+
+                
+                <p className="py-2 ml-2 text-left leading-relaxed">{entry.text}</p>
               </div>
+
+              
             </div>
             <div className="flex w-full items-end justify-between">
               <div className="ml-4 mt-4 flex overflow-x-auto">
@@ -127,19 +130,19 @@ const Entry = ({ entry, setSearchVal }) => {
       ) : (
         <div
           onClick={() => setShowFullEntry(!showFullEntry)}
-          className="h-26 mx-2 cursor-pointer border-b-2 bg-teal-50 p-5 px-6 transition-all duration-300 ease-in-out first:rounded-t-xl last:rounded-b-xl last:border-b-4 last:border-b-slate-400  last:shadow-xl hover:bg-slate-300"
+          className="h-26 mx-2 cursor-pointer border-b-2 bg-teal-50 p-5 px-6 first:rounded-t-xl last:rounded-b-xl last:border-b-4 last:border-b-slate-400  last:shadow-xl hover:bg-slate-300"
         >
           <div>
-            <div className="relative flex w-full items-start justify-start">
-              <div className=" h-20 w-20 transition-all duration-300 ease-in-out">
+            <div className="relative flex w-full items-center justify-start">
+              <div className=" h-20 w-20 ">
                 {"mediaObj" in entry ? (
                   <img
-                    className="h-full w-full rounded-md border-2 border-slate-800 object-cover object-center transition-all duration-300 ease-in-out"
+                    className="h-full w-full rounded-md border-2 border-slate-800 object-cover object-center"
                     src={entry.mediaObj["sample_cover"].thumbnail_image}
                     alt="val"
                   ></img>
                 ) : (
-                  <div className="flex h-20 w-20 items-center justify-center rounded-md border-2 border-slate-800 bg-slate-300 text-slate-800 transition-all duration-300 ease-in-out">
+                  <div className="flex h-20 w-20 items-center justify-center rounded-md border-2 border-slate-800 bg-slate-300 text-slate-800">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -158,8 +161,8 @@ const Entry = ({ entry, setSearchVal }) => {
                 )}
               </div>
               <div className="flex h-full w-full justify-between">
-                <div className="ml-2 px-2">
-                  <h2 className="col-span-4 truncate text-ellipsis text-xl font-semibold">
+                <div className="ml-2 px-2 w-auto">
+                  <h2 className="col-span-4 truncate text-xl font-semibold w-40">
                     {entry.entryTitle}
                   </h2>
 

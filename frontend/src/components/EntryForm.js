@@ -96,17 +96,18 @@ const EntryForm = () => {
         journalService.update(currJournal.id, {
           $push: { entries: newEntry.id },
         });
+        // updating current entries
         setEntries((prevEntries) => prevEntries.concat(newEntry));
+        // updating the entries in the current journal
         setCurrJournal((prevJournal) => newJournal);
-        setJournals((prevJournals) =>
-          prevJournals.map((j) => {
-            if (j.id === newJournal.id) {
-              return newJournal;
-            } else {
-              return j;
-            }
-          })
-        );
+        // updating the journal array to include the newly updated journal
+        setJournals((prevJournals) => prevJournals.map((j) => {
+          if (j.id === newJournal.id) {
+            return newJournal
+          } else {
+            return j
+          }
+        }));
 
         alert("entry created");
       } catch (e) {

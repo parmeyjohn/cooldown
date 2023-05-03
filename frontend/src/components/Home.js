@@ -110,7 +110,7 @@ const Home = () => {
           </button>
         </Link>
       </div>
-      <div className="mx-auto flex max-w-3xl items-center justify-between px-4 text-teal-50">
+      <div className="mx-auto flex w-[90%] max-w-3xl items-center justify-between px-4 text-teal-50">
         <div className="relative mb-4 mr-4 flex w-full max-w-2xl items-center  text-slate-500">
           <SearchBar
             searchValue={searchValue}
@@ -182,8 +182,8 @@ const Home = () => {
         )}
       </div>
 
-      <div className="relative z-10 mx-auto h-full w-full max-w-4xl overflow-y-auto pb-28 ">
-        <div className="h-full w-full px-4 pb-20">
+      <div className="relative z-10 mx-auto h-full w-full max-w-4xl overflow-y-auto px-4 pb-48">
+        
           {entries && entries.length > 0 ? (
             groupBy(
               entries.filter(
@@ -226,7 +226,6 @@ const Home = () => {
           )}
         </div>
       </div>
-    </div>
   );
 };
 

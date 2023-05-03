@@ -30,7 +30,6 @@ const Login = () => {
     if (userError || emailError || passError) {
       return;
     }
-    console.log(username, password);
     try {
       const loggedInUser = await loginService.login({
         username,
@@ -40,18 +39,12 @@ const Login = () => {
       journalService.setToken(loggedInUser.token);
       entryService.setToken(loggedInUser.token);
       setUser(prevUser => {
-        console.log('setting user',loggedInUser)
         return loggedInUser});
-      console.log(loggedInUser);
       setUsername("");
       setPassword("");
       navigate("/", {replace: true});
     } catch (exception) {
-      //error msg
-      console.log(exception);
-      console.log("error logging in");
       setError(true);
-      //display here which log in error occurred
     }
   };
 
@@ -95,19 +88,16 @@ const Login = () => {
     if (error) {
       return;
     }
-    console.log("signup", email, username, password);
     try {
       const newUser = await userService.create({
         username,
         email,
         password,
       });
-      console.log(newUser);
       setEmail("");
       handleLogin(e);
     } catch (exception) {
-      console.log(exception);
-      console.log("error signing up");
+      setError(true)
     }
   };
 
@@ -146,7 +136,7 @@ const Login = () => {
             autoFocus={true}
             autoComplete="off"
             onKeyDown={handleEnter}
-            onBlur={signup ? (e) => checkUsername(e) : () => {}}
+            onBlur={(e) => checkUsername(e)}
           ></input>
           {userError ? (
             <p className="m-1 rounded-sm bg-red-200 p-2 text-red-800">
@@ -168,7 +158,7 @@ const Login = () => {
                 value={email}
                 autoComplete="off"
                 onKeyDown={handleEnter}
-                onBlur={signup ? (e) => checkEmail(e) : () => {}}
+                onBlur={(e) => checkEmail(e)}
               ></input>
               {emailError ? (
                 <p className="m-1 rounded-sm bg-red-200 p-2 text-red-800">
@@ -193,7 +183,7 @@ const Login = () => {
               value={password}
               autoComplete="off"
               onKeyDown={handleEnter}
-              onBlur={signup ? (e) => checkPassword(e) : () => {}}
+              onBlur={(e) => checkPassword(e)}
               type={showPassword ? "text" : "password"}
             ></input>
             <button
