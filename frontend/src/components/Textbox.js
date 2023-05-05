@@ -22,8 +22,7 @@ const Textbox = ({ initialContent, setText, setContent }) => {
             "italic",
             { list: "ordered" },
             { list: "bullet" },
-            "link",
-            "image",
+            "link"
           ],
         ],
       },

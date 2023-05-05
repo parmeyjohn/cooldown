@@ -162,7 +162,7 @@ const Entry = ({ entry, setSearchVal }) => {
               </div>
               <div className="flex h-full w-full justify-between">
                 <div className="ml-2 px-2 w-auto">
-                  <h2 className="col-span-4 truncate text-lg sm:text-xl font-semibold w-28 sm:w-40">
+                  <h2 className="col-span-4 truncate text-lg sm:text-xl font-semibold max-w-full">
                     {entry.entryTitle}
                   </h2>
 

@@ -147,11 +147,13 @@ const EntryForm = () => {
   };
 
   const setFormatDate = (dateString) => {
-    var currTime = new Date();
+    console.log('date str', dateString)
+    var currTime = new Date(dateString);
+    console.log('curr time', currTime)
     var offset = currTime.getTimezoneOffset() * 60 * 1000;
     const newTime = new Date(currTime - offset);
-    setStartDate(newTime);
-    return newTime;
+    console.log('new time', newTime)
+    setStartDate(newTime.toISOString());
   };
 
   return (
@@ -202,8 +204,8 @@ const EntryForm = () => {
           ></input>
         </div>
 
-        <div className="mx-2 flex flex-col px-4 text-left text-lg">
-          <label className="text-md px-2 font-semibold">Date:</label>
+        <div className="mx-2 flex flex-col px-4 text-left text-lg ">
+          <label className="text-base px-2 font-semibold">Date:</label>
           <input
             className="mt-1 mb-2 rounded-lg bg-slate-300 p-3 shadow-inner shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700"
             onChange={(e) => {
@@ -213,7 +215,7 @@ const EntryForm = () => {
             name="start-time"
             value={startDate.slice(0, 16)}
           ></input>
-          <label className="text-md px-2 font-semibold">Media:</label>
+          <label className="text-base px-2 font-semibold">Media:</label>
 
           <div className="relative flex text-teal-900">
             <SearchAPI
@@ -239,7 +241,7 @@ const EntryForm = () => {
             </svg>
           </div>
 
-          <label className="text-md px-2 font-semibold">Entry:</label>
+          <label className="text-base px-2 font-semibold">Entry:</label>
 
           <Textbox
             initialContent={content}
@@ -247,7 +249,7 @@ const EntryForm = () => {
             setContent={setContent}
           ></Textbox>
 
-          <label className="text-md px-2 font-semibold ">Tags:</label>
+          <label className="text-base px-2 font-semibold ">Tags:</label>
           <div className="flex items-center justify-between">
             <input
               className="mr-4 mt-1 mb-2 w-full rounded-lg bg-slate-300 p-3 shadow-inner shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700"
@@ -280,7 +282,7 @@ const EntryForm = () => {
             </button>
           </div>
 
-          <div className=" mx-auto mt-3 flex w-full justify-start overflow-x-auto transition duration-300 ease-in-out">
+          <div className="h-12 mx-auto mt-3 flex w-full justify-start overflow-x-auto transition duration-300 ease-in-out">
             {tags ? (
               tags.map((t, i) => (
                 <Tag title={t} removeTag={removeTag} key={i}></Tag>
