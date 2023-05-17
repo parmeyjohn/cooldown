@@ -8,6 +8,7 @@ import loginService from "../services/login";
 import journalService from "../services/journals";
 import entryService from "../services/entries";
 import userService from "../services/users";
+import BetaAlert from "./BetaAlert";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -18,15 +19,23 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [signup, setSignUp] = useState(false);
-
+  const [trustedDevice, setTrustedDevice] = useState(false)
+  
+  // TODO: extract into error component
   const [userError, setUserError] = useState(false);
   const [passError, setPassError] = useState(false);
   const [emailError, setEmailError] = useState(false);
 
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  
+  /* send login POST request to server, set access tokens for services,
+   and handle local storage of user object */
   const handleLogin = async (e) => {
     e.preventDefault();
+    checkUsername()
+    checkPassword()
+    checkEmail()
     if (userError || emailError || passError) {
       return;
     }
@@ -35,7 +44,9 @@ const Login = () => {
         username,
         password,
       });
-      window.localStorage.setItem("cooldownUser", JSON.stringify(loggedInUser));
+      if (trustedDevice) {
+        window.localStorage.setItem("cooldownUser", JSON.stringify(loggedInUser));
+      }
       journalService.setToken(loggedInUser.token);
       entryService.setToken(loggedInUser.token);
       setUser(prevUser => {
@@ -45,10 +56,12 @@ const Login = () => {
       navigate("/", {replace: true});
     } catch (exception) {
       setError(true);
+      // TODO: add alert component displaying banner on error
     }
   };
 
-  const checkUsername = async (e) => {
+  /* validates username input */
+  const checkUsername = async (e, username) => {
     if (!e.target?.value || e.target.value.length < 6) {
       setUserError(true);
       setErrorMsg("username must be 6+ chars");
@@ -58,6 +71,7 @@ const Login = () => {
     }
   };
 
+  /* validates email input */
   const checkEmail = async (e) => {
     const emailRegex =
       /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -73,6 +87,7 @@ const Login = () => {
     }
   };
 
+  /* validates password input */
   const checkPassword = async (e) => {
     if (!e.target?.value || e.target.value.length < 6) {
       setPassError(true);
@@ -85,7 +100,7 @@ const Login = () => {
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    if (error) {
+    if (userError || emailError || passError) {
       return;
     }
     try {
@@ -113,22 +128,21 @@ const Login = () => {
 
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center overflow-y-auto bg-gradient-to-b from-teal-900 to-slate-800 text-teal-900">
+      <BetaAlert></BetaAlert>
       <div className="mb-10 flex items-center justify-start  stroke-slate-800 stroke-2 text-4xl md:text-5xl font-semibold text-teal-100">
         <Logo className="h-12 w-12 md:h-16 md:w-16"></Logo>
         <div className="title">Cooldown</div>
-        <div className=" mb-4 ml-2 rounded-full border-b-2 border-teal-600 bg-green-300 p-1 text-xs text-slate-800">
-          beta
-        </div>
       </div>
       <div className="mx-auto flex h-auto w-[80%] max-w-sm flex-col rounded-2xl bg-gradient-to-tl from-teal-100 to-white p-4 shadow-2xl transition-all duration-300 ease-in-out">
-        <h1 className="px-4 py-4 text-2xl font-semibold">
+        <h1 className="px-4 py-4 mx-2 text-2xl font-semibold">
           {signup ? "Sign Up" : "Login"}
         </h1>
         <div className="mx-2 flex flex-col px-4 text-left text-lg">
-          <label className="text-md px-2 font-semibold">Username:</label>
+          <label htmlFor='username' className="text-md px-2 font-semibold">Username:</label>
           <input
+            id='username'
             className={`mb-2 w-full rounded-lg bg-slate-300 p-2 shadow-inner  shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700 ${
-              userError ? "border-2 border-red-500" : ""
+              userError ? "outline outline-2 outline-red-400 shadow-none" : ""
             }`}
             value={username}
             name="username"
@@ -148,12 +162,13 @@ const Login = () => {
 
           {signup ? (
             <>
-              <label className="text-md px-2 font-semibold">Email:</label>
+              <label htmlFor='email' className="text-md px-2 font-semibold">Email:</label>
               <input
+                id='email'
                 className={`mb-2 w-full rounded-lg bg-slate-300 p-2 shadow-inner  shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700 ${
-                  emailError ? "border-2 border-red-500" : ""
+                  emailError ? "outline outline-2 outline-red-400 shadow-none" : ""
                 }`}
-                name="password"
+                name="email"
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
                 autoComplete="off"
@@ -172,12 +187,13 @@ const Login = () => {
             <></>
           )}
 
-          <label className="text-md px-2 font-semibold">Password:</label>
+          <label htmlFor='password' className="text-md px-2 font-semibold">Password:</label>
           <div className="relative flex w-full">
             <input
               className={`mb-2 w-full rounded-lg bg-slate-300 p-2 shadow-inner  shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700 ${
-                passError ? "border-2 border-red-500" : ""
+                passError ? "outline outline-2 outline-red-400 shadow-none" : ""
               }`}
+              id='password'
               name="password"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
@@ -230,13 +246,31 @@ const Login = () => {
           </div>
 
           {passError ? (
-            <p className="m-1 rounded-sm bg-red-200 p-2 text-red-800 transition-all duration-300 ease-in-out ">
+            <p className="m-1 rounded-sm bg-red-200 p-2 text-red-800 accent-black transition-all duration-300 ease-in-out ">
               Enter a valid password
             </p>
           ) : (
             <></>
           )}
+          <div className="flex justify-start items-center">
+            
+            <input 
+              id='trust_device'
+              type='checkbox'
+              className="appearance-none cursor-pointer rounded-md w-6 h-6 m-2 ml-0 text-red-900 checked:bg-green-300 focus:ring-2 focus:ring-teal-700 bg-slate-100 shadow-inner"
+              checked={trustedDevice}
+              onChange={() => setTrustedDevice(!trustedDevice)}>
+              
+            </input>
+            {trustedDevice &&
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="absolute w-4 h-4 m-1 pointer-events-none">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+              </svg>
+            }
 
+            <label htmlFor='trust_device' className="m-2">Trust this device</label>
+            
+          </div>
           {signup ? (
             <button
               className="focus my-4 mx-auto w-full rounded-lg border-b-4 border-teal-900 border-b-teal-900 bg-teal-600 p-2 text-xl font-semibold  uppercase tracking-widest text-teal-50 shadow-2xl  hover:bg-teal-700 hover:from-teal-600 hover:to-teal-800 active:bg-teal-900 active:shadow-lg"
@@ -263,6 +297,7 @@ const Login = () => {
             {signup ? "log in" : "sign up"}
           </button>
         </div>
+
       </div>
     </div>
   );

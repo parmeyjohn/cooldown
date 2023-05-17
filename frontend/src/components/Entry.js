@@ -134,10 +134,10 @@ const Entry = ({ entry, setSearchVal }) => {
         >
           <div>
             <div className="relative flex w-full items-start justify-start">
-              <div className=" h-20 w-20 ">
+              <div className="h-20 w-20 ">
                 {"mediaObj" in entry ? (
                   <img
-                    className="h-full w-full rounded-md border-2 border-slate-800 object-cover object-center"
+                    className="h-20 w-20 rounded-md border-2 border-slate-800 object-cover object-center"
                     src={entry.mediaObj["sample_cover"].thumbnail_image}
                     alt="val"
                   ></img>
@@ -161,8 +161,8 @@ const Entry = ({ entry, setSearchVal }) => {
                 )}
               </div>
               <div className="flex h-full w-full justify-between">
-                <div className="ml-2 px-2 w-auto">
-                  <h2 className="col-span-4 truncate text-lg sm:text-xl font-semibold max-w-full">
+                <div className="ml-2 px-2">
+                  <h2 className="w-40 xxs:w-60 sm:w-80 lg:w-full truncate text-lg sm:text-xl font-semibold">
                     {entry.entryTitle}
                   </h2>
 

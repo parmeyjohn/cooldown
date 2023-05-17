@@ -6,9 +6,11 @@ import SearchBar from "./SearchBar";
 import SidebarJournal from "./SidebarJournal";
 import { JournalContext } from "../contexts/JournalContext";
 import { UserContext } from "../contexts/UserContext";
+import Settings from "./Settings";
 
 const Sidebar = ({ showSidebar, setShowSidebar }) => {
   const [newJournalName, setNewJournalName] = useState("");
+  const [showSettings, setShowSettings] = useState(false)
   const { journals, setJournals, currJournal, setCurrJournal } =
     useContext(JournalContext);
   const [journalSearchVal, setJournalSearchVal] = useState("");
@@ -44,6 +46,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
       id="sidebar"
       className="w-max-sm absolute top-0 left-0 flex h-screen w-[80%] max-w-sm flex-col bg-slate-200 shadow-md"
     >
+      {showSettings ? <Settings setShowSettings={setShowSettings}></Settings> : <></> }
       <div
         id="navigation"
         className="flex w-full items-center justify-between border-b-2 border-solid border-slate-300 text-slate-800"
@@ -181,7 +184,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
               </div>
               <div className="mr-4 text-left">
                 <h3 className="text-lg font-medium">User</h3>
-                <h3 className="text-lg ">@{user.username}</h3>
+                <h3 className="text-lg truncate">@{user.username}</h3>
               </div>
             </div>
 
@@ -191,6 +194,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
+              onClick={() => setShowSettings(true)}
               className="h-12 w-12 cursor-pointer p-2 hover:rounded-lg hover:bg-slate-400 active:bg-slate-500"
             >
               <path

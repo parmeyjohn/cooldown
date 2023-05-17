@@ -41,7 +41,7 @@ const Home = () => {
       }
     }
     console.log(groupedEntries);
-    return Object.entries(groupedEntries);
+    return Object.entries(groupedEntries).sort((a,b) => (a[0] >= b[0] ? 1 : -1));
   };
 
   return (
@@ -182,7 +182,7 @@ const Home = () => {
         )}
       </div>
 
-      <div className="relative z-10 mx-auto h-full w-full max-w-4xl overflow-y-auto px-4 pb-48">
+      <div className="relative z-10 mx-auto h-full w-full max-w-4xl overflow-y-auto  sm:px-4 pb-48">
         
           {entries && entries.length > 0 ? (
             groupBy(

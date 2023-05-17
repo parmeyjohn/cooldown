@@ -60,7 +60,7 @@ const EntryForm = () => {
         const newEntry = await entryService.update(currEntry.id, entryObject);
         const newJournal = {
           ...currJournal,
-          entries: currJournal.entries.concat(newEntry),
+          entries: currJournal.entries.filter((e) => e.id !== currEntry.id).concat(newEntry)
         };
         setJournals((prevJournals) =>
           prevJournals.map((j) => {
