@@ -33,9 +33,6 @@ const Login = () => {
    and handle local storage of user object */
   const handleLogin = async (e) => {
     e.preventDefault();
-    checkUsername()
-    checkPassword()
-    checkEmail()
     if (userError || emailError || passError) {
       return;
     }
@@ -138,11 +135,11 @@ const Login = () => {
           {signup ? "Sign Up" : "Login"}
         </h1>
         <div className="mx-2 flex flex-col px-4 text-left text-lg">
-          <label htmlFor='username' className="text-md px-2 font-semibold">Username:</label>
+          <label htmlFor='username' className="text-md mb-1 px-2 font-semibold">Username:</label>
           <input
             id='username'
-            className={`mb-2 w-full rounded-lg bg-slate-300 p-2 shadow-inner  shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700 ${
-              userError ? "outline outline-2 outline-red-400 shadow-none" : ""
+            className={`mb-2 w-full rounded-lg bg-slate-300 p-2 shadow-inner  shadow-slate-400 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700 ${
+              userError ? "outline focus:outline-none outline-red-400 shadow-none" : ""
             }`}
             value={username}
             name="username"
@@ -153,7 +150,7 @@ const Login = () => {
             onBlur={(e) => checkUsername(e)}
           ></input>
           {userError ? (
-            <p className="m-1 rounded-sm bg-red-200 p-2 text-red-800">
+            <p className="my-1 rounded-sm bg-red-200 p-2 text-sm text-red-800">
               Enter a valid username
             </p>
           ) : (
@@ -165,8 +162,8 @@ const Login = () => {
               <label htmlFor='email' className="text-md px-2 font-semibold">Email:</label>
               <input
                 id='email'
-                className={`mb-2 w-full rounded-lg bg-slate-300 p-2 shadow-inner  shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700 ${
-                  emailError ? "outline outline-2 outline-red-400 shadow-none" : ""
+                className={`mb-2 w-full rounded-lg bg-slate-300 p-2 shadow-inner  shadow-slate-400 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700 ${
+                  emailError ? "outline focus:outline-none outline-red-400 shadow-none" : ""
                 }`}
                 name="email"
                 onChange={(e) => setEmail(e.target.value)}
@@ -176,7 +173,7 @@ const Login = () => {
                 onBlur={(e) => checkEmail(e)}
               ></input>
               {emailError ? (
-                <p className="m-1 rounded-sm bg-red-200 p-2 text-red-800">
+                <p className="my-1 rounded-sm text-sm bg-red-200 p-2 text-red-800">
                   Enter a valid email
                 </p>
               ) : (
@@ -190,8 +187,8 @@ const Login = () => {
           <label htmlFor='password' className="text-md px-2 font-semibold">Password:</label>
           <div className="relative flex w-full">
             <input
-              className={`mb-2 w-full rounded-lg bg-slate-300 p-2 shadow-inner  shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700 ${
-                passError ? "outline outline-2 outline-red-400 shadow-none" : ""
+              className={`mb-2 w-full rounded-lg bg-slate-300 p-2 shadow-inner  shadow-slate-400 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700 ${
+                passError ? "outline focus:outline-none outline-red-400 shadow-none" : ""
               }`}
               id='password'
               name="password"
@@ -246,7 +243,7 @@ const Login = () => {
           </div>
 
           {passError ? (
-            <p className="m-1 rounded-sm bg-red-200 p-2 text-red-800 accent-black transition-all duration-300 ease-in-out ">
+            <p className="my-1 rounded-sm text-sm bg-red-200 p-2 text-red-800 accent-black transition-all duration-300 ease-in-out ">
               Enter a valid password
             </p>
           ) : (
@@ -257,7 +254,7 @@ const Login = () => {
             <input 
               id='trust_device'
               type='checkbox'
-              className="appearance-none cursor-pointer rounded-md w-6 h-6 m-2 ml-0 text-red-900 checked:bg-green-300 focus:ring-2 focus:ring-teal-700 bg-slate-100 shadow-inner"
+              className="appearance-none cursor-pointer rounded-md w-6 h-6 m-2 ml-0 transition duration-300 ease-in-out checked:bg-green-300 checked:shadow-none focus:ring-2 focus:ring-teal-700 bg-slate-300 shadow-inner shadow-slate-400"
               checked={trustedDevice}
               onChange={() => setTrustedDevice(!trustedDevice)}>
               
