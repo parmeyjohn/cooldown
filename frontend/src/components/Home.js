@@ -62,6 +62,7 @@ const Home = () => {
       <div className="mx-auto flex max-w-4xl items-center justify-between p-6 text-teal-100">
         {!showSidebar && (
           <button
+            id='menu-button'
             className="xl:absolute xl:left-5 xl:top-5"
             onClick={() => setShowSidebar(!showSidebar)}
           >
@@ -92,7 +93,7 @@ const Home = () => {
             edit: false,
           }}
         >
-          <button className="mb-2 rounded-lg border-b-2 border-solid border-teal-900 bg-teal-600 p-3 text-teal-50 shadow-xl hover:bg-teal-700 active:bg-teal-900 active:shadow-md">
+          <button id='create-entry-button' className="mb-2 rounded-lg border-b-2 border-solid border-teal-900 bg-teal-600 p-3 text-teal-50 shadow-xl hover:bg-teal-700 active:bg-teal-900 active:shadow-md">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -182,7 +183,9 @@ const Home = () => {
         )}
       </div>
 
-      <div className="relative z-10 mx-auto h-full w-full max-w-4xl overflow-y-auto  sm:px-4 pb-48">
+      <div 
+      data-cy='entries-div'
+      className="relative z-10 mx-auto h-full w-full max-w-4xl overflow-y-auto  sm:px-4 pb-48">
         
           {entries && entries.length > 0 ? (
             groupBy(

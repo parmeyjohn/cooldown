@@ -19,8 +19,8 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [signup, setSignUp] = useState(false);
-  const [trustedDevice, setTrustedDevice] = useState(false)
-  
+  const [trustedDevice, setTrustedDevice] = useState(false);
+
   // TODO: extract into error component
   const [userError, setUserError] = useState(false);
   const [passError, setPassError] = useState(false);
@@ -28,7 +28,7 @@ const Login = () => {
 
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-  
+
   /* send login POST request to server, set access tokens for services,
    and handle local storage of user object */
   const handleLogin = async (e) => {
@@ -42,15 +42,19 @@ const Login = () => {
         password,
       });
       if (trustedDevice) {
-        window.localStorage.setItem("cooldownUser", JSON.stringify(loggedInUser));
+        window.localStorage.setItem(
+          "cooldownUser",
+          JSON.stringify(loggedInUser)
+        );
       }
       journalService.setToken(loggedInUser.token);
       entryService.setToken(loggedInUser.token);
-      setUser(prevUser => {
-        return loggedInUser});
+      setUser((prevUser) => {
+        return loggedInUser;
+      });
       setUsername("");
       setPassword("");
-      navigate("/", {replace: true});
+      navigate("/", { replace: true });
     } catch (exception) {
       setError(true);
       // TODO: add alert component displaying banner on error
@@ -109,7 +113,7 @@ const Login = () => {
       setEmail("");
       handleLogin(e);
     } catch (exception) {
-      setError(true)
+      setError(true);
     }
   };
 
@@ -126,20 +130,24 @@ const Login = () => {
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center overflow-y-auto bg-gradient-to-b from-teal-900 to-slate-800 text-teal-900">
       <BetaAlert></BetaAlert>
-      <div className="mb-10 flex items-center justify-start  stroke-slate-800 stroke-2 text-4xl md:text-5xl font-semibold text-teal-100">
+      <div className="mb-10 flex items-center justify-start  stroke-slate-800 stroke-2 text-4xl font-semibold text-teal-100 md:text-5xl">
         <Logo className="h-12 w-12 md:h-16 md:w-16"></Logo>
         <div className="title">Cooldown</div>
       </div>
       <div className="mx-auto flex h-auto w-[80%] max-w-sm flex-col rounded-2xl bg-gradient-to-tl from-teal-100 to-white p-4 shadow-2xl transition-all duration-300 ease-in-out">
-        <h1 className="px-4 py-4 mx-2 text-2xl font-semibold">
+        <h1 className="mx-2 px-4 py-4 text-2xl font-semibold">
           {signup ? "Sign Up" : "Login"}
         </h1>
         <div className="mx-2 flex flex-col px-4 text-left text-lg">
-          <label htmlFor='username' className="text-md mb-1 px-2 font-semibold">Username:</label>
+          <label htmlFor="username" className="text-md mb-1 px-2 font-semibold">
+            Username:
+          </label>
           <input
-            id='username'
+            id="username"
             className={`mb-2 w-full rounded-lg bg-slate-300 p-2 shadow-inner  shadow-slate-400 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700 ${
-              userError ? "outline focus:outline-none outline-red-400 shadow-none" : ""
+              userError
+                ? "shadow-none outline outline-red-400 focus:outline-none"
+                : ""
             }`}
             value={username}
             name="username"
@@ -159,11 +167,15 @@ const Login = () => {
 
           {signup ? (
             <>
-              <label htmlFor='email' className="text-md px-2 font-semibold">Email:</label>
+              <label htmlFor="email" className="text-md px-2 font-semibold">
+                Email:
+              </label>
               <input
-                id='email'
+                id="email"
                 className={`mb-2 w-full rounded-lg bg-slate-300 p-2 shadow-inner  shadow-slate-400 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700 ${
-                  emailError ? "outline focus:outline-none outline-red-400 shadow-none" : ""
+                  emailError
+                    ? "shadow-none outline outline-red-400 focus:outline-none"
+                    : ""
                 }`}
                 name="email"
                 onChange={(e) => setEmail(e.target.value)}
@@ -173,7 +185,7 @@ const Login = () => {
                 onBlur={(e) => checkEmail(e)}
               ></input>
               {emailError ? (
-                <p className="my-1 rounded-sm text-sm bg-red-200 p-2 text-red-800">
+                <p className="my-1 rounded-sm bg-red-200 p-2 text-sm text-red-800">
                   Enter a valid email
                 </p>
               ) : (
@@ -184,13 +196,17 @@ const Login = () => {
             <></>
           )}
 
-          <label htmlFor='password' className="text-md px-2 font-semibold">Password:</label>
+          <label htmlFor="password" className="text-md px-2 font-semibold">
+            Password:
+          </label>
           <div className="relative flex w-full">
             <input
               className={`mb-2 w-full rounded-lg bg-slate-300 p-2 shadow-inner  shadow-slate-400 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700 ${
-                passError ? "outline focus:outline-none outline-red-400 shadow-none" : ""
+                passError
+                  ? "shadow-none outline outline-red-400 focus:outline-none"
+                  : ""
               }`}
-              id='password'
+              id="password"
               name="password"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
@@ -243,35 +259,46 @@ const Login = () => {
           </div>
 
           {passError ? (
-            <p className="my-1 rounded-sm text-sm bg-red-200 p-2 text-red-800 accent-black transition-all duration-300 ease-in-out ">
+            <p className="my-1 rounded-sm bg-red-200 p-2 text-sm text-red-800 accent-black transition-all duration-300 ease-in-out ">
               Enter a valid password
             </p>
           ) : (
             <></>
           )}
-          <div className="flex justify-start items-center">
-            
-            <input 
-              id='trust_device'
-              type='checkbox'
-              className="appearance-none cursor-pointer rounded-md w-6 h-6 m-2 ml-0 transition duration-300 ease-in-out checked:bg-green-300 checked:shadow-none focus:ring-2 focus:ring-teal-700 bg-slate-300 shadow-inner shadow-slate-400"
+          <div className="flex items-center justify-start">
+            <input
+              id="trust_device"
+              type="checkbox"
+              className="m-2 ml-0 h-6 w-6 cursor-pointer appearance-none rounded-md bg-slate-300 shadow-inner shadow-slate-400 transition duration-300 ease-in-out checked:bg-green-300 checked:shadow-none focus:ring-2 focus:ring-teal-700"
               checked={trustedDevice}
-              onChange={() => setTrustedDevice(!trustedDevice)}>
-              
-            </input>
-            {trustedDevice &&
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="absolute w-4 h-4 m-1 pointer-events-none">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+              onChange={() => setTrustedDevice(!trustedDevice)}
+            ></input>
+            {trustedDevice && (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+                className="pointer-events-none absolute m-1 h-4 w-4"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4.5 12.75l6 6 9-13.5"
+                />
               </svg>
-            }
+            )}
 
-            <label htmlFor='trust_device' className="m-2">Trust this device</label>
-            
+            <label htmlFor="trust_device" className="m-2">
+              Trust this device
+            </label>
           </div>
           {signup ? (
             <button
               className="focus my-4 mx-auto w-full rounded-lg border-b-4 border-teal-900 border-b-teal-900 bg-teal-600 p-2 text-xl font-semibold  uppercase tracking-widest text-teal-50 shadow-2xl  hover:bg-teal-700 hover:from-teal-600 hover:to-teal-800 active:bg-teal-900 active:shadow-lg"
               onClick={handleSignup}
+              id='signup-button'
             >
               sign up
             </button>
@@ -279,6 +306,7 @@ const Login = () => {
             <button
               className="focus my-4 mx-auto w-full rounded-lg border-b-4 border-teal-900 border-b-teal-900 bg-teal-600 p-2 text-xl font-semibold  uppercase tracking-widest text-teal-50 shadow-2xl  hover:bg-teal-700 hover:from-teal-600 hover:to-teal-800 active:bg-teal-900 active:shadow-lg"
               onClick={handleLogin}
+              id='login-button'
             >
               log in
             </button>
@@ -294,7 +322,6 @@ const Login = () => {
             {signup ? "log in" : "sign up"}
           </button>
         </div>
-
       </div>
     </div>
   );

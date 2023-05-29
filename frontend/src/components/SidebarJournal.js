@@ -71,6 +71,7 @@ const SidebarJournal = ({ journal }) => {
       onClick={() => setCurrJournal(journal)}
     >
       <input
+        data-cy='input-edit-journal'
         className="w-full bg-transparent read-only:cursor-pointer read-only:outline-none focus-within:outline-none"
         onChange={(e) => setEditedJournalVal(e.target.value)}
         onKeyDown={handleEnter}

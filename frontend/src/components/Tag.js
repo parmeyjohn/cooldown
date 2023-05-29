@@ -6,7 +6,7 @@ const Tag = ({ title, removeTag, handleClick }) => {
     >
       <div className="mx-auto inline">{title}</div>
       {removeTag && (
-        <div className="inline" onClick={() => removeTag(title)}>
+        <button className="inline cursor-pointer" onClick={() => removeTag(title)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -21,7 +21,7 @@ const Tag = ({ title, removeTag, handleClick }) => {
               d="M6 18L18 6M6 6l12 12"
             />
           </svg>
-        </div>
+        </button>
       )}
     </div>
   );

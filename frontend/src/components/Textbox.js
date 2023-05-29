@@ -44,6 +44,7 @@ const Textbox = ({ initialContent, setText, setContent }) => {
   return (
     <div
       id="container"
+      data-cy='input-entry-text'
       ref={outerRef}
       className="mt-1 mb-2 h-60 rounded-xl xl:h-80"
     ></div>

@@ -119,7 +119,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             <h2 className="text-md ml-2 h-6 font-medium  ">Journals:</h2>
           </div>
 
-          <div className="mr-4 ml-8 h-[80%] overflow-y-auto rounded-xl ">
+          <div data-cy='journals-div' className="mr-4 ml-8 h-[80%] max-h-96 overflow-y-auto rounded-xl ">
             {journals
               .filter((x) => x.journalName.includes(journalSearchVal))
               .map((j) => (
@@ -136,6 +136,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             <input
               className="ml-2 mb-2 w-[75%] rounded-lg bg-slate-300 p-2 shadow-inner  shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700"
               type="text"
+              data-cy="input-journal-name"
               name="new-journal"
               placeholder="Add a journal..."
               value={newJournalName}
@@ -146,6 +147,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             <button
               className="mb-2 rounded-lg border-b-2 border-solid border-teal-900 bg-teal-600 p-3 text-teal-50 shadow-xl hover:bg-teal-700 active:bg-teal-900 active:shadow-md"
               onClick={addJournal}
+              data-cy='add-journal-button'
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -189,6 +191,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             </div>
 
             <svg
+              id='user-settings-button'
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"

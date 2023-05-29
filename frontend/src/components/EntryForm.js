@@ -197,6 +197,7 @@ const EntryForm = () => {
             className="mt-2 mb-2 h-14 w-full rounded-lg bg-transparent p-3 text-3xl font-semibold decoration-teal-700 underline-offset-4 focus:underline focus:outline-none "
             autoFocus
             name="title"
+            data-cy='input-entry-title'
             placeholder="Untitled"
             autoComplete="off"
             value={entryTitle}
@@ -213,12 +214,14 @@ const EntryForm = () => {
             }}
             type="datetime-local"
             name="start-time"
+            data-cy='input-entry-date'
             value={startDate.slice(0, 16)}
           ></input>
           <label className="text-base px-2 font-semibold">Media:</label>
 
           <div className="relative flex text-teal-900">
             <SearchAPI
+              data-cy='input-media-component'
               mediaObj={mediaObj}
               setMediaObj={setMediaObj}
               searchValue={mediaTitle}
@@ -255,6 +258,7 @@ const EntryForm = () => {
               className="mr-4 mt-1 mb-2 w-full rounded-lg bg-slate-300 p-3 shadow-inner shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700"
               type="text"
               name="curr-tag"
+              data-cy='input-entry-tag'
               placeholder="Add a tag..."
               value={currTag}
               onChange={(e) => setCurrTag(e.target.value)}
@@ -262,6 +266,7 @@ const EntryForm = () => {
               autoComplete="off"
             ></input>
             <button
+              data-cy='add-tag-button'
               className="mb-2 justify-self-end rounded-lg border-b-2 border-solid border-teal-900 bg-teal-600 p-3 text-teal-50 shadow-xl hover:bg-teal-700 active:bg-teal-900 active:shadow-md"
               onClick={addTag}
             >
@@ -282,7 +287,9 @@ const EntryForm = () => {
             </button>
           </div>
 
-          <div className="h-12 mx-auto mt-3 flex w-full justify-start overflow-x-auto transition duration-300 ease-in-out">
+          <div 
+          data-cy='tags-div'
+          className="h-12 mx-auto mt-3 flex w-full justify-start overflow-x-auto transition duration-300 ease-in-out">
             {tags ? (
               tags.map((t, i) => (
                 <Tag title={t} removeTag={removeTag} key={i}></Tag>
@@ -295,6 +302,7 @@ const EntryForm = () => {
       </div>
       <div className=" mx-auto mb-2 flex w-full max-w-4xl justify-center p-4">
         <button
+          data-cy='save-entry-button'
           onClick={saveEntry}
           className=" focus w-[90%] rounded-lg border-b-4 border-teal-900 border-b-teal-900 bg-teal-600 p-3 text-xl font-semibold  uppercase tracking-widest text-teal-50 shadow-2xl  hover:bg-teal-700 hover:from-teal-600 hover:to-teal-800 active:bg-teal-900 active:shadow-lg"
         >

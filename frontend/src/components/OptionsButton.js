@@ -32,12 +32,14 @@ const OptionsButton = ({ handleEdit, handleDelete }) => {
 
       {showOptions && (
         <div
+          data-cy='options-div'
           ref={menuRef}
           className=" absolute right-0 top-6 z-50 w-40 divide-y-2 rounded-md border-2 border-teal-800 bg-slate-50 py-1 font-medium text-slate-500 shadow-2xl hover:cursor-pointer "
         >
           <div
             className="flex items-center justify-start hover:bg-slate-200 active:bg-slate-300"
             onMouseDown={handleEdit}
+            data-cy='edit-journal-button'
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -60,6 +62,7 @@ const OptionsButton = ({ handleEdit, handleDelete }) => {
           <div
             className="flex items-center justify-start hover:bg-slate-200 active:bg-slate-300"
             onMouseDown={handleDelete}
+            data-cy='delete-journal-button'
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

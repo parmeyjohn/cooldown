@@ -44,6 +44,7 @@ const SearchAPI = ({
         <input
           className="mt-1 mb-2 w-full rounded-lg bg-slate-300 p-3 shadow-inner shadow-slate-400 outline-8 transition  duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700"
           name="search"
+          data-cy='input-entry-media'
           placeholder={placeholder}
           autoComplete="off"
           value={searchValue}
@@ -52,7 +53,9 @@ const SearchAPI = ({
           onBlur={(e) => setShowGames(false)}
         ></input>
         {showGames ? (
-          <div className="absolute top-11 left-0 z-50 h-auto w-full divide-y-2 rounded-md rounded-t-none border-b-4 border-teal-700 bg-teal-50 py-1 font-medium text-slate-500 shadow-2xl transition duration-300 ease-linear hover:cursor-pointer">
+          <div 
+          data-cy='media-dropdown'
+          className="absolute top-11 left-0 z-50 h-auto w-full divide-y-2 rounded-md rounded-t-none border-b-4 border-teal-700 bg-teal-50 py-1 font-medium text-slate-500 shadow-2xl transition duration-300 ease-linear hover:cursor-pointer">
             {games !== [] ? (
               games.map((g) => (
                 <div

@@ -74,7 +74,9 @@ const Settings = ({ setShowSettings }) => {
             
             
             <div className="flex justify-around items-center">
-                <button className="letter w-fit rounded-lg my-2 border-b-2 border-solid border-teal-900 bg-teal-600 p-3 font-medium uppercase tracking-wider text-teal-50 shadow-xl hover:bg-teal-700 active:bg-teal-900 active:shadow-md"
+                <button 
+                  id='logout-button'
+                  className="letter w-fit rounded-lg my-2 border-b-2 border-solid border-teal-900 bg-teal-600 p-3 font-medium uppercase tracking-wider text-teal-50 shadow-xl hover:bg-teal-700 active:bg-teal-900 active:shadow-md"
                   onClick={logoutUser}>
                     Log out
                 </button>

@@ -25,12 +25,10 @@ const Entry = ({ entry, setSearchVal }) => {
     setEntries((prevEntries) => prevEntries.filter((e) => e.id !== entry.id));
     setJournals((prevJournals) => {
       var newJournals = [...prevJournals];
-      console.log("before delete", newJournals);
-      let journalIndex = newJournals.indexOf(currJournal);
+      let journalIndex = newJournals.findIndex(x => x.journalName === currJournal.journalName);
       newJournals[journalIndex].entries = newJournals[
         journalIndex
       ].entries.filter((e) => e !== entry);
-      console.log("after delete", newJournals);
       return newJournals;
     });
     journalService.update(entry.journalId, { $pull: { entries: entry.id } });
@@ -68,6 +66,7 @@ const Entry = ({ entry, setSearchVal }) => {
         <div
           onClick={() => setShowFullEntry(!showFullEntry)}
           className=" transition-colors duration-300 ease-in-out mx-2 h-auto cursor-pointer border-b-2 bg-teal-50 p-5 px-6 first:rounded-t-xl last:rounded-b-xl last:border-b-4 last:border-b-slate-400  last:shadow-xl hover:bg-slate-300 active:bg-slate-400"
+          data-cy='entry'
         >
           <div>
             <div className="relative flex flex-col sm:flex-row w-full items-start justify-start">
