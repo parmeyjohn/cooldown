@@ -12,6 +12,8 @@ Link to website: https://usecooldown.com
 
 Enter the demo account with 'username' and 'password' as the username and password.
 
+Note: I'm currently hosting using the free tier of render.com, which can take a minute or two to spin up. I'm considering alternatives for hosting but also working on a demo video for a quicker overview.
+
 ## Tech
 The app was built using the MERN stack primarily because I've been going through the fullstackopen course and wanted to apply what I've learned but also for a few other reasons. 
 Here is a list of the tech I used (and why I used it):
