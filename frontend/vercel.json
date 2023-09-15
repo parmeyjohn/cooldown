@@ -1,0 +1,12 @@
+{
+    "rewrites": [
+        {
+            "source": "/api/:path*",
+            "destination": "https://cooldown-backend.fly.dev/api/:path*"
+        },
+        {
+            "source": "/api/:path*/",
+            "destination": "https://cooldown-backend.fly.dev/api/:path*/"
+        }
+    ]
+}
