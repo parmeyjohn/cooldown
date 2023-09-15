@@ -322,7 +322,9 @@ const Login = () => {
             {signup ? "log in" : "sign up"}
           </button>
         </div>
+      
       </div>
+      <p className="p-4 text-slate-400">Enter "username" and "password" for demo account</p>
     </div>
   );
 };
