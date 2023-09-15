@@ -30,6 +30,9 @@ const Home = () => {
     });
   }, [currJournal]);
 
+  useEffect(() => {
+
+  }, [entries])
   const groupBy = (initialEntries) => {
     const groupedEntries = {};
     for (let i = 0; i < initialEntries.length; i++) {
@@ -41,7 +44,7 @@ const Home = () => {
       }
     }
     console.log(groupedEntries);
-    return Object.entries(groupedEntries).sort((a,b) => (a[0] >= b[0] ? 1 : -1));
+    return Object.entries(groupedEntries);
   };
 
   return (
@@ -111,14 +114,13 @@ const Home = () => {
           </button>
         </Link>
       </div>
-      <div className="mx-auto flex w-[90%] max-w-3xl items-center justify-between px-4 text-teal-50">
+      <div className="mx-auto flex w-[90%] max-w-4xl items-center justify-between px-4 text-teal-50">
         <div className="relative mb-4 mr-4 flex w-full max-w-2xl items-center  text-slate-500">
           <SearchBar
             searchValue={searchValue}
             setSearchValue={setSearchValue}
             placeholder={"Search entries..."}
           ></SearchBar>
-
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -138,7 +140,7 @@ const Home = () => {
           <button
             onClick={() => {
               setReverseEntries(false);
-              setEntries((prevEntries) => prevEntries.reverse());
+              setEntries((prevEntries) => [...prevEntries].reverse());
             }}
             className="h-auto text-teal-100"
           >
@@ -161,7 +163,7 @@ const Home = () => {
           <button
             onClick={() => {
               setReverseEntries(true);
-              setEntries((prevEntries) => prevEntries.reverse());
+              setEntries((prevEntries) => [...prevEntries].reverse());
             }}
             className="h-auto text-teal-100 "
           >
@@ -197,7 +199,7 @@ const Home = () => {
                   e.tags.includes(searchValue)
               )
             )
-              .reverse()
+              
               .map((group) => (
                 <div
                   className="z-10 mb-2 h-auto w-full rounded-2xl bg-transparent pb-4"
