@@ -298,7 +298,7 @@ const Login = () => {
             <button
               className="focus my-4 mx-auto w-full rounded-lg border-b-4 border-teal-900 border-b-teal-900 bg-teal-600 p-2 text-xl font-semibold  uppercase tracking-widest text-teal-50 shadow-2xl  hover:bg-teal-700 hover:from-teal-600 hover:to-teal-800 active:bg-teal-900 active:shadow-lg"
               onClick={handleSignup}
-              id='signup-button'
+              id="signup-button"
             >
               sign up
             </button>
@@ -306,7 +306,7 @@ const Login = () => {
             <button
               className="focus my-4 mx-auto w-full rounded-lg border-b-4 border-teal-900 border-b-teal-900 bg-teal-600 p-2 text-xl font-semibold  uppercase tracking-widest text-teal-50 shadow-2xl  hover:bg-teal-700 hover:from-teal-600 hover:to-teal-800 active:bg-teal-900 active:shadow-lg"
               onClick={handleLogin}
-              id='login-button'
+              id="login-button"
             >
               log in
             </button>
@@ -322,9 +322,10 @@ const Login = () => {
             {signup ? "log in" : "sign up"}
           </button>
         </div>
-      
       </div>
-      <p className="p-4 text-slate-400">Enter "username" and "password" for demo account</p>
+      <p className="text-overflow w-[90%] p-4 text-center text-slate-400">
+        Enter "username" and "password" for demo account
+      </p>
     </div>
   );
 };
