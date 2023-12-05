@@ -9,6 +9,7 @@ import Entry from "./components/Entry";
 import EntryForm from "./components/EntryForm";
 import Home from "./components/Home";
 import Login from "./components/Login";
+import Landing from "./components/Landing";
 import AuthRoute from "./components/AuthRoute";
 
 import entryService from "./services/entries";
@@ -91,6 +92,7 @@ const App = () => {
             <Router>
               <Routes>
                 <Route path="/" element={user ? <Home /> : <Login />}></Route>
+                <Route path="/landing" element={<Landing></Landing>}></Route>
                 <Route
                   path="/create"
                   element={
