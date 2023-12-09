@@ -4,11 +4,10 @@ module.exports = {
   theme: {
     extend: {
       screens: {
-        'xxs': '480px'
-      }
-
+        xxs: "480px",
+        "4xl": "900px",
+      },
     },
-    
   },
-  plugins: [require('@tailwindcss/line-clamp')],
-}
+  plugins: [require("@tailwindcss/line-clamp")],
+};

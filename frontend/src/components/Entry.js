@@ -25,7 +25,9 @@ const Entry = ({ entry, setSearchVal }) => {
     setEntries((prevEntries) => prevEntries.filter((e) => e.id !== entry.id));
     setJournals((prevJournals) => {
       var newJournals = [...prevJournals];
-      let journalIndex = newJournals.findIndex(x => x.journalName === currJournal.journalName);
+      let journalIndex = newJournals.findIndex(
+        (x) => x.journalName === currJournal.journalName
+      );
       newJournals[journalIndex].entries = newJournals[
         journalIndex
       ].entries.filter((e) => e !== entry);
@@ -36,7 +38,7 @@ const Entry = ({ entry, setSearchVal }) => {
 
   const handleEdit = (event) => {
     setCurrEntry(entry);
-    navigate("create", {
+    navigate("edit-entry", {
       state: {
         edit: true,
       },
@@ -65,12 +67,12 @@ const Entry = ({ entry, setSearchVal }) => {
       {showFullEntry ? (
         <div
           onClick={() => setShowFullEntry(!showFullEntry)}
-          className=" transition-colors duration-300 ease-in-out mx-2 h-auto cursor-pointer border-b-2 bg-teal-50 p-5 px-6 first:rounded-t-xl last:rounded-b-xl last:border-b-4 last:border-b-slate-400  last:shadow-xl hover:bg-slate-300 active:bg-slate-400"
-          data-cy='entry'
+          className=" mx-2 h-auto cursor-pointer border-b-2 bg-teal-50 p-5 px-6 transition-colors duration-300 ease-in-out first:rounded-t-xl last:rounded-b-xl last:border-b-4 last:border-b-slate-400  last:shadow-xl hover:bg-slate-300 active:bg-slate-400"
+          data-cy="entry"
         >
           <div>
-            <div className="relative flex flex-col sm:flex-row w-full items-start justify-start">
-              <div className="-order-1 h-40 w-full sm:w-40 py-2 mb-2 flex justify-center items-center">
+            <div className="relative flex w-full flex-col items-start justify-start sm:flex-row">
+              <div className="-order-1 mb-2 flex h-40 w-full items-center justify-center py-2 sm:w-40">
                 {"mediaObj" in entry ? (
                   <img
                     className="h-full w-full rounded-md border-2 border-slate-800 object-cover object-center"
@@ -96,23 +98,21 @@ const Entry = ({ entry, setSearchVal }) => {
                   </div>
                 )}
               </div>
-              <div className="flex flex-col h-full w-full sm:ml-3 items-start justify-between -order-1">
+              <div className="-order-1 flex h-full w-full flex-col items-start justify-between sm:ml-3">
                 <div className=" flex w-full justify-between sm:px-2">
-                  <h2 className="w-auto max-w-[90%] sm:truncate text-xl font-semibold">
+                  <h2 className="w-auto max-w-[90%] text-xl font-semibold sm:truncate">
                     {entry.entryTitle !== "" ? entry.entryTitle : "Untitled"}
                   </h2>
                   <OptionsButton
-                  handleEdit={handleEdit}
-                  handleDelete={handleDelete}
-                ></OptionsButton>
-                  
+                    handleEdit={handleEdit}
+                    handleDelete={handleDelete}
+                  ></OptionsButton>
                 </div>
 
-                
-                <p className="py-2 ml-2 text-left leading-relaxed">{entry.text}</p>
+                <p className="ml-2 py-2 text-left leading-relaxed">
+                  {entry.text}
+                </p>
               </div>
-
-              
             </div>
             <div className="flex w-full items-end justify-between">
               <div className="ml-4 mt-4 flex overflow-x-auto">
@@ -161,7 +161,7 @@ const Entry = ({ entry, setSearchVal }) => {
               </div>
               <div className="flex h-full w-full justify-between">
                 <div className="ml-2 px-2">
-                  <h2 className="w-40 xxs:w-60 sm:w-80 lg:w-full truncate text-lg sm:text-xl font-semibold">
+                  <h2 className="w-40 truncate text-lg font-semibold xxs:w-60 sm:w-80 sm:text-xl lg:w-full">
                     {entry.entryTitle}
                   </h2>
 

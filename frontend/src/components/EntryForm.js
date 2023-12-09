@@ -11,6 +11,10 @@ import { JournalContext } from "../contexts/JournalContext";
 import entryService from "../services/entries";
 import journalService from "../services/journals";
 
+import { ReactComponent as XIcon } from "../assets/heroicons/x.svg";
+import { ReactComponent as PlusIcon } from "../assets/heroicons/plus.svg";
+import { ReactComponent as SearchIcon } from "../assets/heroicons/search.svg";
+
 const EntryForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -60,7 +64,9 @@ const EntryForm = () => {
         const newEntry = await entryService.update(currEntry.id, entryObject);
         const newJournal = {
           ...currJournal,
-          entries: currJournal.entries.filter((e) => e.id !== currEntry.id).concat(newEntry)
+          entries: currJournal.entries
+            .filter((e) => e.id !== currEntry.id)
+            .concat(newEntry),
         };
         setJournals((prevJournals) =>
           prevJournals.map((j) => {
@@ -101,13 +107,15 @@ const EntryForm = () => {
         // updating the entries in the current journal
         setCurrJournal((prevJournal) => newJournal);
         // updating the journal array to include the newly updated journal
-        setJournals((prevJournals) => prevJournals.map((j) => {
-          if (j.id === newJournal.id) {
-            return newJournal
-          } else {
-            return j
-          }
-        }));
+        setJournals((prevJournals) =>
+          prevJournals.map((j) => {
+            if (j.id === newJournal.id) {
+              return newJournal;
+            } else {
+              return j;
+            }
+          })
+        );
 
         alert("entry created");
       } catch (e) {
@@ -147,18 +155,18 @@ const EntryForm = () => {
   };
 
   const setFormatDate = (dateString) => {
-    console.log('date str', dateString)
+    console.log("date str", dateString);
     var currTime = new Date(dateString);
-    console.log('curr time', currTime)
+    console.log("curr time", currTime);
     var offset = currTime.getTimezoneOffset() * 60 * 1000;
     const newTime = new Date(currTime - offset);
-    console.log('new time', newTime)
+    console.log("new time", newTime);
     setStartDate(newTime.toISOString());
   };
-
+  // add breakpoint for larger screens including: "4xl:-right-32 4xl:left-auto"
   return (
-    <div className="flex h-screen w-screen flex-col justify-between overflow-y-auto bg-gradient-to-b from-teal-50 to-teal-100">
-      <div className=" mx-auto flex h-auto w-full  max-w-4xl flex-col justify-start text-teal-900">
+    <div className="absolute top-[50%] left-[50%] z-20 mx-auto flex max-h-[80%] w-[90%] max-w-3xl -translate-x-[50%] -translate-y-[50%] flex-col justify-between overflow-y-auto rounded-2xl border-2 border-b-8 border-slate-600 bg-teal-50 pb-8">
+      <div className=" mx-auto flex w-full flex-col justify-start text-teal-900">
         <div className="flex w-full items-center justify-between px-4 py-6">
           <h1 className=" mx-4 h-8">{currJournal.journalName}</h1>
           <button
@@ -176,20 +184,7 @@ const EntryForm = () => {
             }}
             className="mr-2 h-10 w-10 justify-self-end rounded-lg p-1 hover:bg-slate-300 active:bg-slate-400"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={2}
-              stroke="currentColor"
-              className=" "
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
+            <XIcon className="text-teal-900"></XIcon>
           </button>
         </div>
         <div className="flex w-full items-center px-4 text-gray-500 focus-within:text-gray-700  ">
@@ -197,7 +192,7 @@ const EntryForm = () => {
             className="mt-2 mb-2 h-14 w-full rounded-lg bg-transparent p-3 text-3xl font-semibold decoration-teal-700 underline-offset-4 focus:underline focus:outline-none "
             autoFocus
             name="title"
-            data-cy='input-entry-title'
+            data-cy="input-entry-title"
             placeholder="Untitled"
             autoComplete="off"
             value={entryTitle}
@@ -206,7 +201,7 @@ const EntryForm = () => {
         </div>
 
         <div className="mx-2 flex flex-col px-4 text-left text-lg ">
-          <label className="text-base px-2 font-semibold">Date:</label>
+          <label className="px-2 text-base font-semibold">Date:</label>
           <input
             className="mt-1 mb-2 rounded-lg bg-slate-300 p-3 shadow-inner shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700"
             onChange={(e) => {
@@ -214,37 +209,23 @@ const EntryForm = () => {
             }}
             type="datetime-local"
             name="start-time"
-            data-cy='input-entry-date'
+            data-cy="input-entry-date"
             value={startDate.slice(0, 16)}
           ></input>
-          <label className="text-base px-2 font-semibold">Media:</label>
+          <label className="px-2 text-base font-semibold">Media:</label>
 
           <div className="relative flex text-teal-900">
             <SearchAPI
-              data-cy='input-media-component'
+              data-cy="input-media-component"
               mediaObj={mediaObj}
               setMediaObj={setMediaObj}
               searchValue={mediaTitle}
               setSearchValue={setMediaTitle}
               placeholder={"Find a media title..."}
             ></SearchAPI>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={2}
-              stroke="currentColor"
-              className="absolute right-3 top-4 h-6 w-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-              />
-            </svg>
           </div>
 
-          <label className="text-base px-2 font-semibold">Entry:</label>
+          <label className="px-2 text-base font-semibold">Entry:</label>
 
           <Textbox
             initialContent={content}
@@ -252,13 +233,13 @@ const EntryForm = () => {
             setContent={setContent}
           ></Textbox>
 
-          <label className="text-base px-2 font-semibold ">Tags:</label>
-          <div className="flex items-center justify-between">
+          <label className="mb-1 px-2 text-base font-semibold ">Tags:</label>
+          <div className="flex items-center justify-between gap-4">
             <input
-              className="mr-4 mt-1 mb-2 w-full rounded-lg bg-slate-300 p-3 shadow-inner shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700"
+              className="w-full rounded-lg bg-slate-300 p-3 shadow-inner shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700"
               type="text"
               name="curr-tag"
-              data-cy='input-entry-tag'
+              data-cy="input-entry-tag"
               placeholder="Add a tag..."
               value={currTag}
               onChange={(e) => setCurrTag(e.target.value)}
@@ -266,30 +247,19 @@ const EntryForm = () => {
               autoComplete="off"
             ></input>
             <button
-              data-cy='add-tag-button'
-              className="mb-2 justify-self-end rounded-lg border-b-2 border-solid border-teal-900 bg-teal-600 p-3 text-teal-50 shadow-xl hover:bg-teal-700 active:bg-teal-900 active:shadow-md"
+              data-cy="add-tag-button"
+              className="flex shrink-0 items-center justify-center rounded-lg border-b-2 border-solid border-teal-900 bg-teal-600 p-2 text-teal-50 shadow-xl hover:bg-teal-700 active:bg-teal-900 active:shadow-md"
               onClick={addTag}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className="h-6 w-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 4.5v15m7.5-7.5h-15"
-                />
-              </svg>
+              <PlusIcon></PlusIcon>
+              <span className="hidden px-2 text-base md:block"> Add Tag</span>
             </button>
           </div>
 
-          <div 
-          data-cy='tags-div'
-          className="h-12 mx-auto mt-3 flex w-full justify-start overflow-x-auto transition duration-300 ease-in-out">
+          <div
+            data-cy="tags-div"
+            className="mx-auto mt-3 flex h-12 w-full justify-start overflow-x-auto transition duration-300 ease-in-out"
+          >
             {tags ? (
               tags.map((t, i) => (
                 <Tag title={t} removeTag={removeTag} key={i}></Tag>
@@ -300,11 +270,18 @@ const EntryForm = () => {
           </div>
         </div>
       </div>
-      <div className=" mx-auto mb-2 flex w-full max-w-4xl justify-center p-4">
+      <div className=" mx-auto mb-2 flex w-full max-w-4xl justify-center gap-4 p-4">
         <button
-          data-cy='save-entry-button'
+          id="create-entry-button"
+          className="flex items-center justify-center rounded-lg border-b-2 border-solid border-teal-900 bg-teal-600 p-2 text-teal-50 shadow-xl hover:bg-teal-700 active:bg-teal-900 active:shadow-md"
+        >
+          <span className="hidden px-2 md:block">Create Entry</span>
+          <PlusIcon></PlusIcon>
+        </button>
+        <button
+          data-cy="save-entry-button"
           onClick={saveEntry}
-          className=" focus w-[90%] rounded-lg border-b-4 border-teal-900 border-b-teal-900 bg-teal-600 p-3 text-xl font-semibold  uppercase tracking-widest text-teal-50 shadow-2xl  hover:bg-teal-700 hover:from-teal-600 hover:to-teal-800 active:bg-teal-900 active:shadow-lg"
+          className=" focus w-full rounded-lg border-b-4 border-teal-900 border-b-teal-900 bg-teal-600 p-3 text-xl font-semibold  uppercase tracking-widest text-teal-50 shadow-2xl  hover:bg-teal-700 hover:from-teal-600 hover:to-teal-800 active:bg-teal-900 active:shadow-lg"
         >
           save
         </button>

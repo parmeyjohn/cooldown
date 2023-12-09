@@ -15,6 +15,7 @@ import AuthRoute from "./components/AuthRoute";
 import entryService from "./services/entries";
 import journalService from "./services/journals";
 import loginService from "./services/login";
+import EditEntryForm from "./components/EditEntryForm";
 
 const App = () => {
   const initialEntry = {
@@ -44,7 +45,7 @@ const App = () => {
     if (user) {
       journalService.getAll().then((fetchedJournals) => {
         if (fetchedJournals && fetchedJournals.length > 0) {
-          console.log('in fetched journals', fetchedJournals)
+          console.log("in fetched journals", fetchedJournals);
           setJournals((prevJournals) => fetchedJournals);
           setCurrJournal((prevJournal) => fetchedJournals[0]);
           setEntries((prevEntries) => currJournal.entries);
@@ -57,7 +58,7 @@ const App = () => {
             journalService.create(journalObject).then((newJournal) => {
               setJournals((prevJournals) => prevJournals.concat(newJournal));
               setCurrJournal((prevJournal) => newJournal);
-              console.log('changed journals and set curr journal')
+              console.log("changed journals and set curr journal");
             });
           } catch (e) {
             console.log(e);
@@ -65,18 +66,18 @@ const App = () => {
         }
       });
     } else {
-      console.log('no user')
+      console.log("no user");
     }
   }, [user]);
 
   useEffect(() => {
-    const userJSON = window.localStorage.getItem('cooldownUser')
+    const userJSON = window.localStorage.getItem("cooldownUser");
     if (userJSON !== null) {
-      const cooldownUser = JSON.parse(userJSON)
-      console.log(cooldownUser)
-      setUser(cooldownUser)
-      journalService.setToken(cooldownUser.token)
-      entryService.setToken(cooldownUser.token)
+      const cooldownUser = JSON.parse(userJSON);
+      console.log(cooldownUser);
+      setUser(cooldownUser);
+      journalService.setToken(cooldownUser.token);
+      entryService.setToken(cooldownUser.token);
     }
   }, []);
 
@@ -91,24 +92,30 @@ const App = () => {
           >
             <Router>
               <Routes>
-                <Route path="/" element={user ? <Home /> : <Login />}></Route>
+                <Route path="/" element={user ? <Home /> : <Login />}>
+                  <Route
+                    path="/create"
+                    element={
+                      <AuthRoute user={user}>
+                        <EntryForm />
+                      </AuthRoute>
+                    }
+                  ></Route>
+                  <Route
+                    path="/edit"
+                    element={
+                      <AuthRoute user={user}>
+                        <EntryForm />
+                      </AuthRoute>
+                    }
+                  ></Route>
+                  <Route
+                    path="edit-entry"
+                    element={<EditEntryForm></EditEntryForm>}
+                  ></Route>
+                </Route>
+
                 <Route path="/landing" element={<Landing></Landing>}></Route>
-                <Route
-                  path="/create"
-                  element={
-                    <AuthRoute user={user}>
-                      <EntryForm />
-                    </AuthRoute>
-                  }
-                ></Route>
-                <Route
-                  path="/edit"
-                  element={
-                    <AuthRoute user={user}>
-                      <EntryForm />
-                    </AuthRoute>
-                  }
-                ></Route>
               </Routes>
             </Router>
           </EntryContext.Provider>

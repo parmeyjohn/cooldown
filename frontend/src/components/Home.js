@@ -14,7 +14,7 @@ import SearchBar from "./SearchBar";
 import { EntryContext } from "../contexts/EntryContext";
 import { JournalContext } from "../contexts/JournalContext";
 
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 const Home = () => {
   const { entries, setEntries } = useContext(EntryContext);
@@ -65,6 +65,7 @@ const Home = () => {
       >
         <Sidebar setShowSidebar={setShowSidebar} showSidebar={showSidebar} />
       </Transition>
+      <Outlet></Outlet>
 
       <div
         id="header"
@@ -89,7 +90,7 @@ const Home = () => {
           <div className="flex items-center justify-end gap-4">
             <button
               id="create-entry-button"
-              className="hidden rounded-lg  p-2 hover:bg-slate-500 active:bg-slate-400"
+              className="hidden rounded-lg p-2 hover:bg-slate-500 active:bg-slate-400"
             >
               <EditSquareIcon></EditSquareIcon>
             </button>

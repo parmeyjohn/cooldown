@@ -4,6 +4,8 @@ import { Transition } from "@headlessui/react";
 
 import gamesService from "../services/games";
 
+import { ReactComponent as SearchIcon } from "../assets/heroicons/search.svg";
+
 const SearchAPI = ({
   searchValue,
   setSearchValue,
@@ -44,7 +46,7 @@ const SearchAPI = ({
         <input
           className="mt-1 mb-2 w-full rounded-lg bg-slate-300 p-3 shadow-inner shadow-slate-400 outline-8 transition  duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700"
           name="search"
-          data-cy='input-entry-media'
+          data-cy="input-entry-media"
           placeholder={placeholder}
           autoComplete="off"
           value={searchValue}
@@ -53,29 +55,28 @@ const SearchAPI = ({
           onBlur={(e) => setShowGames(false)}
         ></input>
         {showGames ? (
-          <div 
-          data-cy='media-dropdown'
-          className="absolute top-11 left-0 z-50 h-auto w-full divide-y-2 rounded-md rounded-t-none border-b-4 border-teal-700 bg-teal-50 py-1 font-medium text-slate-500 shadow-2xl transition duration-300 ease-linear hover:cursor-pointer">
-            {games !== [] ? (
-              games.map((g) => (
-                <div
-                  key={g.game_id}
-                  onMouseDown={(e) => onClickGame(e, g)}
-                  className="w-full bg-transparent px-2 py-1 font-normal hover:bg-slate-200"
-                >
-                  {g.title}
-                </div>
-              ))
-            ) : (
-              <div className="w-full bg-transparent px-2 py-1 font-normal hover:bg-slate-200">
-                Find your game
+          <div
+            data-cy="media-dropdown"
+            className="absolute top-11 left-0 z-50 h-auto w-full divide-y-2 rounded-md rounded-t-none border-b-4 border-teal-700 bg-teal-50 py-1 font-medium text-slate-500 shadow-2xl transition duration-300 ease-linear hover:cursor-pointer"
+          >
+            {games.map((g) => (
+              <div
+                key={g.game_id}
+                onMouseDown={(e) => onClickGame(e, g)}
+                className="w-full bg-transparent px-2 py-1 font-normal hover:bg-slate-200"
+              >
+                {g.title}
               </div>
-            )}
+            ))}
           </div>
         ) : (
           <></>
         )}
       </div>
+      <SearchIcon
+        strokeWidth={1.5}
+        className="absolute right-3 top-4 h-6 w-6 text-teal-800"
+      ></SearchIcon>
     </div>
   );
 };
