@@ -90,8 +90,8 @@ const Home = () => {
                 id="create-entry-button"
                 className="flex items-center justify-center rounded-lg border-b-2 border-solid border-teal-900 bg-teal-600 p-2 text-teal-50 shadow-xl hover:bg-teal-700 active:bg-teal-900 active:shadow-md"
               >
-                <span className="hidden px-2 md:block">Create Entry</span>
                 <PlusIcon></PlusIcon>
+                <span className="hidden px-2 md:block">Create Entry</span>
               </button>
             </Link>
           </div>

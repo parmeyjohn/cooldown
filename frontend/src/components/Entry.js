@@ -38,7 +38,7 @@ const Entry = ({ entry, setSearchVal }) => {
 
   const handleEdit = (event) => {
     setCurrEntry(entry);
-    navigate("edit-entry", {
+    navigate("edit", {
       state: {
         edit: true,
       },
