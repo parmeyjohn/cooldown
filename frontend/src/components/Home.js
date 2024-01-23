@@ -4,11 +4,9 @@ import { Transition } from "@headlessui/react";
 import { ReactComponent as PlusIcon } from "../assets/heroicons/plus.svg";
 import { ReactComponent as EditSquareIcon } from "../assets/heroicons/edit-square.svg";
 import { ReactComponent as HamburgerIcon } from "../assets/heroicons/hamburger.svg";
-import { ReactComponent as BookIcon } from "../assets/heroicons/book.svg";
+import { BsJournalBookmark as JournalIcon } from "react-icons/bs";
 
 import Sidebar from "./Sidebar";
-import EntryGroup from "./EntryGroup";
-import SearchBar from "./SearchBar";
 
 import { EntryContext } from "../contexts/EntryContext";
 import { JournalContext } from "../contexts/JournalContext";
@@ -22,7 +20,6 @@ const Home = () => {
   const [showSidebar, setShowSidebar] = useState(false);
 
   useEffect(() => {
-    console.log("in Home");
     console.log("currJournal", currJournal);
     console.log(entries);
     setEntries((prevJournal) => {
@@ -68,13 +65,13 @@ const Home = () => {
             </button>
           )}
 
-          <h1 className="flex items-center gap-2 truncate text-xl font-semibold">
-            <BookIcon></BookIcon>
+          <h1 className="flex items-center gap-2 truncate text-2xl font-semibold">
+            <JournalIcon className="h-8 w-8 p-1"></JournalIcon>
             {currJournal ? currJournal.journalName : "journal"}
           </h1>
           <div className="flex items-center justify-end gap-4">
             <button
-              id="create-entry-button"
+              id="edit-entry-button"
               className="hidden rounded-lg p-2 hover:bg-slate-500 active:bg-slate-400"
             >
               <EditSquareIcon></EditSquareIcon>
