@@ -1,11 +1,10 @@
 import { useState, useEffect, useContext } from "react";
 import { Transition } from "@headlessui/react";
 
-import { ReactComponent as SortAscendingIcon } from "../assets/heroicons/ascending.svg";
-import { ReactComponent as SortDescendingIcon } from "../assets/heroicons/descending.svg";
 import { ReactComponent as PlusIcon } from "../assets/heroicons/plus.svg";
 import { ReactComponent as EditSquareIcon } from "../assets/heroicons/edit-square.svg";
 import { ReactComponent as HamburgerIcon } from "../assets/heroicons/hamburger.svg";
+import { ReactComponent as BookIcon } from "../assets/heroicons/book.svg";
 
 import Sidebar from "./Sidebar";
 import EntryGroup from "./EntryGroup";
@@ -19,9 +18,8 @@ import { Link, Outlet } from "react-router-dom";
 const Home = () => {
   const { entries, setEntries } = useContext(EntryContext);
   const { currJournal } = useContext(JournalContext);
-  const [searchValue, setSearchValue] = useState("");
+
   const [showSidebar, setShowSidebar] = useState(false);
-  const [reverseEntries, setReverseEntries] = useState(false);
 
   useEffect(() => {
     console.log("in Home");
@@ -37,19 +35,6 @@ const Home = () => {
   }, [currJournal]);
 
   useEffect(() => {}, [entries]);
-  const groupBy = (initialEntries) => {
-    const groupedEntries = {};
-    for (let i = 0; i < initialEntries.length; i++) {
-      let currDate = initialEntries[i].startDate.slice(0, 10);
-      if (currDate in groupedEntries) {
-        groupedEntries[currDate].push(initialEntries[i]);
-      } else {
-        groupedEntries[currDate] = [initialEntries[i]];
-      }
-    }
-    console.log(groupedEntries);
-    return Object.entries(groupedEntries);
-  };
 
   return (
     <div className="relative h-screen w-screen bg-gradient-to-t from-slate-900 to-slate-800">
@@ -65,7 +50,6 @@ const Home = () => {
       >
         <Sidebar setShowSidebar={setShowSidebar} showSidebar={showSidebar} />
       </Transition>
-      <Outlet></Outlet>
 
       <div
         id="header"
@@ -84,7 +68,8 @@ const Home = () => {
             </button>
           )}
 
-          <h1 className="truncate text-xl font-semibold ">
+          <h1 className="flex items-center gap-2 truncate text-xl font-semibold">
+            <BookIcon></BookIcon>
             {currJournal ? currJournal.journalName : "journal"}
           </h1>
           <div className="flex items-center justify-end gap-4">
@@ -111,83 +96,10 @@ const Home = () => {
             </Link>
           </div>
         </div>
-
-        <div className="my-4 flex max-w-4xl items-center justify-between py-4 text-teal-50 xl:py-0">
-          <div className="relative mr-4 flex w-full max-w-3xl items-center text-slate-500">
-            <SearchBar
-              searchValue={searchValue}
-              setSearchValue={setSearchValue}
-              placeholder={"Search entries..."}
-              showIcon={true}
-            ></SearchBar>
-          </div>
-
-          {reverseEntries ? (
-            <button
-              onClick={() => {
-                setReverseEntries(false);
-                setEntries((prevEntries) => [...prevEntries].reverse());
-              }}
-              className="rounded-md p-2 text-teal-100 hover:bg-slate-500 active:bg-slate-400"
-            >
-              <SortDescendingIcon></SortDescendingIcon>
-            </button>
-          ) : (
-            <button
-              onClick={() => {
-                setReverseEntries(true);
-                setEntries((prevEntries) => [...prevEntries].reverse());
-              }}
-              className="rounded-md p-2 text-teal-100 hover:bg-slate-500 active:bg-slate-400 "
-            >
-              <SortAscendingIcon></SortAscendingIcon>
-            </button>
-          )}
-        </div>
       </div>
 
-      <div
-        data-cy="entries-div"
-        className="relative z-10 mx-auto h-full w-full max-w-4xl overflow-y-auto pb-48 sm:px-4"
-      >
-        {entries && entries.length > 0 ? (
-          groupBy(
-            entries.filter(
-              (e) =>
-                e.entryTitle.includes(searchValue) ||
-                e.text.includes(searchValue) ||
-                e.mediaTitle.includes(searchValue) ||
-                e.tags.includes(searchValue)
-            )
-          ).map((group) => (
-            <div
-              className="z-10 mb-2 h-auto w-full rounded-2xl bg-transparent pb-4"
-              key={group[0]}
-            >
-              <EntryGroup
-                entryGroup={group}
-                setSearchVal={setSearchValue}
-              ></EntryGroup>
-            </div>
-          ))
-        ) : (
-          <div className="flex h-full w-full flex-col items-center justify-center pb-20">
-            <img
-              className="h-64 w-72"
-              src={require("../assets/no_entries.png")}
-              alt="empty journal"
-            ></img>
-            <div
-              id="title"
-              className="text-center text-2xl font-semibold text-white"
-            >
-              Your journal is empty...
-            </div>
-            <p className="text-center text-teal-100">
-              Start cooling down and add your first entry!
-            </p>
-          </div>
-        )}
+      <div className="h-full">
+        <Outlet></Outlet>
       </div>
     </div>
   );

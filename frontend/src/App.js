@@ -16,6 +16,7 @@ import entryService from "./services/entries";
 import journalService from "./services/journals";
 import loginService from "./services/login";
 import EditEntryForm from "./components/EditEntryForm";
+import EntryList from "./components/EntryList";
 
 const App = () => {
   const initialEntry = {
@@ -93,6 +94,14 @@ const App = () => {
             <Router>
               <Routes>
                 <Route path="/" element={user ? <Home /> : <Login />}>
+                  <Route
+                    path="/"
+                    element={
+                      <AuthRoute user={user}>
+                        <EntryList />
+                      </AuthRoute>
+                    }
+                  ></Route>
                   <Route
                     path="/create"
                     element={

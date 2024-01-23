@@ -14,6 +14,7 @@ import journalService from "../services/journals";
 import { ReactComponent as XIcon } from "../assets/heroicons/x.svg";
 import { ReactComponent as PlusIcon } from "../assets/heroicons/plus.svg";
 import { ReactComponent as SearchIcon } from "../assets/heroicons/search.svg";
+import { ReactComponent as SaveIcon } from "../assets/heroicons/circular-arrows.svg";
 
 const EntryForm = () => {
   const navigate = useNavigate();
@@ -154,6 +155,19 @@ const EntryForm = () => {
     }
   };
 
+  const handleCancel = (e) => {
+    setCurrEntry({
+      entryTitle: "",
+      mediaTitle: "",
+      mediaObj: {},
+      text: "",
+      content: [],
+      tags: [],
+      startDate: "",
+    });
+    navigate(-1);
+  };
+
   const setFormatDate = (dateString) => {
     console.log("date str", dateString);
     var currTime = new Date(dateString);
@@ -163,30 +177,21 @@ const EntryForm = () => {
     console.log("new time", newTime);
     setStartDate(newTime.toISOString());
   };
-  // add breakpoint for larger screens including: "4xl:-right-32 4xl:left-auto"
+
   return (
-    <div className="absolute top-[50%] left-[50%] z-20 mx-auto flex max-h-[80%] w-[90%] max-w-3xl -translate-x-[50%] -translate-y-[50%] flex-col justify-between overflow-y-auto rounded-2xl border-2 border-b-8 border-slate-600 bg-teal-50 pb-8">
-      <div className=" mx-auto flex w-full flex-col justify-start text-teal-900">
-        <div className="flex w-full items-center justify-between px-4 py-6">
-          <h1 className=" mx-4 h-8">{currJournal.journalName}</h1>
-          <button
-            onClick={() => {
-              setCurrEntry({
-                entryTitle: "",
-                mediaTitle: "",
-                mediaObj: {},
-                text: "",
-                content: [],
-                tags: [],
-                startDate: "",
-              });
-              navigate(-1);
-            }}
-            className="mr-2 h-10 w-10 justify-self-end rounded-lg p-1 hover:bg-slate-300 active:bg-slate-400"
-          >
-            <XIcon className="text-teal-900"></XIcon>
-          </button>
-        </div>
+    <div className="absolute left-0 top-0 z-20 mx-auto flex h-screen w-full max-w-4xl flex-col justify-between rounded-2xl border-2 border-b-8 border-slate-600 bg-teal-50 md:static md:my-8 md:h-auto lg:static ">
+      <div className="flex w-full items-center justify-between px-4 py-6">
+        <h1 className=" mx-4 h-8">{currJournal.journalName}</h1>
+        <button
+          onClick={(e) => {
+            handleCancel(e);
+          }}
+          className="mr-2 h-10 w-10 justify-self-end rounded-lg p-1 hover:bg-slate-300 active:bg-slate-400"
+        >
+          <XIcon className="text-teal-900"></XIcon>
+        </button>
+      </div>
+      <div className=" mx-auto flex w-full flex-col justify-start overflow-y-auto text-teal-900">
         <div className="flex w-full items-center px-4 text-gray-500 focus-within:text-gray-700  ">
           <input
             className="mt-2 mb-2 h-14 w-full rounded-lg bg-transparent p-3 text-3xl font-semibold decoration-teal-700 underline-offset-4 focus:underline focus:outline-none "
@@ -270,20 +275,23 @@ const EntryForm = () => {
           </div>
         </div>
       </div>
-      <div className=" mx-auto mb-2 flex w-full max-w-4xl justify-center gap-4 p-4">
+      <div className=" mx-auto mb-2 flex w-full max-w-4xl justify-center gap-8 p-4">
         <button
           id="create-entry-button"
-          className="flex items-center justify-center rounded-lg border-b-2 border-solid border-teal-900 bg-teal-600 p-2 text-teal-50 shadow-xl hover:bg-teal-700 active:bg-teal-900 active:shadow-md"
+          className="focus flex w-60 items-center justify-center rounded-lg border-2 border-b-2 border-solid border-teal-900 p-2 text-lg font-semibold text-teal-900 shadow-xl hover:bg-slate-300 active:bg-slate-400 active:shadow-md"
+          onClick={(e) => handleCancel(e)}
         >
-          <span className="hidden px-2 md:block">Create Entry</span>
-          <PlusIcon></PlusIcon>
+          <XIcon></XIcon>
+          <span className="hidden px-2 md:block">Cancel</span>
         </button>
         <button
+          id="create-entry-button"
           data-cy="save-entry-button"
           onClick={saveEntry}
-          className=" focus w-full rounded-lg border-b-4 border-teal-900 border-b-teal-900 bg-teal-600 p-3 text-xl font-semibold  uppercase tracking-widest text-teal-50 shadow-2xl  hover:bg-teal-700 hover:from-teal-600 hover:to-teal-800 active:bg-teal-900 active:shadow-lg"
+          className="focus flex w-60 items-center justify-center rounded-lg border-b-2 border-solid border-teal-900 bg-teal-600 p-2 text-lg font-semibold text-teal-50 shadow-xl hover:bg-teal-700 active:bg-teal-900 active:shadow-md"
         >
-          save
+          <SaveIcon></SaveIcon>
+          <span className="hidden px-2 md:block">Save</span>
         </button>
       </div>
     </div>
