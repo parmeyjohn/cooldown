@@ -5,6 +5,7 @@
   "dependencies": {
     "@headlessui/react": "^1.7.14",
     "@tailwindcss/line-clamp": "^0.4.2",
+    "@tanstack/react-query": "^5.17.19",
     "@testing-library/user-event": "^13.5.0",
     "@tiptap/pm": "^2.1.16",
     "@tiptap/react": "^2.1.16",
@@ -44,8 +45,9 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://cooldown-backend.fly.dev",
+  "proxy": "http://localhost:3003",
   "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^5.17.20",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "cypress": "^12.12.0",

@@ -1,8 +1,12 @@
 import { useState, useContext, useRef, useEffect } from "react";
 import { useDebounce } from "react-use";
 import { Transition } from "@headlessui/react";
+import { useQuery } from "@tanstack/react-query";
 
-import gamesService from "../services/games";
+import gameService from "../services/games";
+import filmService from "../services/films";
+import bookService from "../services/books";
+import audioService from "../services/audio";
 
 import { ReactComponent as SearchIcon } from "../assets/heroicons/search.svg";
 import { ReactComponent as BookIcon } from "../assets/heroicons/book.svg";
@@ -12,36 +16,39 @@ import { ReactComponent as MusicIcon } from "../assets/heroicons/music.svg";
 import { GrGamepad as ControllerIcon } from "react-icons/gr";
 import GenreButton from "./GenreButton";
 
-const SearchAPI = ({
-  searchValue,
-  setSearchValue,
-  mediaObj,
-  setMediaObj,
-  placeholder,
-}) => {
-  const [games, setGames] = useState([]);
-
+const SearchAPI = ({ mediaObj, setMediaObj, placeholder }) => {
+  const [titles, setTitles] = useState([]);
   const [genre, setGenre] = useState("Game");
-
+  const [service, setService] = useState(gameService);
   const [showGames, setShowGames] = useState(false);
-  const [, cancel] = useDebounce(
-    async () => {
-      console.log(searchValue);
-      if (searchValue) {
-        const currGames = await gamesService.getTitle(searchValue);
-        setGames(currGames["games"]);
-        console.log(currGames["games"]);
-      } else {
-        setGames([]);
-      }
-    },
-    1500,
+
+  const services = {
+    Game: gameService,
+    Film: filmService,
+    Book: bookService,
+    Audio: audioService,
+    Other: undefined,
+  };
+  const [searchValue, setSearchValue] = useState("");
+  const [debouncedSearchValue, setDebouncedSearchValue] = useState("");
+
+  const [, err] = useDebounce(
+    () => setDebouncedSearchValue(searchValue),
+    1000,
     [searchValue]
   );
 
-  const onSearch = async (e) => {
+  const { data, isLoading, error } = useQuery({
+    queryFn: async () => {
+      const titles = await services[genre].getTitle(debouncedSearchValue);
+      console.log("search is goin", titles);
+      return titles;
+    },
+    queryKey: ["titles", debouncedSearchValue],
+  });
+
+  const onSearch = (e) => {
     setSearchValue(e.target.value);
-    //console.log(currGames['games'])
   };
 
   const onClickGame = (e, g) => {
@@ -100,15 +107,16 @@ const SearchAPI = ({
             data-cy="media-dropdown"
             className="absolute top-11 left-0 z-50 h-auto w-full divide-y-2 rounded-md rounded-t-none border-b-4 border-teal-700 bg-teal-50 py-1 font-medium text-slate-500 shadow-2xl transition duration-300 ease-linear"
           >
-            {games.map((g) => (
-              <div
-                key={g.game_id}
-                onMouseDown={(e) => onClickGame(e, g)}
-                className="w-full bg-transparent px-2 py-1 font-normal hover:cursor-pointer hover:bg-slate-200"
-              >
-                {g.title}
-              </div>
-            ))}
+            {data &&
+              data.map((g) => (
+                <div
+                  key={g.game_id}
+                  onMouseDown={(e) => onClickGame(e, g)}
+                  className="w-full bg-transparent px-2 py-1 font-normal hover:cursor-pointer hover:bg-slate-200"
+                >
+                  {g.title}
+                </div>
+              ))}
           </div>
         ) : (
           <></>

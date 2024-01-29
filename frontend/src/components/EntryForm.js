@@ -179,16 +179,16 @@ const EntryForm = () => {
   };
 
   return (
-    <div className="absolute left-0 top-0 z-20 mx-auto flex h-screen w-full max-w-4xl flex-col justify-between rounded-2xl border-2 border-b-8 border-slate-600 bg-teal-50 md:static md:my-8 md:h-auto lg:static ">
+    <div className="absolute left-0 top-0 z-20 mx-auto flex h-screen w-full max-w-4xl flex-col justify-between rounded-2xl border-b-8 border-slate-600 bg-teal-50 md:static md:my-8 md:h-auto lg:static ">
       <div className="flex w-full items-center justify-between px-4 py-6">
-        <h1 className=" mx-4 h-8">{currJournal.journalName}</h1>
+        <h1 className=" mx-4">{currJournal.journalName}</h1>
         <button
           onClick={(e) => {
             handleCancel(e);
           }}
-          className="mr-2 h-10 w-10 justify-self-end rounded-lg p-1 hover:bg-slate-300 active:bg-slate-400"
+          className="mr-2 rounded-lg p-1 hover:bg-slate-300 active:bg-slate-400"
         >
-          <XIcon className="text-teal-900"></XIcon>
+          <XIcon className="h-8 w-8 text-teal-900"></XIcon>
         </button>
       </div>
       <div className=" mx-auto flex w-full flex-col justify-start overflow-y-auto text-teal-900">
@@ -224,8 +224,6 @@ const EntryForm = () => {
               data-cy="input-media-component"
               mediaObj={mediaObj}
               setMediaObj={setMediaObj}
-              searchValue={mediaTitle}
-              setSearchValue={setMediaTitle}
               placeholder={"Find a media title..."}
             ></SearchAPI>
           </div>
@@ -275,14 +273,14 @@ const EntryForm = () => {
           </div>
         </div>
       </div>
-      <div className=" mx-auto mb-2 flex w-full max-w-4xl justify-center gap-8 p-4">
+      <div className=" mx-auto mb-16 flex w-full max-w-4xl justify-center gap-8 p-4 md:mb-8">
         <button
           id="create-entry-button"
           className="focus flex w-60 items-center justify-center rounded-lg border-2 border-b-2 border-solid border-teal-900 p-2 text-lg font-semibold text-teal-900 shadow-xl hover:bg-slate-300 active:bg-slate-400 active:shadow-md"
           onClick={(e) => handleCancel(e)}
         >
-          <XIcon></XIcon>
-          <span className="hidden px-2 md:block">Cancel</span>
+          <XIcon className="hidden h-8 w-8 md:block"></XIcon>
+          <span className="px-2">Cancel</span>
         </button>
         <button
           id="create-entry-button"
@@ -290,8 +288,8 @@ const EntryForm = () => {
           onClick={saveEntry}
           className="focus flex w-60 items-center justify-center rounded-lg border-b-2 border-solid border-teal-900 bg-teal-600 p-2 text-lg font-semibold text-teal-50 shadow-xl hover:bg-teal-700 active:bg-teal-900 active:shadow-md"
         >
-          <SaveIcon></SaveIcon>
-          <span className="hidden px-2 md:block">Save</span>
+          <SaveIcon className="hidden h-8 w-8 md:block"></SaveIcon>
+          <span className="px-2">Save</span>
         </button>
       </div>
     </div>
