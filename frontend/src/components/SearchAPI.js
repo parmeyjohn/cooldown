@@ -14,11 +14,13 @@ import { ReactComponent as MovieIcon } from "../assets/heroicons/movie.svg";
 import { ReactComponent as MusicIcon } from "../assets/heroicons/music.svg";
 
 import { GrGamepad as ControllerIcon } from "react-icons/gr";
-import GenreButton from "./GenreButton";
+import MediaTypeButton from "./MediaTypeButton";
+
+const mediaObj = {};
 
 const SearchAPI = ({ mediaObj, setMediaObj, placeholder }) => {
   const [titles, setTitles] = useState([]);
-  const [genre, setGenre] = useState("Game");
+  const [mediaType, setMediaType] = useState("Game");
   const [service, setService] = useState(gameService);
   const [showGames, setShowGames] = useState(false);
 
@@ -40,7 +42,7 @@ const SearchAPI = ({ mediaObj, setMediaObj, placeholder }) => {
 
   const { data, isLoading, error } = useQuery({
     queryFn: async () => {
-      const titles = await services[genre].getTitle(debouncedSearchValue);
+      const titles = await services[mediaType].getTitle(debouncedSearchValue);
       console.log("search is goin", titles);
       return titles;
     },
@@ -53,42 +55,43 @@ const SearchAPI = ({ mediaObj, setMediaObj, placeholder }) => {
 
   const onClickGame = (e, g) => {
     setMediaObj(g);
+
     setSearchValue(g.title);
   };
 
   return (
     <div className="flex w-full flex-col focus-within:text-gray-700 ">
       <div className="flex h-16 w-full justify-around pb-2">
-        <GenreButton
+        <MediaTypeButton
           name={"Game"}
           icon={<ControllerIcon className="h-6 w-6"></ControllerIcon>}
-          genre={genre}
-          setGenre={setGenre}
-        ></GenreButton>
-        <GenreButton
+          mediaType={mediaType}
+          setMediaType={setMediaType}
+        ></MediaTypeButton>
+        <MediaTypeButton
           name={"Film"}
           icon={<MovieIcon className="h-6 w-6"></MovieIcon>}
-          genre={genre}
-          setGenre={setGenre}
-        ></GenreButton>
-        <GenreButton
+          mediaType={mediaType}
+          setMediaType={setMediaType}
+        ></MediaTypeButton>
+        <MediaTypeButton
           name={"Book"}
           icon={<BookIcon strokeWidth={1.5} className="h-6 w-6"></BookIcon>}
-          genre={genre}
-          setGenre={setGenre}
-        ></GenreButton>
-        <GenreButton
+          mediaType={mediaType}
+          setMediaType={setMediaType}
+        ></MediaTypeButton>
+        <MediaTypeButton
           name={"Audio"}
           icon={<MusicIcon className="h-6 w-6"></MusicIcon>}
-          genre={genre}
-          setGenre={setGenre}
-        ></GenreButton>
-        <GenreButton
+          mediaType={mediaType}
+          setMediaType={setMediaType}
+        ></MediaTypeButton>
+        <MediaTypeButton
           name={"Other"}
           icon={<ControllerIcon className="h-6 w-6"></ControllerIcon>}
-          genre={genre}
-          setGenre={setGenre}
-        ></GenreButton>
+          mediaType={mediaType}
+          setMediaType={setMediaType}
+        ></MediaTypeButton>
       </div>
       <div className="relative h-auto">
         <input
