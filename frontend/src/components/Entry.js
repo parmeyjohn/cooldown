@@ -76,7 +76,7 @@ const Entry = ({ entry, setSearchVal }) => {
                 {"mediaObj" in entry ? (
                   <img
                     className="h-full w-full rounded-md border-2 border-slate-800 object-cover object-center"
-                    src={entry.mediaObj["sample_cover"].thumbnail_image}
+                    src={entry.mediaObj.thumbnailImg}
                     alt="videogame cover"
                   ></img>
                 ) : (
@@ -137,7 +137,7 @@ const Entry = ({ entry, setSearchVal }) => {
                 {"mediaObj" in entry ? (
                   <img
                     className="h-20 w-20 rounded-md border-2 border-slate-800 object-cover object-center"
-                    src={entry.mediaObj["sample_cover"].thumbnail_image}
+                    src={entry.mediaObj.thumbnailImg}
                     alt="val"
                   ></img>
                 ) : (

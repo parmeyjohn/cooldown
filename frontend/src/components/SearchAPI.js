@@ -31,6 +31,22 @@ const SearchAPI = ({ mediaObj, setMediaObj, placeholder }) => {
     Audio: audioService,
     Other: undefined,
   };
+
+  const setMediaObject = {
+    Game: (g) => {
+      return {
+        img: g.sample_cover.image,
+        thumbnailImg: g.sample_cover.thumbnail_image,
+        id: g.game_id,
+        title: g.title,
+        genres: [g.genres.map((i) => i.genre_name)],
+      };
+    },
+    Film: filmService,
+    Book: bookService,
+    Audio: audioService,
+    Other: undefined,
+  };
   const [searchValue, setSearchValue] = useState("");
   const [debouncedSearchValue, setDebouncedSearchValue] = useState("");
 
@@ -54,8 +70,9 @@ const SearchAPI = ({ mediaObj, setMediaObj, placeholder }) => {
   };
 
   const onClickGame = (e, g) => {
-    setMediaObj(g);
-
+    setMediaObj(setMediaObject[mediaType](g));
+    console.log(setMediaObject[mediaType]);
+    console.log(setMediaObject[mediaType](g));
     setSearchValue(g.title);
   };
 
