@@ -12,16 +12,12 @@ import { ReactComponent as SearchIcon } from "../assets/heroicons/search.svg";
 import { ReactComponent as BookIcon } from "../assets/heroicons/book.svg";
 import { ReactComponent as MovieIcon } from "../assets/heroicons/movie.svg";
 import { ReactComponent as MusicIcon } from "../assets/heroicons/music.svg";
-
 import { GrGamepad as ControllerIcon } from "react-icons/gr";
+
 import MediaTypeButton from "./MediaTypeButton";
 
-const mediaObj = {};
-
-const SearchAPI = ({ mediaObj, setMediaObj, placeholder }) => {
-  const [titles, setTitles] = useState([]);
+const SearchAPI = ({ setMediaObj, placeholder }) => {
   const [mediaType, setMediaType] = useState("Game");
-  const [service, setService] = useState(gameService);
   const [showGames, setShowGames] = useState(false);
 
   const services = {
@@ -32,21 +28,14 @@ const SearchAPI = ({ mediaObj, setMediaObj, placeholder }) => {
     Other: undefined,
   };
 
-  const setMediaObject = {
-    Game: (g) => {
-      return {
-        img: g.sample_cover.image,
-        thumbnailImg: g.sample_cover.thumbnail_image,
-        id: g.game_id,
-        title: g.title,
-        genres: [g.genres.map((i) => i.genre_name)],
-      };
-    },
-    Film: filmService,
-    Book: bookService,
-    Audio: audioService,
-    Other: undefined,
+  const icons = {
+    Game: <ControllerIcon className="h-6 w-6"></ControllerIcon>,
+    Film: <MovieIcon className="h-6 w-6"></MovieIcon>,
+    Book: <BookIcon strokeWidth={1.5} className="h-6 w-6"></BookIcon>,
+    Audio: <MusicIcon className="h-6 w-6"></MusicIcon>,
+    Other: <ControllerIcon className="h-6 w-6"></ControllerIcon>,
   };
+
   const [searchValue, setSearchValue] = useState("");
   const [debouncedSearchValue, setDebouncedSearchValue] = useState("");
 
@@ -58,57 +47,42 @@ const SearchAPI = ({ mediaObj, setMediaObj, placeholder }) => {
 
   const { data, isLoading, error } = useQuery({
     queryFn: async () => {
-      const titles = await services[mediaType].getTitle(debouncedSearchValue);
+      const titles = await services[mediaType].searchTitle(
+        debouncedSearchValue
+      );
       console.log("search is goin", titles);
       return titles;
     },
     queryKey: ["titles", debouncedSearchValue],
+    placeholderData: [],
+    enabled: debouncedSearchValue.length > 0,
   });
 
   const onSearch = (e) => {
     setSearchValue(e.target.value);
   };
 
-  const onClickGame = (e, g) => {
-    setMediaObj(setMediaObject[mediaType](g));
-    console.log(setMediaObject[mediaType]);
-    console.log(setMediaObject[mediaType](g));
-    setSearchValue(g.title);
+  const onClickMedia = (e, m) => {
+    services[mediaType]
+      .getTitleById(m.id)
+      .then((newMediaObj) => setMediaObj((prev) => newMediaObj));
+    setSearchValue(m.title);
   };
 
   return (
     <div className="flex w-full flex-col focus-within:text-gray-700 ">
       <div className="flex h-16 w-full justify-around pb-2">
-        <MediaTypeButton
-          name={"Game"}
-          icon={<ControllerIcon className="h-6 w-6"></ControllerIcon>}
-          mediaType={mediaType}
-          setMediaType={setMediaType}
-        ></MediaTypeButton>
-        <MediaTypeButton
-          name={"Film"}
-          icon={<MovieIcon className="h-6 w-6"></MovieIcon>}
-          mediaType={mediaType}
-          setMediaType={setMediaType}
-        ></MediaTypeButton>
-        <MediaTypeButton
-          name={"Book"}
-          icon={<BookIcon strokeWidth={1.5} className="h-6 w-6"></BookIcon>}
-          mediaType={mediaType}
-          setMediaType={setMediaType}
-        ></MediaTypeButton>
-        <MediaTypeButton
-          name={"Audio"}
-          icon={<MusicIcon className="h-6 w-6"></MusicIcon>}
-          mediaType={mediaType}
-          setMediaType={setMediaType}
-        ></MediaTypeButton>
-        <MediaTypeButton
-          name={"Other"}
-          icon={<ControllerIcon className="h-6 w-6"></ControllerIcon>}
-          mediaType={mediaType}
-          setMediaType={setMediaType}
-        ></MediaTypeButton>
+        {Object.keys(services).map((k) => {
+          return (
+            <MediaTypeButton
+              name={k}
+              key={k}
+              icon={icons[k]}
+              mediaType={mediaType}
+              setMediaType={setMediaType}
+            ></MediaTypeButton>
+          );
+        })}
       </div>
       <div className="relative h-auto">
         <input
@@ -128,13 +102,13 @@ const SearchAPI = ({ mediaObj, setMediaObj, placeholder }) => {
             className="absolute top-11 left-0 z-50 h-auto w-full divide-y-2 rounded-md rounded-t-none border-b-4 border-teal-700 bg-teal-50 py-1 font-medium text-slate-500 shadow-2xl transition duration-300 ease-linear"
           >
             {data &&
-              data.map((g) => (
+              data.map((m) => (
                 <div
-                  key={g.game_id}
-                  onMouseDown={(e) => onClickGame(e, g)}
+                  key={m.id}
+                  onMouseDown={(e) => onClickMedia(e, m)}
                   className="w-full bg-transparent px-2 py-1 font-normal hover:cursor-pointer hover:bg-slate-200"
                 >
-                  {g.title}
+                  {`${m.title} ${m.year ? `(${m.year})` : ""}`}
                 </div>
               ))}
           </div>

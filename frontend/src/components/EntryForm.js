@@ -222,7 +222,6 @@ const EntryForm = () => {
           <div className="relative flex text-teal-900">
             <SearchAPI
               data-cy="input-media-component"
-              mediaObj={mediaObj}
               setMediaObj={setMediaObj}
               placeholder={"Find a media title..."}
             ></SearchAPI>

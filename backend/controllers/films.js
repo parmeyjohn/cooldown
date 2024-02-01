@@ -10,19 +10,16 @@ filmsRouter.get("/", async (request, response) => {
 });
 
 filmsRouter.get("/:id", async (request, response) => {
-  const films = await axios.get(
+  const film = await axios.get(
     `http://www.omdbapi.com/?apikey=${apiKey}&i=${request.params.id}`
   );
-
-  console.log("here id");
-  response.status(200).json(films.data);
+  response.status(200).json(film.data);
 });
 
 filmsRouter.get("/search/:title", async (request, response) => {
   const films = await axios.get(
     `http://www.omdbapi.com/?apikey=${apiKey}&s=${request.params.title}`
   );
-  console.log("here");
   response.status(200).json(films.data);
 });
 

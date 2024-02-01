@@ -6,10 +6,29 @@ const getAll = async () => {
   return response.data;
 };
 
-const getTitle = async (title) => {
-  const response = await axios.get(`${baseUrl}/${title}`);
-  return response.data.Search;
+const searchTitle = async (title) => {
+  const response = await axios.get(`${baseUrl}/search/${title}`);
+  return response.data.Search.map((d) => {
+    return {
+      id: d.imdbID,
+      title: d.Title,
+      year: d.Year,
+    };
+  });
 };
 
+const getTitleById = async (id) => {
+  const response = await axios.get(`${baseUrl}/${id}`);
+  console.log(response);
+  const data = response.data;
+  return {
+    id: data.imdbID,
+    img: data.Poster,
+    filmType: data.Type,
+    title: data.Title,
+    year: data.Year,
+    genre: data.Genre.split(", "),
+  };
+};
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, getTitle };
+export default { getAll, searchTitle, getTitleById };
