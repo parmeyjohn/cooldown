@@ -77,7 +77,7 @@ const Entry = ({ entry, setSearchVal }) => {
                   <img
                     className="h-full w-full rounded-md border-2 border-slate-800 object-cover object-center"
                     src={entry.mediaObj.img}
-                    alt="videogame cover"
+                    alt={`${entry.mediaObj.title} cover`}
                   ></img>
                 ) : (
                   <div className="flex h-full w-full items-center justify-center rounded-md border-2 border-slate-800 bg-slate-300 text-slate-800">
@@ -138,7 +138,7 @@ const Entry = ({ entry, setSearchVal }) => {
                   <img
                     className="object-scale-down object-center"
                     src={entry.mediaObj.img}
-                    alt="val"
+                    alt={`${entry.mediaObj.title} cover`}
                   ></img>
                 ) : (
                   <div className="flex h-20 w-20 items-center justify-center rounded-md border-2 border-slate-800 bg-slate-300 text-slate-800">

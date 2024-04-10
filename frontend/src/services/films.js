@@ -27,6 +27,7 @@ const getTitleById = async (id) => {
     filmType: data.Type,
     title: data.Title,
     year: data.Year,
+    director: data.Director,
     genre: data.Genre.split(", "),
   };
 };
