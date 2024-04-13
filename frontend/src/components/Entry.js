@@ -16,6 +16,10 @@ const Entry = ({ entry, setSearchVal }) => {
   const { currJournal, setJournals } = useContext(JournalContext);
 
   let navigate = useNavigate();
+  const img_url =
+    entry.mediaObj.img || "sample_cover" in entry.mediaObj
+      ? entry.mediaObj.sample_cover.image
+      : "";
 
   const handleDelete = () => {
     console.log("in handleDelete: entry", entry);
@@ -75,8 +79,8 @@ const Entry = ({ entry, setSearchVal }) => {
               <div className="-order-1 mb-2 flex h-40 w-full items-center justify-center py-2 sm:w-40">
                 {"mediaObj" in entry ? (
                   <img
-                    className="h-full w-full rounded-md border-2 border-slate-800 object-fill"
-                    src={entry.mediaObj.img}
+                    className="h-full w-full rounded-md border-2 border-slate-800 object-cover object-center"
+                    src={img_url}
                     alt={`${entry.mediaObj.title} cover`}
                   ></img>
                 ) : (
@@ -136,8 +140,8 @@ const Entry = ({ entry, setSearchVal }) => {
               <div className="h-20 w-20 overflow-clip rounded-md border-2 border-slate-800">
                 {"mediaObj" in entry ? (
                   <img
-                    className="h-full object-fill"
-                    src={entry.mediaObj.img}
+                    className="h-full w-full object-cover"
+                    src={img_url}
                     alt={`${entry.mediaObj.title} cover`}
                   ></img>
                 ) : (
