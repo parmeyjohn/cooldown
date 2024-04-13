@@ -37,10 +37,19 @@ audioRouter.get("/", async (request, response) => {
 });
 
 audioRouter.get("/:id", async (request, response) => {
-  const audio = await axios.get(
-    `http://www.omdbapi.com/?apikey=${apiKey}&i=${request.params.id}`
-  );
-  response.status(200).json(audio.data);
+  if (!accessToken) {
+    await getAccessToken();
+  }
+  const id = encodeURIComponent(request.params.id);
+  try {
+    const audio = await axios.get(`https://api.spotify.com/v1/albums/${id}`, {
+      headers: { Authorization: `Bearer ${accessToken.data.access_token}` },
+    });
+
+    response.status(200).json(audio.data);
+  } catch (error) {
+    console.log("error occurred", error);
+  }
 });
 
 audioRouter.get("/search/:title", async (request, response) => {
@@ -48,10 +57,9 @@ audioRouter.get("/search/:title", async (request, response) => {
     await getAccessToken();
   }
   const title = encodeURIComponent(request.params.title);
-  //console.log("accesstoken", accessToken);
   try {
     const audio = await axios.get(
-      `https://api.spotify.com/v1/search?q=${title}&type=track%2Calbum%2Cshow&market=US&limit=5`,
+      `https://api.spotify.com/v1/search?q=${title}&type=album&market=US&limit=5`,
       { headers: { Authorization: `Bearer ${accessToken.data.access_token}` } }
     );
     response.status(200).json(audio.data);

@@ -108,7 +108,9 @@ const SearchAPI = ({ setMediaObj, placeholder }) => {
                   onMouseDown={(e) => onClickMedia(e, m)}
                   className="w-full bg-transparent px-2 py-1 font-normal hover:cursor-pointer hover:bg-slate-200"
                 >
-                  {`${m.title} ${m.year ? `(${m.year})` : ""}`}
+                  {`${m.title} ${m.year ? `(${m.year})` : ""} ${
+                    m.artists ? "- " + m.artists : ""
+                  }`}
                 </div>
               ))}
           </div>
