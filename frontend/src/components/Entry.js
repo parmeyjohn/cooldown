@@ -16,6 +16,10 @@ const Entry = ({ entry, setSearchVal }) => {
   const { currJournal, setJournals } = useContext(JournalContext);
 
   let navigate = useNavigate();
+  const img_url =
+    entry.mediaObj.img || "sample_cover" in entry.mediaObj
+      ? entry.mediaObj.sample_cover.image
+      : "";
 
   const handleDelete = () => {
     console.log("in handleDelete: entry", entry);
@@ -76,8 +80,8 @@ const Entry = ({ entry, setSearchVal }) => {
                 {"mediaObj" in entry ? (
                   <img
                     className="h-full w-full rounded-md border-2 border-slate-800 object-cover object-center"
-                    src={entry.mediaObj["sample_cover"].thumbnail_image}
-                    alt="videogame cover"
+                    src={img_url}
+                    alt={`${entry.mediaObj.title} cover`}
                   ></img>
                 ) : (
                   <div className="flex h-full w-full items-center justify-center rounded-md border-2 border-slate-800 bg-slate-300 text-slate-800">
@@ -133,12 +137,12 @@ const Entry = ({ entry, setSearchVal }) => {
         >
           <div>
             <div className="relative flex w-full items-start justify-start">
-              <div className="h-20 w-20 ">
+              <div className="h-20 w-20 overflow-clip rounded-md border-2 border-slate-800">
                 {"mediaObj" in entry ? (
                   <img
-                    className="h-20 w-20 rounded-md border-2 border-slate-800 object-cover object-center"
-                    src={entry.mediaObj["sample_cover"].thumbnail_image}
-                    alt="val"
+                    className="h-full w-full object-cover"
+                    src={img_url}
+                    alt={`${entry.mediaObj.title} cover`}
                   ></img>
                 ) : (
                   <div className="flex h-20 w-20 items-center justify-center rounded-md border-2 border-slate-800 bg-slate-300 text-slate-800">

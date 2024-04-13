@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseUrl = "/api/games";
+const baseUrl = "/api/books";
 
 const getAll = async () => {
   const response = await axios.get(baseUrl);
@@ -10,21 +10,27 @@ const getAll = async () => {
 
 const searchTitle = async (title) => {
   const response = await axios.get(`${baseUrl}/search/${title}`);
-  return response.data.games.map((g) => {
-    return { title: g.title, id: g.game_id };
+  console.log(response.data);
+  return response.data.items.map((b) => {
+    return {
+      title: b.volumeInfo.title,
+      id: b.id,
+      year: b.volumeInfo.publishedDate.slice(0, 4),
+    };
   });
 };
 
 const getTitleById = async (id) => {
   const response = await axios.get(`${baseUrl}/${id}`);
-  const data = response.data.games[0];
-  console.log(data);
+  console.log(response.data);
+  const data = response.data;
   return {
-    img: data.sample_cover.image,
-    thumbnailImg: data.sample_cover.thumbnail_image,
-    id: data.game_id,
-    title: data.title,
-    genres: [data.genres.map((i) => i.genre_name)],
+    img: data.volumeInfo.imageLinks.medium,
+    thumbnailImg: data.volumeInfo.imageLinks.thumbnail,
+    id: data.id,
+    title: data.volumeInfo.title,
+    pageCount: data.volumeInfo.printedPageCount,
+    author: data.volumeInfo,
   };
 };
 

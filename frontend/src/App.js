@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { EntryContext } from "./contexts/EntryContext";
 import { JournalContext } from "./contexts/JournalContext";
 import { UserContext } from "./contexts/UserContext";
@@ -17,6 +18,8 @@ import journalService from "./services/journals";
 import loginService from "./services/login";
 import EditEntryForm from "./components/EditEntryForm";
 import EntryList from "./components/EntryList";
+
+const queryClient = new QueryClient();
 
 const App = () => {
   const initialEntry = {
@@ -84,52 +87,54 @@ const App = () => {
 
   return (
     <div>
-      <UserContext.Provider value={{ user, setUser }}>
-        <JournalContext.Provider
-          value={{ journals, setJournals, currJournal, setCurrJournal }}
-        >
-          <EntryContext.Provider
-            value={{ entries, setEntries, currEntry, setCurrEntry }}
+      <QueryClientProvider client={queryClient}>
+        <UserContext.Provider value={{ user, setUser }}>
+          <JournalContext.Provider
+            value={{ journals, setJournals, currJournal, setCurrJournal }}
           >
-            <Router>
-              <Routes>
-                <Route path="/" element={user ? <Home /> : <Login />}>
-                  <Route
-                    path="/"
-                    element={
-                      <AuthRoute user={user}>
-                        <EntryList />
-                      </AuthRoute>
-                    }
-                  ></Route>
-                  <Route
-                    path="/create"
-                    element={
-                      <AuthRoute user={user}>
-                        <EntryForm />
-                      </AuthRoute>
-                    }
-                  ></Route>
-                  <Route
-                    path="/edit"
-                    element={
-                      <AuthRoute user={user}>
-                        <EntryForm />
-                      </AuthRoute>
-                    }
-                  ></Route>
-                  <Route
-                    path="edit-entry"
-                    element={<EditEntryForm></EditEntryForm>}
-                  ></Route>
-                </Route>
+            <EntryContext.Provider
+              value={{ entries, setEntries, currEntry, setCurrEntry }}
+            >
+              <Router>
+                <Routes>
+                  <Route path="/" element={user ? <Home /> : <Login />}>
+                    <Route
+                      path="/"
+                      element={
+                        <AuthRoute user={user}>
+                          <EntryList />
+                        </AuthRoute>
+                      }
+                    ></Route>
+                    <Route
+                      path="/create"
+                      element={
+                        <AuthRoute user={user}>
+                          <EntryForm />
+                        </AuthRoute>
+                      }
+                    ></Route>
+                    <Route
+                      path="/edit"
+                      element={
+                        <AuthRoute user={user}>
+                          <EntryForm />
+                        </AuthRoute>
+                      }
+                    ></Route>
+                    <Route
+                      path="edit-entry"
+                      element={<EditEntryForm></EditEntryForm>}
+                    ></Route>
+                  </Route>
 
-                <Route path="/landing" element={<Landing></Landing>}></Route>
-              </Routes>
-            </Router>
-          </EntryContext.Provider>
-        </JournalContext.Provider>
-      </UserContext.Provider>
+                  <Route path="/landing" element={<Landing></Landing>}></Route>
+                </Routes>
+              </Router>
+            </EntryContext.Provider>
+          </JournalContext.Provider>
+        </UserContext.Provider>
+      </QueryClientProvider>
     </div>
   );
 };
