@@ -1,0 +1,7 @@
+node_modules
+cypress
+
+.env
+.gitignore
+
+vercel.json
