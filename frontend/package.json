@@ -45,7 +45,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:3003",
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.17.20",
     "@testing-library/jest-dom": "^5.16.5",
