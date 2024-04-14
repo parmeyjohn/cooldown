@@ -45,6 +45,7 @@
       "last 1 safari version"
     ]
   },
+  "proxy": "https://cooldown-backend.fly.dev",
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.17.20",
     "@testing-library/jest-dom": "^5.16.5",
