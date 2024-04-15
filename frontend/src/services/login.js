@@ -1,17 +1,17 @@
-import axios from 'axios'
-const baseUrl = '/api/login'
+import axios from "axios";
+const baseUrl = "https://cooldown-node-backend.fly.dev/api/login";
 
-let token = null
+let token = null;
 
-const login = async credentials => {
-  console.log('in login')
-  const res = await axios.post(baseUrl, credentials)
-  console.log('login res', res)
-  return res.data
-}
+const login = async (credentials) => {
+  console.log("in login");
+  const res = await axios.post(baseUrl, credentials);
+  console.log("login res", res);
+  return res.data;
+};
 
-const setToken = newToken => {
-  token = `Bearer ${newToken}`
-}
+const setToken = (newToken) => {
+  token = `Bearer ${newToken}`;
+};
 
-export default { login, setToken }
+export default { login, setToken };

@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseUrl = "/api/films";
+const baseUrl = "https://cooldown-node-backend.fly.dev/api/films";
 
 const getAll = async () => {
   const response = await axios.get(baseUrl);
