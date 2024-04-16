@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Textbox from "./Textbox";
 import Tag from "./Tag";
 import SearchAPI from "./SearchAPI";
+import toast from "react-hot-toast";
 
 import { EntryContext } from "../contexts/EntryContext";
 import { JournalContext } from "../contexts/JournalContext";
@@ -88,7 +89,7 @@ const EntryForm = () => {
             .concat(newEntry),
         }));
 
-        alert("entry updated");
+        toast("Entry updated!", { icon: "✏", duration: 4000 });
       } catch (e) {
         console.log(e);
       }
@@ -118,7 +119,7 @@ const EntryForm = () => {
           })
         );
 
-        alert("entry created");
+        toast("Entry created!", { icon: "✔", duration: 4000 });
       } catch (e) {
         console.log(e);
       }

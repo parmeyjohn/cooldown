@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "react-hot-toast";
 import { EntryContext } from "./contexts/EntryContext";
 import { JournalContext } from "./contexts/JournalContext";
 import { UserContext } from "./contexts/UserContext";
@@ -96,6 +97,11 @@ const App = () => {
               value={{ entries, setEntries, currEntry, setCurrEntry }}
             >
               <Router>
+                <Toaster
+                  position="bottom-right"
+                  reverseOrder={true}
+                  toastOptions={{ style: { background: "#E2E8F0" } }}
+                />
                 <Routes>
                   <Route path="/" element={user ? <Home /> : <Login />}>
                     <Route

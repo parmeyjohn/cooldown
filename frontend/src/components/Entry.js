@@ -9,6 +9,7 @@ import { JournalContext } from "../contexts/JournalContext";
 
 import entryService from "../services/entries";
 import journalService from "../services/journals";
+import toast from "react-hot-toast";
 
 const Entry = ({ entry, setSearchVal }) => {
   const [showFullEntry, setShowFullEntry] = useState(false);
@@ -16,15 +17,18 @@ const Entry = ({ entry, setSearchVal }) => {
   const { currJournal, setJournals } = useContext(JournalContext);
 
   let navigate = useNavigate();
-  const img_url =
-    entry.mediaObj.img || "sample_cover" in entry.mediaObj
-      ? entry.mediaObj.sample_cover.image
-      : "";
+  var img_url = "";
+
+  if (entry?.mediaObj && entry.mediaObj?.img) {
+    img_url = entry.mediaObj.img;
+  } else if (entry?.mediaObj && entry.mediaObj?.sample_cover) {
+    img_url = entry.mediaObj.sample_cover.image;
+  }
 
   const handleDelete = () => {
     console.log("in handleDelete: entry", entry);
     entryService.remove(entry.id);
-    alert(`${entry.entryTitle} has been deleted.`);
+    toast("Entry successfully deleted", { icon: "🗑", duration: 4000 });
     //remove locally too
     setEntries((prevEntries) => prevEntries.filter((e) => e.id !== entry.id));
     setJournals((prevJournals) => {
