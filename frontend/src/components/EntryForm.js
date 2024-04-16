@@ -1,9 +1,11 @@
 import { useState, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
+
 import Textbox from "./Textbox";
 import Tag from "./Tag";
 import SearchAPI from "./SearchAPI";
+import toast from 'react-hot-toast'
 
 import { EntryContext } from "../contexts/EntryContext";
 import { JournalContext } from "../contexts/JournalContext";
@@ -31,6 +33,7 @@ const EntryForm = () => {
   const [content, setContent] = useState(currEntry.content);
   const [tags, setTags] = useState(currEntry.tags);
   const [startDate, setStartDate] = useState(() => {
+    
     if (currEntry.startDate) {
       return currEntry.startDate;
     } else {
@@ -88,7 +91,7 @@ const EntryForm = () => {
             .concat(newEntry),
         }));
 
-        alert("entry updated");
+        toast("entry updated");
       } catch (e) {
         console.log(e);
       }
