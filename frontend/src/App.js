@@ -8,7 +8,7 @@ import { JournalContext } from "./contexts/JournalContext";
 import { UserContext } from "./contexts/UserContext";
 
 import Entry from "./components/Entry";
-import EntryForm from "./components/EntryForm";
+import EntryForm from "./components/create-entry/EntryForm";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Landing from "./components/Landing";

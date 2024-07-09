@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import OptionsButton from "./OptionsButton";
-import Tag from "./Tag";
+import Tag from "./shared/Tag";
 
 import { EntryContext } from "../contexts/EntryContext";
 import { JournalContext } from "../contexts/JournalContext";

@@ -3,15 +3,15 @@ import { useDebounce } from "react-use";
 import { Transition } from "@headlessui/react";
 import { useQuery } from "@tanstack/react-query";
 
-import gameService from "../services/games";
-import filmService from "../services/films";
-import bookService from "../services/books";
-import audioService from "../services/audio";
+import gameService from "../../services/games";
+import filmService from "../../services/films";
+import bookService from "../../services/books";
+import audioService from "../../services/audio";
 
-import { ReactComponent as SearchIcon } from "../assets/heroicons/search.svg";
-import { ReactComponent as BookIcon } from "../assets/heroicons/book.svg";
-import { ReactComponent as MovieIcon } from "../assets/heroicons/movie.svg";
-import { ReactComponent as MusicIcon } from "../assets/heroicons/music.svg";
+import { ReactComponent as SearchIcon } from "../../assets/heroicons/search.svg";
+import { ReactComponent as BookIcon } from "../../assets/heroicons/book.svg";
+import { ReactComponent as MovieIcon } from "../../assets/heroicons/movie.svg";
+import { ReactComponent as MusicIcon } from "../../assets/heroicons/music.svg";
 import { GrGamepad as ControllerIcon } from "react-icons/gr";
 
 import MediaTypeButton from "./MediaTypeButton";

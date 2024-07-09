@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import LandingSection from "../LandingSection";
-import NavbarButton from "./buttons/NavbarButton";
+import NavbarButton from "./shared/buttons/NavbarButton";
 
 const Landing = () => {
   const navigate = useNavigate();

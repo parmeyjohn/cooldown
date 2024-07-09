@@ -2,20 +2,20 @@ import { useState, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import Textbox from "./Textbox";
-import Tag from "./Tag";
+import Tag from "../shared/Tag";
 import SearchAPI from "./SearchAPI";
 import toast from "react-hot-toast";
 
-import { EntryContext } from "../contexts/EntryContext";
-import { JournalContext } from "../contexts/JournalContext";
+import { EntryContext } from "../../contexts/EntryContext";
+import { JournalContext } from "../../contexts/JournalContext";
 
-import entryService from "../services/entries";
-import journalService from "../services/journals";
+import entryService from "../../services/entries";
+import journalService from "../../services/journals";
 
-import { ReactComponent as XIcon } from "../assets/heroicons/x.svg";
-import { ReactComponent as PlusIcon } from "../assets/heroicons/plus.svg";
-import { ReactComponent as SearchIcon } from "../assets/heroicons/search.svg";
-import { ReactComponent as SaveIcon } from "../assets/heroicons/circular-arrows.svg";
+import { ReactComponent as XIcon } from "../../assets/heroicons/x.svg";
+import { ReactComponent as PlusIcon } from "../../assets/heroicons/plus.svg";
+import { ReactComponent as SearchIcon } from "../../assets/heroicons/search.svg";
+import { ReactComponent as SaveIcon } from "../../assets/heroicons/circular-arrows.svg";
 
 const EntryForm = () => {
   const navigate = useNavigate();
