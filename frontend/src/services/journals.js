@@ -1,5 +1,5 @@
-import axios from "axios";
-const baseUrl = "https://cooldown-node-backend.fly.dev/api/journals";
+import axios from "../axiosConfig";
+const baseUrl = "/api/journals";
 
 let token = null;
 

@@ -7,10 +7,11 @@ import SidebarJournal from "./SidebarJournal";
 import { JournalContext } from "../contexts/JournalContext";
 import { UserContext } from "../contexts/UserContext";
 import Settings from "./Settings";
+import toast from "react-hot-toast";
 
 const Sidebar = ({ showSidebar, setShowSidebar }) => {
   const [newJournalName, setNewJournalName] = useState("");
-  const [showSettings, setShowSettings] = useState(false)
+  const [showSettings, setShowSettings] = useState(false);
   const { journals, setJournals, currJournal, setCurrJournal } =
     useContext(JournalContext);
   const [journalSearchVal, setJournalSearchVal] = useState("");
@@ -29,6 +30,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
         setJournals((prevJournals) => prevJournals.concat(newJournal));
         setCurrJournal((prevJournal) => newJournal);
         setNewJournalName("");
+        toast("Journal created!", { icon: "✔", duration: 4000 });
       } catch (e) {
         console.log(e);
       }
@@ -46,7 +48,11 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
       id="sidebar"
       className="w-max-sm absolute top-0 left-0 flex h-screen w-[80%] max-w-sm flex-col bg-slate-200 shadow-md"
     >
-      {showSettings ? <Settings setShowSettings={setShowSettings}></Settings> : <></> }
+      {showSettings ? (
+        <Settings setShowSettings={setShowSettings}></Settings>
+      ) : (
+        <></>
+      )}
       <div
         id="navigation"
         className="flex w-full items-center justify-between border-b-2 border-solid border-slate-300 text-slate-800"
@@ -119,7 +125,10 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             <h2 className="text-md ml-2 h-6 font-medium  ">Journals:</h2>
           </div>
 
-          <div data-cy='journals-div' className="mr-4 ml-8 h-[80%] max-h-96 overflow-y-auto rounded-xl ">
+          <div
+            data-cy="journals-div"
+            className="mr-4 ml-8 h-[80%] max-h-96 overflow-y-auto rounded-xl "
+          >
             {journals
               .filter((x) => x.journalName.includes(journalSearchVal))
               .map((j) => (
@@ -147,7 +156,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             <button
               className="mb-2 rounded-lg border-b-2 border-solid border-teal-900 bg-teal-600 p-3 text-teal-50 shadow-xl hover:bg-teal-700 active:bg-teal-900 active:shadow-md"
               onClick={addJournal}
-              data-cy='add-journal-button'
+              data-cy="add-journal-button"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -186,12 +195,12 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
               </div>
               <div className="mr-4 text-left">
                 <h3 className="text-lg font-medium">User</h3>
-                <h3 className="text-lg truncate">@{user.username}</h3>
+                <h3 className="truncate text-lg">@{user.username}</h3>
               </div>
             </div>
 
             <svg
-              id='user-settings-button'
+              id="user-settings-button"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"

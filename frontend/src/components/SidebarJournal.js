@@ -4,6 +4,7 @@ import entryService from "../services/entries";
 import OptionsButton from "./OptionsButton";
 import { JournalContext } from "../contexts/JournalContext";
 import { EntryContext } from "../contexts/EntryContext";
+import toast from "react-hot-toast";
 
 const SidebarJournal = ({ journal }) => {
   const { journals, setJournals, currJournal, setCurrJournal } =
@@ -36,6 +37,8 @@ const SidebarJournal = ({ journal }) => {
         })
       );
       setCurrJournal((prevJournal) => editedJournal);
+      toast("Journal successfully edited!", { icon: "✏", duration: 4000 });
+
       console.log(journals);
     }
   };
@@ -46,7 +49,7 @@ const SidebarJournal = ({ journal }) => {
     }
     journalService.remove(journal.id);
     entryService.removeAll(journal.id);
-    alert(`${journal.journalName} and its entries have been deleted.`);
+    toast("Journal successfully deleted", { icon: "🗑", duration: 4000 });
     setJournals((prevJournals) =>
       prevJournals.filter((j) => j.id !== journal.id)
     );
@@ -71,7 +74,7 @@ const SidebarJournal = ({ journal }) => {
       onClick={() => setCurrJournal(journal)}
     >
       <input
-        data-cy='input-edit-journal'
+        data-cy="input-edit-journal"
         className="w-full bg-transparent read-only:cursor-pointer read-only:outline-none focus-within:outline-none"
         onChange={(e) => setEditedJournalVal(e.target.value)}
         onKeyDown={handleEnter}

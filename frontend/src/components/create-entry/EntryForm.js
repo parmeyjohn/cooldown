@@ -1,22 +1,21 @@
 import { useState, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
-
 import Textbox from "./Textbox";
-import Tag from "./Tag";
+import Tag from "../shared/Tag";
 import SearchAPI from "./SearchAPI";
-import toast from 'react-hot-toast'
+import toast from "react-hot-toast";
 
-import { EntryContext } from "../contexts/EntryContext";
-import { JournalContext } from "../contexts/JournalContext";
+import { EntryContext } from "../../contexts/EntryContext";
+import { JournalContext } from "../../contexts/JournalContext";
 
-import entryService from "../services/entries";
-import journalService from "../services/journals";
+import entryService from "../../services/entries";
+import journalService from "../../services/journals";
 
-import { ReactComponent as XIcon } from "../assets/heroicons/x.svg";
-import { ReactComponent as PlusIcon } from "../assets/heroicons/plus.svg";
-import { ReactComponent as SearchIcon } from "../assets/heroicons/search.svg";
-import { ReactComponent as SaveIcon } from "../assets/heroicons/circular-arrows.svg";
+import { ReactComponent as XIcon } from "../../assets/heroicons/x.svg";
+import { ReactComponent as PlusIcon } from "../../assets/heroicons/plus.svg";
+import { ReactComponent as SearchIcon } from "../../assets/heroicons/search.svg";
+import { ReactComponent as SaveIcon } from "../../assets/heroicons/circular-arrows.svg";
 
 const EntryForm = () => {
   const navigate = useNavigate();
@@ -33,7 +32,6 @@ const EntryForm = () => {
   const [content, setContent] = useState(currEntry.content);
   const [tags, setTags] = useState(currEntry.tags);
   const [startDate, setStartDate] = useState(() => {
-    
     if (currEntry.startDate) {
       return currEntry.startDate;
     } else {
@@ -91,7 +89,7 @@ const EntryForm = () => {
             .concat(newEntry),
         }));
 
-        toast("entry updated");
+        toast("Entry updated!", { icon: "✏", duration: 4000 });
       } catch (e) {
         console.log(e);
       }
@@ -121,7 +119,7 @@ const EntryForm = () => {
           })
         );
 
-        alert("entry created");
+        toast("Entry created!", { icon: "✔", duration: 4000 });
       } catch (e) {
         console.log(e);
       }
