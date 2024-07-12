@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import Textbox from "./Textbox";
@@ -16,6 +16,7 @@ import { ReactComponent as XIcon } from "../../assets/heroicons/x.svg";
 import { ReactComponent as PlusIcon } from "../../assets/heroicons/plus.svg";
 import { ReactComponent as SearchIcon } from "../../assets/heroicons/search.svg";
 import { ReactComponent as SaveIcon } from "../../assets/heroicons/circular-arrows.svg";
+import TextEditor from "./TextEditor";
 
 const EntryForm = () => {
   const navigate = useNavigate();
@@ -29,6 +30,8 @@ const EntryForm = () => {
   const [mediaTitle, setMediaTitle] = useState(currEntry.mediaTitle);
   const [mediaObj, setMediaObj] = useState(currEntry.mediaObj);
   const [text, setText] = useState(currEntry.text);
+  const [textCharacterCount, setCharacterCount] = useState(0);
+  const [textAsJSON, setTextAsJSON] = useState({});
   const [content, setContent] = useState(currEntry.content);
   const [tags, setTags] = useState(currEntry.tags);
   const [startDate, setStartDate] = useState(() => {
@@ -44,9 +47,12 @@ const EntryForm = () => {
   });
   const [currTag, setCurrTag] = useState("");
 
+  useEffect(() => {
+    console.log("here", text, textCharacterCount, content);
+  });
   const saveEntry = async (event) => {
     event.preventDefault();
-    if (entryTitle === "") {
+    if (entryTitle === "" || textCharacterCount > 1000) {
       return;
     }
     const entryObject = {
@@ -192,7 +198,7 @@ const EntryForm = () => {
           <XIcon className="h-8 w-8 text-teal-900"></XIcon>
         </button>
       </div>
-      <div className="h-full overflow-y-scroll pb-64 sm:p-8">
+      <div className="h-full overflow-y-auto pb-64 sm:p-8">
         <div className=" mx-auto flex w-full flex-col justify-start overflow-y-auto text-teal-900">
           <div className="flex w-full items-center px-4 text-gray-500 focus-within:text-gray-700  ">
             <input
@@ -231,11 +237,11 @@ const EntryForm = () => {
 
             <label className="px-2 text-base font-semibold">Entry:</label>
 
-            <Textbox
-              initialContent={content}
+            <TextEditor
               setText={setText}
-              setContent={setContent}
-            ></Textbox>
+              setTextAsJSON={setTextAsJSON}
+              setTextCharacterCount={setCharacterCount}
+            ></TextEditor>
 
             <label className="mb-1 px-2 text-base font-semibold ">Tags:</label>
             <div className="flex items-center justify-between gap-4">
