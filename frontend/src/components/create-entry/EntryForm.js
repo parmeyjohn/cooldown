@@ -34,22 +34,10 @@ const EntryForm = () => {
   const [textAsJSON, setTextAsJSON] = useState({});
   const [content, setContent] = useState(currEntry.content);
   const [tags, setTags] = useState(currEntry.tags);
-  const [startDate, setStartDate] = useState(() => {
-    if (currEntry.startDate) {
-      return currEntry.startDate;
-    } else {
-      var currTime = new Date();
-      var offset = currTime.getTimezoneOffset() * 60 * 1000;
-      const newTime = new Date(currTime - offset);
-      console.log(newTime);
-      return newTime.toISOString();
-    }
-  });
+  const [entryDuration, setEntryDuration] = useState(0);
+  const [date, setDate] = useState(new Date().toJSON().slice(0, 10));
   const [currTag, setCurrTag] = useState("");
 
-  useEffect(() => {
-    console.log("here", text, textCharacterCount, content);
-  });
   const saveEntry = async (event) => {
     event.preventDefault();
     if (entryTitle === "" || textCharacterCount > 1000) {
@@ -59,7 +47,7 @@ const EntryForm = () => {
       entryTitle,
       mediaTitle,
       mediaObj,
-      startDate,
+      date,
       text,
       content,
       tags,
@@ -137,7 +125,7 @@ const EntryForm = () => {
       text: "",
       content: [],
       tags: [],
-      startDate: "",
+      date: "",
     });
     navigate(-1);
   };
@@ -170,19 +158,17 @@ const EntryForm = () => {
       text: "",
       content: [],
       tags: [],
-      startDate: "",
+      date: "",
     });
     navigate(-1);
   };
 
-  const setFormatDate = (dateString) => {
-    console.log("date str", dateString);
-    var currTime = new Date(dateString);
-    console.log("curr time", currTime);
-    var offset = currTime.getTimezoneOffset() * 60 * 1000;
-    const newTime = new Date(currTime - offset);
-    console.log("new time", newTime);
-    setStartDate(newTime.toISOString());
+  const validateDuration = (value) => {
+    const [integers, decimals] = value.split(".");
+    console.log(integers, decimals);
+    if (integers.length < 3 && decimals.length < 3) {
+      setEntryDuration(value);
+    }
   };
 
   return (
@@ -206,7 +192,7 @@ const EntryForm = () => {
               autoFocus
               name="title"
               data-cy="input-entry-title"
-              placeholder="Untitled"
+              placeholder="Add a title..."
               autoComplete="off"
               value={entryTitle}
               onChange={(e) => setEntryTitle(e.target.value)}
@@ -214,18 +200,34 @@ const EntryForm = () => {
           </div>
 
           <div className="mx-2 flex flex-col px-4 text-left text-lg ">
-            <label className="px-2 text-base font-semibold">Date:</label>
-            <input
-              className="mt-1 mb-2 rounded-lg bg-slate-300 p-3 shadow-inner shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700"
-              onChange={(e) => {
-                setFormatDate(e.target.value);
-              }}
-              type="datetime-local"
-              name="start-time"
-              data-cy="input-entry-date"
-              value={startDate.slice(0, 16)}
-            ></input>
-            <label className="px-2 text-base font-semibold">Media:</label>
+            <label className="mb-1 px-2 text-base font-semibold">
+              Duration:
+            </label>
+            <div className="flex items-center justify-around">
+              <input
+                className=" mb-2 w-20 rounded-lg bg-slate-300 p-3 shadow-inner shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700"
+                type="number"
+                step={0.1}
+                min={0}
+                max={24}
+                data-cy="input-entry-duration"
+                value={entryDuration}
+                onChange={(e) => setEntryDuration(e.target.value)}
+              ></input>
+              <span> hour(s) on </span>
+              <input
+                className=" mb-2 rounded-lg bg-slate-300 p-3 shadow-inner shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700"
+                onChange={(e) => {
+                  setDate(e.target.value);
+                }}
+                type="date"
+                name="start-time"
+                data-cy="input-entry-date"
+                value={date}
+              ></input>
+            </div>
+
+            <label className="mb-1 px-2 text-base font-semibold">Media:</label>
 
             <div className="relative flex text-teal-900">
               <SearchAPI
@@ -235,7 +237,7 @@ const EntryForm = () => {
               ></SearchAPI>
             </div>
 
-            <label className="px-2 text-base font-semibold">Entry:</label>
+            <label className="mb-1 px-2 text-base font-semibold">Entry:</label>
 
             <TextEditor
               setText={setText}
