@@ -130,7 +130,9 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             className="mr-4 ml-8 h-[80%] max-h-96 overflow-y-auto rounded-xl "
           >
             {journals
-              .filter((x) => x.journalName.includes(journalSearchVal))
+              .filter((x) =>
+                x.journalName.toLowerCase().includes(journalSearchVal)
+              )
               .map((j) => (
                 <SidebarJournal key={j.id} journal={j}></SidebarJournal>
               ))}
