@@ -33,7 +33,7 @@ const EntryList = ({}) => {
         <SearchBar
           searchValue={searchValue}
           setSearchValue={setSearchValue}
-          placeholder={"Search entries..."}
+          placeholder={"Search entry titles or text..."}
           showIcon={true}
         ></SearchBar>
 
@@ -68,9 +68,9 @@ const EntryList = ({}) => {
           groupBy(
             entries.filter(
               (e) =>
-                e.entryTitle.includes(searchValue) ||
-                e.text.includes(searchValue) ||
-                e.mediaTitle.includes(searchValue) ||
+                e.entryTitle.toLowerCase().includes(searchValue) ||
+                e.text.toLowerCase().includes(searchValue) ||
+                e.mediaTitle.toLowerCase().includes(searchValue) ||
                 e.tags.includes(searchValue)
             )
           ).map((group) => (
