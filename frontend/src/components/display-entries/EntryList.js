@@ -1,16 +1,17 @@
 import { useContext, useState } from "react";
 
-import { ReactComponent as SortAscendingIcon } from "../assets/heroicons/ascending.svg";
-import { ReactComponent as SortDescendingIcon } from "../assets/heroicons/descending.svg";
+import { ReactComponent as SortAscendingIcon } from "../../assets/heroicons/ascending.svg";
+import { ReactComponent as SortDescendingIcon } from "../../assets/heroicons/descending.svg";
 
-import SearchBar from "./SearchBar";
+import SearchBar from "../SearchBar";
 import EntryGroup from "./EntryGroup";
-import { EntryContext } from "../contexts/EntryContext";
+
+import { EntryContext } from "../../contexts/EntryContext";
 
 const groupBy = (initialEntries) => {
   const groupedEntries = {};
   for (let i = 0; i < initialEntries.length; i++) {
-    let currDate = initialEntries[i].startDate.slice(0, 10);
+    const currDate = initialEntries[i].startDate.slice(0, 10);
     if (currDate in groupedEntries) {
       groupedEntries[currDate].push(initialEntries[i]);
     } else {
@@ -88,7 +89,7 @@ const EntryList = ({}) => {
           <div className="flex h-full w-full flex-col items-center justify-center pb-20">
             <img
               className="h-64 w-72"
-              src={require("../assets/no_entries.png")}
+              src={require("../../assets/no_entries.png")}
               alt="empty journal"
             ></img>
             <div

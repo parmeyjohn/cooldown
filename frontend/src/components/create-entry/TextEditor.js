@@ -1,6 +1,7 @@
 import CharacterCount from "@tiptap/extension-character-count";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import Placeholder from "@tiptap/extension-placeholder";
 import ListItem from "@tiptap/extension-list-item"; // get rid of this and bullet list from package json
 import Link from "@tiptap/extension-link";
 
@@ -27,6 +28,11 @@ const extensions = [
   CharacterCount.configure({
     charLimit,
   }),
+  Placeholder.configure({
+    placeholder: "Write something...",
+    emptyEditorClass:
+      "before:text-gray-400 before:content-[attr(data-placeholder)]",
+  }),
   Link.configure({
     openOnClick: true,
     autolink: true,
@@ -37,7 +43,6 @@ const extensions = [
     },
   }),
 ];
-const content = "<p>Hello World!</p>";
 
 const TextEditor = ({
   initialContent,
@@ -50,10 +55,10 @@ const TextEditor = ({
     editorProps: {
       attributes: {
         class:
-          "overflow-y-auto list-disc mb-2 h-60 rounded-b-lg xl:h-80 bg-slate-300 p-4 shadow-inner shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700",
+          "overflow-y-auto list-disc mb-2 h-60 rounded-b-lg xl:h-80 bg-slate-300 p-3 shadow-inner shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700",
       },
     },
-    content,
+    content: initialContent,
     onUpdate: ({ editor }) => {
       setText(editor.getText());
       setTextAsJSON(editor.getJSON());
@@ -71,7 +76,7 @@ const TextEditor = ({
         <div className="flex w-full justify-between divide-x divide-slate-400 rounded-t-lg border-b-2 border-solid border-slate-400 bg-slate-200 ">
           <button
             onClick={() => editor.chain().focus().toggleBold().run()}
-            className={`flex h-16 w-full items-center justify-center rounded-tl-lg p-3  transition-all duration-75 ease-linear hover:bg-emerald-200 active:bg-emerald-300 ${
+            className={`flex h-16 w-full items-center justify-center rounded-tl-lg p-3 transition-all duration-75 ease-linear hover:bg-emerald-200 active:bg-emerald-300 ${
               editor.isActive("bold")
                 ? "border-b-4 border-teal-600 bg-green-300"
                 : ""

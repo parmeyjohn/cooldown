@@ -1,10 +1,11 @@
 import { useContext, useEffect, useRef, useState } from "react";
 
-import OptionsButton from "./OptionsButton";
+import OptionsButton from "../OptionsButton";
 import Entry from "./Entry";
+import dayjs from "../../dayjs.config";
 
-import { EntryContext } from "../contexts/EntryContext";
-import { JournalContext } from "../contexts/JournalContext";
+import { EntryContext } from "../../contexts/EntryContext";
+import { JournalContext } from "../../contexts/JournalContext";
 
 const EntryGroup = ({ entryGroup, setSearchVal }) => {
   const [showFullEntry, setShowFullEntry] = useState(false);
@@ -19,20 +20,22 @@ const EntryGroup = ({ entryGroup, setSearchVal }) => {
 
   return (
     <>
-      <div className="text-md mx-8 mt-2 flex justify-between rounded-xl font-medium text-slate-400">
-        <p className="">{entryGroup[0]}</p>
+      <div className="text-md mx-6 mt-2 flex justify-between rounded-xl font-medium text-slate-400">
+        <p className="">{`${dayjs(entryGroup[0]).format("M/D/YY")}, ${dayjs(
+          entryGroup[0]
+        ).fromNow()}`}</p>
         <p>
           {`${entryGroup[1].length} ${
             entryGroup[1].length > 1 ? "entries" : "entry"
           }`}
         </p>
       </div>
-      <div
-       data-cy='entry-group'
-       className="h-auto p-2">
-        {entryGroup[1].sort((a,b) => (a.startDate >= b.startDate ? 1 : -1)).map((e) => (
-          <Entry entry={e} key={e.id} setSearchVal={setSearchVal}></Entry>
-        ))}
+      <div data-cy="entry-group" className="h-auto p-2">
+        {entryGroup[1]
+          .sort((a, b) => (a.startDate >= b.startDate ? 1 : -1))
+          .map((e) => (
+            <Entry entry={e} key={e.id} setSearchVal={setSearchVal}></Entry>
+          ))}
       </div>
     </>
   );

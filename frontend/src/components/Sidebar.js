@@ -1,4 +1,5 @@
 import { useState, useContext, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { ReactComponent as Logo } from "../assets/logo_v4.svg";
 
 import journalService from "../services/journals";
@@ -16,7 +17,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
     useContext(JournalContext);
   const [journalSearchVal, setJournalSearchVal] = useState("");
   const { user } = useContext(UserContext);
-
+  let navigate = useNavigate();
   const addJournal = async (event) => {
     event.preventDefault();
     if (newJournalName.length > 1) {
@@ -175,6 +176,43 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
                 />
               </svg>
             </button>
+          </div>
+
+          <div className="flex items-center justify-start pt-2 pl-4 pb-2 text-slate-500 ">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="h-5 w-5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z"
+              />
+            </svg>
+
+            <h2 className="text-md ml-2 h-6 font-medium  ">Statistics:</h2>
+          </div>
+
+          <div className="mr-4 ml-8 h-[40%] max-h-96 overflow-y-auto rounded-xl ">
+            <div
+              onClick={() => navigate("stats")}
+              className="hover:bg-green-200"
+            >
+              All
+            </div>
+            <div>Games</div>
+            <div>Film</div>
+            <div>Books</div>
+            <div>Misc</div>
           </div>
 
           <div className="flex w-full items-center justify-between rounded-tr-xl p-4">

@@ -1,10 +1,8 @@
 import { useState, useContext, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
-import Textbox from "./Textbox";
-import Tag from "../shared/Tag";
-import SearchAPI from "./SearchAPI";
 import toast from "react-hot-toast";
+import dayjs from "../../dayjs.config";
 
 import { EntryContext } from "../../contexts/EntryContext";
 import { JournalContext } from "../../contexts/JournalContext";
@@ -17,6 +15,8 @@ import { ReactComponent as PlusIcon } from "../../assets/heroicons/plus.svg";
 import { ReactComponent as SearchIcon } from "../../assets/heroicons/search.svg";
 import { ReactComponent as SaveIcon } from "../../assets/heroicons/circular-arrows.svg";
 import TextEditor from "./TextEditor";
+import Tag from "../shared/Tag";
+import SearchAPI from "./SearchAPI";
 
 const EntryForm = () => {
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ const EntryForm = () => {
   const [content, setContent] = useState(currEntry.content);
   const [tags, setTags] = useState(currEntry.tags);
   const [entryDuration, setEntryDuration] = useState(0);
-  const [date, setDate] = useState(new Date().toJSON().slice(0, 10));
+  const [date, setDate] = useState(dayjs().local().format("YYYY-MM-DDThh:mm"));
   const [currTag, setCurrTag] = useState("");
 
   const saveEntry = async (event) => {
@@ -130,6 +130,19 @@ const EntryForm = () => {
     navigate(-1);
   };
 
+  const printEntry = () => {
+    const entryObject = {
+      entryTitle,
+      mediaTitle,
+      mediaObj,
+      date,
+      text,
+      content,
+      tags,
+      journalId: currJournal.id,
+    };
+    console.log(entryObject);
+  };
   const removeTag = (tagToRemove) => {
     setTags(tags.filter((tag, i) => tag !== tagToRemove));
   };
@@ -220,7 +233,7 @@ const EntryForm = () => {
                 onChange={(e) => {
                   setDate(e.target.value);
                 }}
-                type="date"
+                type="datetime-local"
                 name="start-time"
                 data-cy="input-entry-date"
                 value={date}
@@ -295,7 +308,7 @@ const EntryForm = () => {
         <button
           id="create-entry-button"
           data-cy="save-entry-button"
-          onClick={saveEntry}
+          onClick={() => printEntry()}
           className="focus flex w-60 items-center justify-center rounded-lg border-b-2 border-solid border-teal-900 bg-teal-600 p-2 text-lg font-semibold text-teal-50 shadow-xl hover:bg-teal-700 active:bg-teal-900 active:shadow-md"
         >
           <SaveIcon className="hidden h-8 w-8 md:block"></SaveIcon>

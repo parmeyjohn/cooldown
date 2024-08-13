@@ -7,18 +7,18 @@ import { EntryContext } from "./contexts/EntryContext";
 import { JournalContext } from "./contexts/JournalContext";
 import { UserContext } from "./contexts/UserContext";
 
-import Entry from "./components/Entry";
 import EntryForm from "./components/create-entry/EntryForm";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Landing from "./components/Landing";
+import Statistics from "./components/statistics/Statistics";
 import AuthRoute from "./components/AuthRoute";
 
 import entryService from "./services/entries";
 import journalService from "./services/journals";
 import loginService from "./services/login";
 import EditEntryForm from "./components/EditEntryForm";
-import EntryList from "./components/EntryList";
+import EntryList from "./components/display-entries/EntryList";
 
 const queryClient = new QueryClient();
 
@@ -117,6 +117,14 @@ const App = () => {
                       element={
                         <AuthRoute user={user}>
                           <EntryForm />
+                        </AuthRoute>
+                      }
+                    ></Route>
+                    <Route
+                      path="/stats"
+                      element={
+                        <AuthRoute user={user}>
+                          <Statistics />
                         </AuthRoute>
                       }
                     ></Route>
