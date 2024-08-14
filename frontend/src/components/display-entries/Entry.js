@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import OptionsButton from "../OptionsButton";
 import Tag from "../shared/Tag";
+import dayjs from "../../dayjs.config";
 
 import { EntryContext } from "../../contexts/EntryContext";
 import { JournalContext } from "../../contexts/JournalContext";
@@ -192,7 +193,9 @@ const Entry = ({ entry, setSearchVal }) => {
                 ))}
               </div>
               <div className="text-md ml-5 whitespace-nowrap">
-                {entry.startDate ? `${formatTime(entry.startDate)}` : "no date"}
+                {entry.startDate
+                  ? `${dayjs(entry.startDate).format("h:mm A")}`
+                  : "no date"}
               </div>
             </div>
           </div>
