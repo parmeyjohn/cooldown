@@ -32,7 +32,7 @@ const EntryGroup = ({ entryGroup, setSearchVal }) => {
       </div>
       <div data-cy="entry-group" className="h-auto p-2">
         {entryGroup[1]
-          .sort((a, b) => (a.startDate >= b.startDate ? 1 : -1))
+          //.sort((a, b) => a.startDate - b.startDate)
           .map((e) => (
             <Entry entry={e} key={e.id} setSearchVal={setSearchVal}></Entry>
           ))}
