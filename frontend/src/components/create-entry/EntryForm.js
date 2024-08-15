@@ -29,13 +29,20 @@ const EntryForm = () => {
   const [entryTitle, setEntryTitle] = useState(currEntry.entryTitle);
   const [mediaTitle, setMediaTitle] = useState(currEntry.mediaTitle);
   const [mediaObj, setMediaObj] = useState(currEntry.mediaObj);
+  const [textAsHTML, setTextAsHTML] = useState(currEntry.text);
   const [text, setText] = useState(currEntry.text);
   const [textCharacterCount, setCharacterCount] = useState(0);
   const [textAsJSON, setTextAsJSON] = useState({});
   const [content, setContent] = useState(currEntry.content);
   const [tags, setTags] = useState(currEntry.tags);
   const [entryDuration, setEntryDuration] = useState(0);
-  const [date, setDate] = useState(dayjs().local().format("YYYY-MM-DDThh:mm"));
+  const [entryIncrement, setEntryIncrement] = useState(0);
+  const [incrementType, setIncrementType] = useState("pages");
+  const [sentiment, setSentiment] = useState("");
+
+  const [startDate, setStartDate] = useState(
+    dayjs().local().format("YYYY-MM-DDThh:mm")
+  );
   const [currTag, setCurrTag] = useState("");
 
   const saveEntry = async (event) => {
@@ -45,13 +52,16 @@ const EntryForm = () => {
     }
     const entryObject = {
       entryTitle,
-      mediaTitle,
       mediaObj,
-      date,
+      startDate,
       text,
-      content,
+      textAsJSON,
+      textAsHTML,
       tags,
       journalId: currJournal.id,
+      entryDuration,
+      entryIncrement,
+      sentiment,
     };
 
     if (location.state.edit) {
@@ -118,31 +128,40 @@ const EntryForm = () => {
         console.log(e);
       }
     }
-    setCurrEntry({
-      entryTitle: "",
-      mediaTitle: "",
-      mediaObj: {},
-      text: "",
-      content: [],
-      tags: [],
-      date: "",
-    });
-    navigate(-1);
+    handleCancel();
+    // setCurrEntry({
+    //   entryTitle: "",
+    //   mediaObj: {},
+    //   startDate: "",
+    //   text: "",
+    //   textAsJSON: {},
+    //   textAsHTML: "",
+    //   tags: [],
+    //   journalId: currJournal.id,
+    //   entryDuration: 0,
+    //   entryIncrement: 0,
+    //   sentiment: "",
+    // });
+    // navigate(-1);
   };
 
   const printEntry = () => {
     const entryObject = {
       entryTitle,
-      mediaTitle,
       mediaObj,
-      date,
+      startDate,
       text,
-      content,
+      textAsJSON,
+      textAsHTML,
       tags,
       journalId: currJournal.id,
+      entryDuration,
+      entryIncrement,
+      sentiment,
     };
     console.log(entryObject);
   };
+
   const removeTag = (tagToRemove) => {
     setTags(tags.filter((tag, i) => tag !== tagToRemove));
   };
@@ -166,12 +185,16 @@ const EntryForm = () => {
   const handleCancel = (e) => {
     setCurrEntry({
       entryTitle: "",
-      mediaTitle: "",
       mediaObj: {},
+      startDate: "",
       text: "",
-      content: [],
+      textAsJSON: {},
+      textAsHTML: "",
       tags: [],
-      date: "",
+      journalId: currJournal.id,
+      entryDuration: 0,
+      entryIncrement: 0,
+      sentiment: "",
     });
     navigate(-1);
   };
@@ -185,7 +208,7 @@ const EntryForm = () => {
   };
 
   return (
-    <div className="relative z-20 mx-auto flex h-auto max-h-screen w-full max-w-4xl flex-col justify-between rounded-2xl border-b-8 border-slate-600 bg-teal-50 md:static md:my-8 md:h-auto lg:static">
+    <div className="relative z-20 mx-auto flex h-auto max-h-[90%] w-full max-w-4xl flex-col justify-between rounded-2xl border-b-8 border-slate-600 bg-teal-50 md:static md:my-8 md:h-auto lg:static">
       <div className="flex w-full items-center justify-between px-4 py-6">
         <h1 className=" mx-4">{currJournal.journalName}</h1>
         <button
@@ -216,7 +239,18 @@ const EntryForm = () => {
             <label className="mb-1 px-2 text-base font-semibold">
               Duration:
             </label>
-            <div className="flex items-center justify-around">
+            <div className="flex items-center justify-between">
+              <input
+                className=" mb-2 w-20 rounded-lg bg-slate-300 p-3 shadow-inner shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700"
+                type="number"
+                step={1}
+                min={0}
+                max={100}
+                data-cy="input-entry-increment"
+                value={entryIncrement}
+                onChange={(e) => setEntryIncrement(e.target.value)}
+              ></input>
+              <span> {incrementType} for </span>
               <input
                 className=" mb-2 w-20 rounded-lg bg-slate-300 p-3 shadow-inner shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700"
                 type="number"
@@ -231,12 +265,12 @@ const EntryForm = () => {
               <input
                 className=" mb-2 rounded-lg bg-slate-300 p-3 shadow-inner shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700"
                 onChange={(e) => {
-                  setDate(e.target.value);
+                  setStartDate(e.target.value);
                 }}
                 type="datetime-local"
                 name="start-time"
                 data-cy="input-entry-date"
-                value={date}
+                value={startDate}
               ></input>
             </div>
 
@@ -254,6 +288,7 @@ const EntryForm = () => {
 
             <TextEditor
               setText={setText}
+              setTextAsHTML={setTextAsHTML}
               setTextAsJSON={setTextAsJSON}
               setTextCharacterCount={setCharacterCount}
             ></TextEditor>
@@ -293,6 +328,43 @@ const EntryForm = () => {
                 <></>
               )}
             </div>
+
+            <label className="mb-1 px-2 text-base font-semibold">
+              Sentiment:
+            </label>
+
+            <div className="mt-1 mb-2 flex w-full justify-between transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700">
+              <button
+                onClick={() => setSentiment("Awful")}
+                className="h-16 w-32 rounded-md bg-teal-200"
+              >
+                😟 Awful
+              </button>
+              <button
+                onClick={() => setSentiment("Bad")}
+                className="h-16 w-32 rounded-md bg-teal-200"
+              >
+                😕 Bad
+              </button>
+              <button
+                onClick={() => setSentiment("Okay")}
+                className="h-16 w-32 rounded-md bg-teal-200"
+              >
+                😐 Okay
+              </button>
+              <button
+                onClick={() => setSentiment("Good")}
+                className="h-16 w-32 rounded-md bg-teal-200"
+              >
+                🙂 Good
+              </button>
+              <button
+                onClick={() => setSentiment("Great")}
+                className="h-16 w-32 rounded-md bg-teal-200"
+              >
+                😀 Great
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -308,7 +380,7 @@ const EntryForm = () => {
         <button
           id="create-entry-button"
           data-cy="save-entry-button"
-          onClick={() => printEntry()}
+          onClick={(e) => saveEntry(e)}
           className="focus flex w-60 items-center justify-center rounded-lg border-b-2 border-solid border-teal-900 bg-teal-600 p-2 text-lg font-semibold text-teal-50 shadow-xl hover:bg-teal-700 active:bg-teal-900 active:shadow-md"
         >
           <SaveIcon className="hidden h-8 w-8 md:block"></SaveIcon>

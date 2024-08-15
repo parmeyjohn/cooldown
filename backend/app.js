@@ -33,7 +33,7 @@ const corsConfig = {
     "https://www.usecooldown.com",
     "https://usecooldown.com",
     "https://api.mobygames.com",
-    "http://localhost:3000/",
+    "http://localhost:3000",
   ],
   credentials: true,
 };

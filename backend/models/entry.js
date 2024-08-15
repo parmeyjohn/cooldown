@@ -2,12 +2,15 @@ const mongoose = require("mongoose");
 
 const entrySchema = new mongoose.Schema({
   entryTitle: String,
-  mediaTitle: String,
-  mediaObj: {},
+  duration: Number,
+  increment: Number,
+  mediaObj: Object,
   startDate: Date,
-  content: Object,
   text: String,
+  textAsHTML: String,
+  textAsJSON: Object,
   tags: [String],
+  sentiment: String,
   journalId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Journal",

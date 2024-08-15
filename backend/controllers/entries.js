@@ -1,46 +1,74 @@
-const express = require('express')
-const mongoose = require('mongoose')
-const { response } = require('../app.js')
-const Entry = require('../models/entry.js')
-const User = require('../models/user.js')
-const Journal = require('../models/journal.js')
-const entryRouter = express.Router()
-const { expressjwt: jwt } = require('express-jwt')
+const express = require("express");
+const mongoose = require("mongoose");
+const { response } = require("../app.js");
+const Entry = require("../models/entry.js");
+const User = require("../models/user.js");
+const Journal = require("../models/journal.js");
+const entryRouter = express.Router();
+const { expressjwt: jwt } = require("express-jwt");
 
-entryRouter.get('/', jwt({ secret: process.env.SECRET, algorithms: ["HS256"] }), async (request, response) => {
-    const entries = await Entry.find({})
-    response.status(200).json(entries)
-})
+entryRouter.get(
+  "/",
+  jwt({ secret: process.env.SECRET, algorithms: ["HS256"] }),
+  async (request, response) => {
+    const entries = await Entry.find({}).sort({ startDate: -1 });
+    console.log(entries);
+    response.status(200).json(entries);
+  }
+);
 
-entryRouter.post('/', jwt({ secret: process.env.SECRET, algorithms: ["HS256"] }), async (request, response) => {
-    const entry = new Entry(request.body)
-    console.log(request.body)
-    const result = await entry.save()
-    response.status(201).json(result)
-})
+entryRouter.post(
+  "/",
+  jwt({ secret: process.env.SECRET, algorithms: ["HS256"] }),
+  async (request, response) => {
+    const entry = new Entry(request.body);
+    console.log(request.body);
+    const result = await entry.save();
+    response.status(201).json(result);
+  }
+);
 
-entryRouter.delete('/entries/:id', jwt({ secret: process.env.SECRET, algorithms: ["HS256"] }), async (request, response) => {
+entryRouter.delete(
+  "/entries/:id",
+  jwt({ secret: process.env.SECRET, algorithms: ["HS256"] }),
+  async (request, response) => {
     // ID in this function is the journal id
-    const deletedEntries = await Entry.deleteMany({ journalId: request.params.id })
-    console.log('deletedEntry', deletedEntries)
-    response.status(204).end()
-})
+    const deletedEntries = await Entry.deleteMany({
+      journalId: request.params.id,
+    });
+    console.log("deletedEntry", deletedEntries);
+    response.status(204).end();
+  }
+);
 
-entryRouter.delete('/:id', jwt({ secret: process.env.SECRET, algorithms: ["HS256"] }), async (request, response) => {    
-    console.log('deleting ', request.params.id)
-    const deletedEntry = await Entry.findOneAndDelete({_id: request.params.id})
-    console.log('deletedEntry', deletedEntry)
-    response.status(204).end()
-})
+entryRouter.delete(
+  "/:id",
+  jwt({ secret: process.env.SECRET, algorithms: ["HS256"] }),
+  async (request, response) => {
+    console.log("deleting ", request.params.id);
+    const deletedEntry = await Entry.findOneAndDelete({
+      _id: request.params.id,
+    });
+    console.log("deletedEntry", deletedEntry);
+    response.status(204).end();
+  }
+);
 
 //add update for existing entry
-entryRouter.put('/:id', jwt({ secret: process.env.SECRET, algorithms: ["HS256"] }), async (request, response) => {
-    console.log('req body',request.body)
-    const newEntry = await Entry.findOneAndUpdate({_id: request.params.id}, request.body, {new: true})
-    
-    console.log('new entry',newEntry)
-    response.status(200).json(newEntry)
-})
+entryRouter.put(
+  "/:id",
+  jwt({ secret: process.env.SECRET, algorithms: ["HS256"] }),
+  async (request, response) => {
+    console.log("req body", request.body);
+    const newEntry = await Entry.findOneAndUpdate(
+      { _id: request.params.id },
+      request.body,
+      { new: true }
+    );
 
+    console.log("new entry", newEntry);
+    response.status(200).json(newEntry);
+  }
+);
 
-module.exports = entryRouter
+module.exports = entryRouter;

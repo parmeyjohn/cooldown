@@ -49,6 +49,7 @@ const TextEditor = ({
   setText,
   setTextCharacterCount,
   setTextAsJSON,
+  setTextAsHTML,
 }) => {
   const editor = useEditor({
     extensions,
@@ -61,6 +62,7 @@ const TextEditor = ({
     content: initialContent,
     onUpdate: ({ editor }) => {
       setText(editor.getText());
+      setTextAsHTML(editor.getHTML());
       setTextAsJSON(editor.getJSON());
       setTextCharacterCount(editor.storage.characterCount.characters());
     },
