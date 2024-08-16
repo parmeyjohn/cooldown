@@ -18,6 +18,14 @@ import TextEditor from "./TextEditor";
 import Tag from "../shared/Tag";
 import SearchAPI from "./SearchAPI";
 
+const increments = {
+  Game: ["level(s)", "match(es)"],
+  Film: ["episode(s)", "watch(es)", "season(s)"],
+  Book: ["page(s)", "chapter(s)"],
+  Audio: ["listen(s)", "song(s)", "album(s)"],
+  Other: undefined,
+};
+
 const EntryForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -27,18 +35,18 @@ const EntryForm = () => {
     useContext(JournalContext);
 
   const [entryTitle, setEntryTitle] = useState(currEntry.entryTitle);
-  const [mediaTitle, setMediaTitle] = useState(currEntry.mediaTitle);
   const [mediaObj, setMediaObj] = useState(currEntry.mediaObj);
   const [textAsHTML, setTextAsHTML] = useState(currEntry.text);
   const [text, setText] = useState(currEntry.text);
   const [textCharacterCount, setCharacterCount] = useState(0);
   const [textAsJSON, setTextAsJSON] = useState({});
-  const [content, setContent] = useState(currEntry.content);
   const [tags, setTags] = useState(currEntry.tags);
   const [entryDuration, setEntryDuration] = useState(0);
+  const [mediaType, setMediaType] = useState("Game");
   const [entryIncrement, setEntryIncrement] = useState(0);
-  const [incrementType, setIncrementType] = useState("pages");
-  const [sentiment, setSentiment] = useState("");
+  const [incrementTypes, setIncrementTypes] = useState(increments["Game"]);
+  const [incrementType, setIncrementType] = useState("match(es)");
+  const [sentiment, setSentiment] = useState("Okay");
 
   const [startDate, setStartDate] = useState(
     dayjs().local().format("YYYY-MM-DDThh:mm")
@@ -207,6 +215,11 @@ const EntryForm = () => {
     }
   };
 
+  useEffect(() => {
+    console.log("executed");
+    setIncrementType(increments[mediaType]);
+  }, [mediaType]);
+
   return (
     <div className="relative z-20 mx-auto flex h-auto max-h-[90%] w-full max-w-4xl flex-col justify-between rounded-2xl border-b-8 border-slate-600 bg-teal-50 md:static md:my-8 md:h-auto lg:static">
       <div className="flex w-full items-center justify-between px-4 py-6">
@@ -250,7 +263,21 @@ const EntryForm = () => {
                 value={entryIncrement}
                 onChange={(e) => setEntryIncrement(e.target.value)}
               ></input>
-              <span> {incrementType} for </span>
+
+              <select
+                className="mb-2 w-40 rounded-lg bg-slate-300 p-3 shadow-inner shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700"
+                name="incrementTypes"
+              >
+                {incrementTypes.map((type) => (
+                  <option
+                    onClick={(e) => setIncrementType(e.target.value)}
+                    value={type}
+                  >
+                    {type}
+                  </option>
+                ))}
+              </select>
+              <span>for</span>
               <input
                 className=" mb-2 w-20 rounded-lg bg-slate-300 p-3 shadow-inner shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700"
                 type="number"
@@ -280,6 +307,8 @@ const EntryForm = () => {
               <SearchAPI
                 data-cy="input-media-component"
                 setMediaObj={setMediaObj}
+                mediaType={mediaType}
+                setMediaType={setMediaType}
                 placeholder={"Find a media title..."}
               ></SearchAPI>
             </div>

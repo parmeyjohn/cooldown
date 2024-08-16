@@ -16,8 +16,7 @@ import { GrGamepad as ControllerIcon } from "react-icons/gr";
 
 import MediaTypeButton from "./MediaTypeButton";
 
-const SearchAPI = ({ setMediaObj, placeholder }) => {
-  const [mediaType, setMediaType] = useState("Game");
+const SearchAPI = ({ setMediaObj, placeholder, mediaType, setMediaType }) => {
   const [showGames, setShowGames] = useState(false);
 
   const services = {
