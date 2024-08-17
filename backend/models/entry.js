@@ -4,6 +4,7 @@ const entrySchema = new mongoose.Schema({
   entryTitle: String,
   duration: Number,
   increment: Number,
+  incrementType: String,
   mediaObj: Object,
   startDate: Date,
   text: String,

@@ -16,6 +16,7 @@ import { ReactComponent as SearchIcon } from "../../assets/heroicons/search.svg"
 import { ReactComponent as SaveIcon } from "../../assets/heroicons/circular-arrows.svg";
 import TextEditor from "./TextEditor";
 import Tag from "../shared/Tag";
+import SelectionButton from "./SelectionButton";
 import SearchAPI from "./SearchAPI";
 
 const increments = {
@@ -25,6 +26,14 @@ const increments = {
   Audio: ["listen(s)", "song(s)", "album(s)"],
   Other: undefined,
 };
+
+const sentiments = [
+  { icon: "😟", label: "Awful" },
+  { icon: "😕", label: "Bad" },
+  { icon: "😐", label: "Okay" },
+  { icon: "🙂", label: "Good" },
+  { icon: "😀", label: "Great" },
+];
 
 const EntryForm = () => {
   const navigate = useNavigate();
@@ -69,6 +78,7 @@ const EntryForm = () => {
       journalId: currJournal.id,
       entryDuration,
       entryIncrement,
+      incrementType,
       sentiment,
     };
 
@@ -137,20 +147,6 @@ const EntryForm = () => {
       }
     }
     handleCancel();
-    // setCurrEntry({
-    //   entryTitle: "",
-    //   mediaObj: {},
-    //   startDate: "",
-    //   text: "",
-    //   textAsJSON: {},
-    //   textAsHTML: "",
-    //   tags: [],
-    //   journalId: currJournal.id,
-    //   entryDuration: 0,
-    //   entryIncrement: 0,
-    //   sentiment: "",
-    // });
-    // navigate(-1);
   };
 
   const printEntry = () => {
@@ -217,7 +213,7 @@ const EntryForm = () => {
 
   useEffect(() => {
     console.log("executed");
-    setIncrementType(increments[mediaType]);
+    setIncrementTypes(increments[mediaType]);
   }, [mediaType]);
 
   return (
@@ -322,6 +318,20 @@ const EntryForm = () => {
               setTextCharacterCount={setCharacterCount}
             ></TextEditor>
 
+            <label className="mb-1 px-2 text-base font-semibold">
+              Sentiment:
+            </label>
+            <div className="mt-1 mb-2 flex h-16 w-full justify-between transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700">
+              {sentiments.map((s) => (
+                <SelectionButton
+                  setSelection={setSentiment}
+                  currentSelection={sentiment}
+                  label={s.label}
+                  icon={s.icon}
+                ></SelectionButton>
+              ))}
+            </div>
+
             <label className="mb-1 px-2 text-base font-semibold ">Tags:</label>
             <div className="flex items-center justify-between gap-4">
               <input
@@ -344,7 +354,6 @@ const EntryForm = () => {
                 <span className="hidden px-2 text-base md:block"> Add Tag</span>
               </button>
             </div>
-
             <div
               data-cy="tags-div"
               className="mx-auto mt-3 flex h-12 w-full justify-start overflow-x-auto transition duration-300 ease-in-out"
@@ -356,43 +365,6 @@ const EntryForm = () => {
               ) : (
                 <></>
               )}
-            </div>
-
-            <label className="mb-1 px-2 text-base font-semibold">
-              Sentiment:
-            </label>
-
-            <div className="mt-1 mb-2 flex w-full justify-between transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700">
-              <button
-                onClick={() => setSentiment("Awful")}
-                className="h-16 w-32 rounded-md bg-teal-200"
-              >
-                😟 Awful
-              </button>
-              <button
-                onClick={() => setSentiment("Bad")}
-                className="h-16 w-32 rounded-md bg-teal-200"
-              >
-                😕 Bad
-              </button>
-              <button
-                onClick={() => setSentiment("Okay")}
-                className="h-16 w-32 rounded-md bg-teal-200"
-              >
-                😐 Okay
-              </button>
-              <button
-                onClick={() => setSentiment("Good")}
-                className="h-16 w-32 rounded-md bg-teal-200"
-              >
-                🙂 Good
-              </button>
-              <button
-                onClick={() => setSentiment("Great")}
-                className="h-16 w-32 rounded-md bg-teal-200"
-              >
-                😀 Great
-              </button>
             </div>
           </div>
         </div>

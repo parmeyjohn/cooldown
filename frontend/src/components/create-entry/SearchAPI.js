@@ -14,7 +14,7 @@ import { ReactComponent as MovieIcon } from "../../assets/heroicons/movie.svg";
 import { ReactComponent as MusicIcon } from "../../assets/heroicons/music.svg";
 import { GrGamepad as ControllerIcon } from "react-icons/gr";
 
-import MediaTypeButton from "./MediaTypeButton";
+import SelectionButton from "./SelectionButton";
 
 const SearchAPI = ({ setMediaObj, placeholder, mediaType, setMediaType }) => {
   const [showGames, setShowGames] = useState(false);
@@ -70,16 +70,16 @@ const SearchAPI = ({ setMediaObj, placeholder, mediaType, setMediaType }) => {
 
   return (
     <div className="flex w-full flex-col focus-within:text-gray-700 ">
-      <div className="flex h-16 w-full justify-around pb-2">
+      <div className="flex h-16 w-full justify-around">
         {Object.keys(services).map((k) => {
           return (
-            <MediaTypeButton
-              name={k}
+            <SelectionButton
+              label={k}
               key={k}
               icon={icons[k]}
-              mediaType={mediaType}
-              setMediaType={setMediaType}
-            ></MediaTypeButton>
+              currentSelection={mediaType}
+              setSelection={setMediaType}
+            ></SelectionButton>
           );
         })}
       </div>
