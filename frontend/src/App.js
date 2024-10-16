@@ -120,14 +120,7 @@ const App = () => {
                         </AuthRoute>
                       }
                     ></Route>
-                    <Route
-                      path="/stats"
-                      element={
-                        <AuthRoute user={user}>
-                          <Statistics />
-                        </AuthRoute>
-                      }
-                    ></Route>
+
                     <Route
                       path="/edit"
                       element={
@@ -141,6 +134,14 @@ const App = () => {
                       element={<EditEntryForm></EditEntryForm>}
                     ></Route>
                   </Route>
+                  <Route
+                    path="/stats"
+                    element={
+                      <AuthRoute user={user}>
+                        <Statistics />
+                      </AuthRoute>
+                    }
+                  ></Route>
 
                   <Route path="/landing" element={<Landing></Landing>}></Route>
                 </Routes>

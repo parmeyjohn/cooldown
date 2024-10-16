@@ -132,7 +132,7 @@ const Entry = ({ entry, setSearchVal }) => {
               </div>
               <div className="text-md ml-5 whitespace-nowrap">
                 {entry.startDate
-                  ? `${dayjs(entry.startDate).utc().format("h:mm A")}`
+                  ? `${dayjs(entry.startDate).format("h:mm A")}`
                   : "no date"}
               </div>
             </div>
@@ -196,7 +196,7 @@ const Entry = ({ entry, setSearchVal }) => {
               </div>
               <div className="text-md ml-5 whitespace-nowrap">
                 {entry.startDate
-                  ? `${dayjs(entry.startDate).utc().format("h:mm A")}`
+                  ? `${dayjs(entry.startDate).format("h:mm A")}`
                   : "no date"}
               </div>
             </div>

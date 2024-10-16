@@ -12,7 +12,6 @@ import journalService from "../../services/journals";
 
 import { ReactComponent as XIcon } from "../../assets/heroicons/x.svg";
 import { ReactComponent as PlusIcon } from "../../assets/heroicons/plus.svg";
-import { ReactComponent as SearchIcon } from "../../assets/heroicons/search.svg";
 import { ReactComponent as SaveIcon } from "../../assets/heroicons/circular-arrows.svg";
 import TextEditor from "./TextEditor";
 import Tag from "../shared/Tag";
@@ -24,7 +23,7 @@ const increments = {
   Film: ["episode(s)", "watch(es)", "season(s)"],
   Book: ["page(s)", "chapter(s)"],
   Audio: ["listen(s)", "song(s)", "album(s)"],
-  Other: undefined,
+  // Other: "",
 };
 
 const sentiments = [
@@ -50,15 +49,15 @@ const EntryForm = () => {
   const [textCharacterCount, setCharacterCount] = useState(0);
   const [textAsJSON, setTextAsJSON] = useState({});
   const [tags, setTags] = useState(currEntry.tags);
-  const [entryDuration, setEntryDuration] = useState(0);
+  const [duration, setDuration] = useState(0);
   const [mediaType, setMediaType] = useState("Game");
-  const [entryIncrement, setEntryIncrement] = useState(0);
+  const [increment, setIncrement] = useState(0);
   const [incrementTypes, setIncrementTypes] = useState(increments["Game"]);
   const [incrementType, setIncrementType] = useState("match(es)");
   const [sentiment, setSentiment] = useState("Okay");
 
   const [startDate, setStartDate] = useState(
-    dayjs().local().format("YYYY-MM-DDThh:mm")
+    dayjs().format("YYYY-MM-DDTHH:mm")
   );
   const [currTag, setCurrTag] = useState("");
 
@@ -70,14 +69,15 @@ const EntryForm = () => {
     const entryObject = {
       entryTitle,
       mediaObj,
+      mediaType,
       startDate,
       text,
       textAsJSON,
       textAsHTML,
       tags,
       journalId: currJournal.id,
-      entryDuration,
-      entryIncrement,
+      duration,
+      increment,
       incrementType,
       sentiment,
     };
@@ -153,14 +153,15 @@ const EntryForm = () => {
     const entryObject = {
       entryTitle,
       mediaObj,
+      mediaType,
       startDate,
       text,
       textAsJSON,
       textAsHTML,
       tags,
       journalId: currJournal.id,
-      entryDuration,
-      entryIncrement,
+      duration,
+      increment,
       sentiment,
     };
     console.log(entryObject);
@@ -196,7 +197,7 @@ const EntryForm = () => {
       textAsHTML: "",
       tags: [],
       journalId: currJournal.id,
-      entryDuration: 0,
+      duration: 0,
       entryIncrement: 0,
       sentiment: "",
     });
@@ -207,7 +208,7 @@ const EntryForm = () => {
     const [integers, decimals] = value.split(".");
     console.log(integers, decimals);
     if (integers.length < 3 && decimals.length < 3) {
-      setEntryDuration(value);
+      setDuration(value);
     }
   };
 
@@ -256,8 +257,8 @@ const EntryForm = () => {
                 min={0}
                 max={100}
                 data-cy="input-entry-increment"
-                value={entryIncrement}
-                onChange={(e) => setEntryIncrement(e.target.value)}
+                value={increment}
+                onChange={(e) => setIncrement(e.target.value)}
               ></input>
 
               <select
@@ -268,6 +269,7 @@ const EntryForm = () => {
                   <option
                     onClick={(e) => setIncrementType(e.target.value)}
                     value={type}
+                    key={type}
                   >
                     {type}
                   </option>
@@ -281,8 +283,8 @@ const EntryForm = () => {
                 min={0}
                 max={24}
                 data-cy="input-entry-duration"
-                value={entryDuration}
-                onChange={(e) => setEntryDuration(e.target.value)}
+                value={duration}
+                onChange={(e) => setDuration(e.target.value)}
               ></input>
               <span> hour(s) on </span>
               <input
@@ -328,6 +330,7 @@ const EntryForm = () => {
                   currentSelection={sentiment}
                   label={s.label}
                   icon={s.icon}
+                  key={s.label}
                 ></SelectionButton>
               ))}
             </div>

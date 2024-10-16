@@ -24,7 +24,7 @@ const SearchAPI = ({ setMediaObj, placeholder, mediaType, setMediaType }) => {
     Film: filmService,
     Book: bookService,
     Audio: audioService,
-    Other: undefined,
+    // Other: undefined,
   };
 
   const icons = {
@@ -32,7 +32,7 @@ const SearchAPI = ({ setMediaObj, placeholder, mediaType, setMediaType }) => {
     Film: <MovieIcon className="h-6 w-6"></MovieIcon>,
     Book: <BookIcon strokeWidth={1.5} className="h-6 w-6"></BookIcon>,
     Audio: <MusicIcon className="h-6 w-6"></MusicIcon>,
-    Other: <ControllerIcon className="h-6 w-6"></ControllerIcon>,
+    // Other: <ControllerIcon className="h-6 w-6"></ControllerIcon>,
   };
 
   const [searchValue, setSearchValue] = useState("");
