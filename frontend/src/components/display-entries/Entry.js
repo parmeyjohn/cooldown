@@ -28,7 +28,6 @@ const Entry = ({ entry, setSearchVal }) => {
   }
 
   const handleDelete = () => {
-    console.log("in handleDelete: entry", entry);
     entryService.remove(entry.id);
     toast("Entry successfully deleted", { icon: "🗑", duration: 4000 });
     //remove locally too
@@ -53,23 +52,6 @@ const Entry = ({ entry, setSearchVal }) => {
         edit: true,
       },
     });
-  };
-
-  const formatTime = (datetimeString) => {
-    var time = datetimeString.slice(11, 16);
-    var hrs = Number(time.slice(0, 2));
-    var zone = "";
-    if (hrs === 0) {
-      hrs = 12;
-      zone = "AM";
-    } else if (hrs > 11) {
-      hrs -= 12;
-      zone = "PM";
-    } else {
-      zone = "AM";
-    }
-    const mins = time.slice(3, 5);
-    return ` ${hrs}:${mins} ${zone}`;
   };
 
   return (

@@ -14,7 +14,7 @@ const groupByDate = (entries) => {
   const groups = {};
   // traverse over groups backwards so the times are in order
   for (let i = entries.length - 1; i >= 0; i--) {
-    const currDate = entries[i].startDate.slice(0, 10);
+    const currDate = dayjs(entries[i].startDate).format("YYYY-MM-DDT");
     if (!groups[currDate]) {
       groups[currDate] = [];
     }

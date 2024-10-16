@@ -18,12 +18,14 @@ const EntryGroup = ({ entryGroup, setSearchVal }) => {
     console.log(groupDate);
   }, []);
 
+  const date = dayjs(entryGroup[0]);
+  console.log(date.isToday());
+  const dateFromNow = date.isToday() ? "today" : date.fromNow();
+
   return (
     <>
       <div className="text-md mx-6 mt-2 flex justify-between rounded-xl font-medium text-slate-400">
-        <p className="">{`${dayjs(entryGroup[0]).format("M/D/YY")}, ${dayjs(
-          entryGroup[0]
-        ).fromNow()}`}</p>
+        <p className="">{`${date.format("M/D/YY")}, ${dateFromNow}`}</p>
         <p>
           {`${entryGroup[1].length} ${
             entryGroup[1].length > 1 ? "entries" : "entry"
