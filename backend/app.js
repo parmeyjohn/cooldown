@@ -13,6 +13,7 @@ const loginRouter = require("./controllers/login");
 const gamesRouter = require("./controllers/games");
 const filmsRouter = require("./controllers/films");
 const bookRouter = require("./controllers/books");
+const statsRouter = require("./controllers/statistics");
 
 const mongoose = require("mongoose");
 const audioRouter = require("./controllers/audio");
@@ -49,5 +50,6 @@ app.use("/api/games", gamesRouter);
 app.use("/api/films", filmsRouter);
 app.use("/api/books", bookRouter);
 app.use("/api/audio", audioRouter);
+app.use("/api/stats", statsRouter);
 
 module.exports = app;
