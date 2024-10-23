@@ -83,7 +83,7 @@ statsRouter.get(
     )
       .map(([mediaType, sentimentSum]) => [
         mediaType,
-        sentimentSum / totalEntriesPerMediaType[mediaType],
+        (sentimentSum / (totalEntriesPerMediaType[mediaType] || 1)).toFixed(2),
       ])
       .sort((a, b) => b[1] - a[1]);
 
