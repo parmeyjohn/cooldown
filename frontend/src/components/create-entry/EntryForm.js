@@ -249,33 +249,7 @@ const EntryForm = () => {
             <label className="mb-1 px-2 text-base font-semibold">
               Duration:
             </label>
-            <div className="flex items-center justify-between">
-              <input
-                className=" mb-2 w-20 rounded-lg bg-slate-300 p-3 shadow-inner shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700"
-                type="number"
-                step={1}
-                min={0}
-                max={100}
-                data-cy="input-entry-increment"
-                value={increment}
-                onChange={(e) => setIncrement(e.target.value)}
-              ></input>
-
-              <select
-                className="mb-2 w-40 rounded-lg bg-slate-300 p-3 shadow-inner shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700"
-                name="incrementTypes"
-              >
-                {incrementTypes.map((type) => (
-                  <option
-                    onClick={(e) => setIncrementType(e.target.value)}
-                    value={type}
-                    key={type}
-                  >
-                    {type}
-                  </option>
-                ))}
-              </select>
-              <span>for</span>
+            <div className="flex items-center justify-start">
               <input
                 className=" mb-2 w-20 rounded-lg bg-slate-300 p-3 shadow-inner shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700"
                 type="number"
@@ -297,6 +271,36 @@ const EntryForm = () => {
                 data-cy="input-entry-date"
                 value={startDate}
               ></input>
+            </div>
+            <div className="flex flex-col items-end justify-between md:flex">
+              <div className="hidden">
+                <input
+                  className=" mb-2 w-20 rounded-lg bg-slate-300 p-3 shadow-inner shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700"
+                  type="number"
+                  step={1}
+                  min={0}
+                  max={100}
+                  data-cy="input-entry-increment"
+                  value={increment}
+                  onChange={(e) => setIncrement(e.target.value)}
+                ></input>
+
+                <select
+                  className="mb-2 w-40 rounded-lg bg-slate-300 p-3 shadow-inner shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700"
+                  name="incrementTypes"
+                >
+                  {incrementTypes.map((type) => (
+                    <option
+                      onClick={(e) => setIncrementType(e.target.value)}
+                      value={type}
+                      key={type}
+                    >
+                      {type}
+                    </option>
+                  ))}
+                </select>
+                <span>for</span>
+              </div>
             </div>
 
             <label className="mb-1 px-2 text-base font-semibold">Media:</label>

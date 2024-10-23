@@ -1,10 +1,13 @@
 import { useState, useRef, useContext, useEffect } from "react";
-import journalService from "../services/journals";
-import entryService from "../services/entries";
-import OptionsButton from "./OptionsButton";
-import { JournalContext } from "../contexts/JournalContext";
-import { EntryContext } from "../contexts/EntryContext";
 import toast from "react-hot-toast";
+
+import journalService from "../../services/journals";
+import entryService from "../../services/entries";
+
+import OptionsButton from "../shared/buttons/OptionsButton";
+
+import { JournalContext } from "../../contexts/JournalContext";
+import { EntryContext } from "../../contexts/EntryContext";
 
 const SidebarJournal = ({ journal }) => {
   const { journals, setJournals, currJournal, setCurrJournal } =

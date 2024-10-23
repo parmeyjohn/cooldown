@@ -6,7 +6,7 @@ import { ReactComponent as EditSquareIcon } from "../assets/heroicons/edit-squar
 import { ReactComponent as HamburgerIcon } from "../assets/heroicons/hamburger.svg";
 import { BsJournalBookmark as JournalIcon } from "react-icons/bs";
 
-import Sidebar from "./Sidebar";
+import Sidebar from "./sidebar/Sidebar";
 
 import { EntryContext } from "../contexts/EntryContext";
 import { JournalContext } from "../contexts/JournalContext";

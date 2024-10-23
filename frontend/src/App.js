@@ -130,18 +130,18 @@ const App = () => {
                       }
                     ></Route>
                     <Route
-                      path="edit-entry"
+                      path="/edit-entry"
                       element={<EditEntryForm></EditEntryForm>}
                     ></Route>
+                    <Route
+                      path="/stats"
+                      element={
+                        <AuthRoute user={user}>
+                          <Statistics />
+                        </AuthRoute>
+                      }
+                    ></Route>
                   </Route>
-                  <Route
-                    path="/stats"
-                    element={
-                      <AuthRoute user={user}>
-                        <Statistics />
-                      </AuthRoute>
-                    }
-                  ></Route>
 
                   <Route path="/landing" element={<Landing></Landing>}></Route>
                 </Routes>

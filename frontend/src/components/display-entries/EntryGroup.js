@@ -1,6 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
 
-import OptionsButton from "../OptionsButton";
 import Entry from "./Entry";
 import dayjs from "../../dayjs.config";
 

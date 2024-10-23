@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import OptionsButton from "./OptionsButton";
+import OptionsButton from "./shared/buttons/OptionsButton";
 import Tag from "./shared/Tag";
 
 import { EntryContext } from "../contexts/EntryContext";
