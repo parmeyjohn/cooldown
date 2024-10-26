@@ -7,16 +7,6 @@ const Journal = require("../models/journal.js");
 const entryRouter = express.Router();
 const { expressjwt: jwt } = require("express-jwt");
 
-entryRouter.get(
-  "/",
-  jwt({ secret: process.env.SECRET, algorithms: ["HS256"] }),
-  async (request, response) => {
-    const entries = await Entry.find({}).sort({ startDate: -1 });
-    console.log(entries);
-    response.status(200).json(entries);
-  }
-);
-
 entryRouter.post(
   "/",
   jwt({ secret: process.env.SECRET, algorithms: ["HS256"] }),

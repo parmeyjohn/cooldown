@@ -3,8 +3,6 @@ const Journal = require("../models/journal.js");
 const User = require("../models/user.js");
 
 const journalRouter = express.Router();
-const mongoose = require("mongoose");
-const user = require("../models/user.js");
 const { expressjwt: jwt } = require("express-jwt");
 
 const getToken = (req) => {
@@ -16,11 +14,12 @@ const getToken = (req) => {
   }
 };
 
+// TODO: fix sorting of journals, it is comparing them as strings
 journalRouter.get(
   "/",
   jwt({ secret: process.env.SECRET, algorithms: ["HS256"] }),
   async (request, response) => {
-    console.log(request.auth);
+    //console.log(request.auth);
     const journals = await Journal.find({ user: request.auth.id })
       .sort({ date: -1 })
       .populate("entries")
@@ -44,7 +43,7 @@ journalRouter.post(
   "/",
   jwt({ secret: process.env.SECRET, algorithms: ["HS256"] }),
   async (request, response) => {
-    console.log(request.auth);
+    //console.log(request.auth);
     const body = request.body;
 
     //put this in error middleware
@@ -52,7 +51,7 @@ journalRouter.post(
       return response.status(401).json({ error: "Token invalid" });
     }
     const userObj = await User.findById(request.auth.id);
-    console.log("journalRouter body", body);
+    //console.log("journalRouter body", body);
 
     const journalObj = {
       journalName: body.journalName,
