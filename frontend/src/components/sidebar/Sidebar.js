@@ -156,7 +156,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
             </div>
             <div className="mr-4 text-left">
               <h3 className="text-lg font-medium">User</h3>
-              <h3 className="truncate text-lg">@{user.username}</h3>
+              <h3 className="truncate text-lg">@{user.email}</h3>
             </div>
           </div>
           <SettingsIcon

@@ -58,9 +58,11 @@ const EntryForm = () => {
   const [incrementType, setIncrementType] = useState("match(es)");
   const [sentiment, setSentiment] = useState(currEntry.sentiment || "Okay");
 
-  const [startDate, setStartDate] = useState(
-    dayjs().format("YYYY-MM-DDTHH:mm")
-  );
+  const [startDate, setStartDate] = useState(() => {
+    return currEntry.startDate
+      ? dayjs(currEntry.startDate).format("YYYY-MM-DDTHH:mm")
+      : dayjs().format("YYYY-MM-DDTHH:mm");
+  });
   const [currTag, setCurrTag] = useState("");
 
   const saveEntry = async (event) => {
