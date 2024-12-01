@@ -44,17 +44,19 @@ const EntryForm = () => {
 
   const [entryTitle, setEntryTitle] = useState(currEntry.entryTitle);
   const [mediaObj, setMediaObj] = useState(currEntry.mediaObj);
-  const [textAsHTML, setTextAsHTML] = useState(currEntry.text);
+  const [textAsHTML, setTextAsHTML] = useState(currEntry.textAsHTML);
   const [text, setText] = useState(currEntry.text);
   const [textCharacterCount, setCharacterCount] = useState(0);
   const [textAsJSON, setTextAsJSON] = useState({});
   const [tags, setTags] = useState(currEntry.tags);
-  const [duration, setDuration] = useState(0);
-  const [mediaType, setMediaType] = useState("Game");
+  const [duration, setDuration] = useState(currEntry.duration || 0);
+  const [mediaType, setMediaType] = useState(currEntry.mediaType);
   const [increment, setIncrement] = useState(0);
-  const [incrementTypes, setIncrementTypes] = useState(increments["Game"]);
+  const [incrementTypes, setIncrementTypes] = useState(
+    increments[currEntry.mediaType]
+  );
   const [incrementType, setIncrementType] = useState("match(es)");
-  const [sentiment, setSentiment] = useState("Okay");
+  const [sentiment, setSentiment] = useState(currEntry.sentiment || "Okay");
 
   const [startDate, setStartDate] = useState(
     dayjs().format("YYYY-MM-DDTHH:mm")
@@ -249,7 +251,7 @@ const EntryForm = () => {
             <label className="mb-1 px-2 text-base font-semibold">
               Duration:
             </label>
-            <div className="flex items-center justify-start">
+            <div className="flex items-center justify-start gap-4">
               <input
                 className=" mb-2 w-20 rounded-lg bg-slate-300 p-3 shadow-inner shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700"
                 type="number"
@@ -272,36 +274,6 @@ const EntryForm = () => {
                 value={startDate}
               ></input>
             </div>
-            <div className="flex flex-col items-end justify-between md:flex">
-              <div className="hidden">
-                <input
-                  className=" mb-2 w-20 rounded-lg bg-slate-300 p-3 shadow-inner shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700"
-                  type="number"
-                  step={1}
-                  min={0}
-                  max={100}
-                  data-cy="input-entry-increment"
-                  value={increment}
-                  onChange={(e) => setIncrement(e.target.value)}
-                ></input>
-
-                <select
-                  className="mb-2 w-40 rounded-lg bg-slate-300 p-3 shadow-inner shadow-slate-400 outline-8 transition duration-300 ease-in-out focus:bg-teal-50 focus:shadow-none focus:outline-offset-1 focus:outline-teal-700"
-                  name="incrementTypes"
-                >
-                  {incrementTypes.map((type) => (
-                    <option
-                      onClick={(e) => setIncrementType(e.target.value)}
-                      value={type}
-                      key={type}
-                    >
-                      {type}
-                    </option>
-                  ))}
-                </select>
-                <span>for</span>
-              </div>
-            </div>
 
             <label className="mb-1 px-2 text-base font-semibold">Media:</label>
 
@@ -322,6 +294,7 @@ const EntryForm = () => {
               setTextAsHTML={setTextAsHTML}
               setTextAsJSON={setTextAsJSON}
               setTextCharacterCount={setCharacterCount}
+              initialContent={textAsHTML}
             ></TextEditor>
 
             <label className="mb-1 px-2 text-base font-semibold">

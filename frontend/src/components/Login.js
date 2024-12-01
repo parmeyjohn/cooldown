@@ -125,12 +125,10 @@ const Login = () => {
           {emailErrorMsg ? (
             <p className="text-sm text-red-600">{emailErrorMsg}</p>
           ) : (
-            <p className="text-sm text-slate-500">
-              Email must follow standard format
-            </p>
+            <div className="h-5"></div>
           )}
 
-          <label htmlFor="password" className="text-md mt-2 mb-1 font-semibold">
+          <label htmlFor="password" className="text-md mb-1 font-semibold">
             Password:
           </label>
           <div className="relative flex w-full">
@@ -163,11 +161,9 @@ const Login = () => {
           {passErrorMsg ? (
             <p className="text-sm text-red-600">{passErrorMsg}</p>
           ) : (
-            <p className="text-sm text-slate-500">
-              Password must be at least 6 characters
-            </p>
+            <div className="h-5"></div>
           )}
-          <div className="mt-4 flex items-center justify-start">
+          <div className="mt-2 flex items-center justify-start">
             <input
               id="trust_device"
               type="checkbox"

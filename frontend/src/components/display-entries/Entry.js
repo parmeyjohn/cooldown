@@ -47,6 +47,7 @@ const Entry = ({ entry, setSearchVal }) => {
 
   const handleEdit = (event) => {
     setCurrEntry(entry);
+    console.log(entry);
     navigate("edit", {
       state: {
         edit: true,
