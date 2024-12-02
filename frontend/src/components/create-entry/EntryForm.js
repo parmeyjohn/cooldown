@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 import toast from "react-hot-toast";
 import dayjs from "../../dayjs.config";
+import DOMPurify from "dompurify";
 
 import { EntryContext } from "../../contexts/EntryContext";
 import { JournalContext } from "../../contexts/JournalContext";
@@ -77,7 +78,7 @@ const EntryForm = () => {
       startDate,
       text,
       textAsJSON,
-      textAsHTML,
+      textAsHTML: DOMPurify.sanitize(textAsHTML),
       tags,
       journalId: currJournal.id,
       duration,
@@ -215,11 +216,6 @@ const EntryForm = () => {
       setDuration(value);
     }
   };
-
-  useEffect(() => {
-    console.log("executed");
-    setIncrementTypes(increments[mediaType]);
-  }, [mediaType]);
 
   return (
     <div className="relative z-20 mx-auto flex h-auto max-h-[90%] w-full max-w-4xl flex-col justify-between rounded-2xl border-b-8 border-slate-600 bg-teal-50 md:static md:my-8 md:h-auto lg:static">

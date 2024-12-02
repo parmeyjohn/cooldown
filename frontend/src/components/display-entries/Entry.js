@@ -102,13 +102,16 @@ const Entry = ({ entry, setSearchVal }) => {
                   ></OptionsButton>
                 </div>
 
-                <p className="ml-2 py-2 text-left leading-relaxed">
-                  {entry.text}
-                </p>
+                <div
+                  className="ml-2 py-2 text-left leading-relaxed "
+                  dangerouslySetInnerHTML={{
+                    __html: entry.textAsHTML,
+                  }}
+                ></div>
               </div>
             </div>
             <div className="flex w-full items-end justify-between">
-              <div className="ml-4 mt-4 flex overflow-x-auto">
+              <div className="mt-4 flex overflow-x-auto">
                 {entry.tags.map((t, i) => (
                   <Tag title={t} key={i} handleClick={setSearchVal}></Tag>
                 ))}
@@ -172,7 +175,7 @@ const Entry = ({ entry, setSearchVal }) => {
               </div>
             </div>
             <div className="flex w-full items-end justify-between">
-              <div className="ml-4 mt-2 flex overflow-x-auto">
+              <div className="mt-2 flex overflow-x-auto">
                 {entry.tags.map((t, i) => (
                   <Tag title={t} key={i} handleClick={setSearchVal}></Tag>
                 ))}
